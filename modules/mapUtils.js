@@ -1,8 +1,8 @@
-import { svg, width, height } from "./globals.js"
+import { svg, width, height, scale, center, translation } from "./globals.js"
 
-let projection = d3.geoMercator()
-    .scale(400)
-    .translate([width / 2, height / 2]);
+let projection = d3.geoNaturalEarth1()
+    .center(center)
+    .translate(translation)
 let path = d3.geoPath().projection(projection);
 console.log('SVG', svg)
 
@@ -17,4 +17,12 @@ export function drawMap(geojson) {
         .attr("stroke", "white")
         .attr("stroke-width", 0.5);
     console.log('Paths created for map', paths);
+}
+
+export function updateMap(geojson, countriesToHighlight) {
+    svg.selectAll("path")
+        .data(geojson.features)
+        .transition()
+        .duration(500)
+        .attr("fill", d => countriesToHighlight.includes(d.properties.name) ? "orange" : "#d3d3d3");
 }
