@@ -1,7 +1,7 @@
 import { loadAndMergeData } from "./modules/dataLoader.js";
 import { jsonPath, geojsonUrl } from "./modules/globals.js";
 import { drawMap, updateMap } from "./modules/mapUtils.js";
-import { drawTimeline } from "./modules/drawTimeline.js";
+import { autoAdvanceTimeline, updateTimeline } from "./modules/timelineUtils.js";
 
 async function main() {
     try {
@@ -9,11 +9,13 @@ async function main() {
         const geojsonData = mergedGeoData.geojsonData;
         const summitData = mergedGeoData.jsonData;
         drawMap(geojsonData);
-        let timeline = drawTimeline(summitData)
-        timeline.on("click", (event, d) => {
-            const countries = d.summits.map(summit => summit.country);
-            updateMap(geojsonData, countries);
-        });
+
+        // Initialize the timeline with the first 5 years
+        updateTimeline(summitData, geojsonData);
+
+        // Auto-advance the timeline at a set interval (every 5 seconds here)
+        autoAdvanceTimeline(summitData, geojsonData);
+       
     } catch (error) {
         console.error("Error loading data:", error);
     }
