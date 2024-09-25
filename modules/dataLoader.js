@@ -1,41 +1,53 @@
 export async function loadAndMergeData(geojsonUrl, jsonFilePath) {
     try {
-        // Load GeoJSON from the provided URL
         const geojsonResponse = await fetch(geojsonUrl);
         const geojsonData = await geojsonResponse.json();
 
-        // Load the local JSON file
         const jsonResponse = await fetch(jsonFilePath);
         const jsonData = await jsonResponse.json();
 
-        // Create a Map to hold the partnership data by country
         const summitMap = new Map();
+        const countriesWithSummits = new Set();
+        const summitCounter = new Map();
 
-        console.log('JSON', jsonData)
-        // Map each bilateral partnership in a object
         jsonData.forEach(entry => {
             const { year, summits } = entry;
-    
-            // Initialize an array for the year if it doesn't exist
             if (!summitMap[year]) {
                 summitMap[year] = [];
             }
-    
-            // Add each country from the summits to the year array
             summits.forEach(summit => {
                 summitMap[year].push(summit.country);
+                countriesWithSummits.add(summit.country);
             });
         });
-        console.log('summit map', summitMap)
+
+        jsonData.forEach(yearData => {
+            yearData.summits.forEach(summit => {
+                countriesWithSummits.add(summit.country);
+                console.log('countries with summits', countriesWithSummits)
+            });
+        });
+
+        countriesWithSummits.forEach(country => {
+            console.log('Country in countrieswithsummits', countriesWithSummits)
+            summitCounter[country] = (summitCounter[country] || 0) + 1;
+        });
+
         geojsonData.features.forEach(feature => {
             const countryName = feature.properties.name;
             if (summitMap.has(countryName)) {
                 feature.properties.summit = summitMap.get(countryName);
             }
         });
-        return { geojsonData, jsonData, summitMap };
+        return {
+            geojsonData,
+            jsonData, 
+            summitMap, 
+            countriesWithSummits,
+        };
     } catch (error) {
         console.error("Error loading or merging data:", error);
         return null;
     }
 }
+

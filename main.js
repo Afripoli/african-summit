@@ -1,23 +1,20 @@
 import { loadAndMergeData } from "./modules/dataLoader.js";
 import { jsonPath, geojsonUrl } from "./modules/globals.js";
 import { drawMap, updateMap } from "./modules/mapUtils.js";
-import { autoAdvanceTimeline, updateTimeline } from "./modules/timelineUtils.js";
+import { initializeTimeline, updateTimeline, autoAdvanceTimeline } from "./modules/timelineUtils.js";
 
 async function main() {
     try {
-        const mergedGeoData = await loadAndMergeData(geojsonUrl, jsonPath)
-        const geojsonData = mergedGeoData.geojsonData;
-        const summitData = mergedGeoData.jsonData;
-        drawMap(geojsonData);
+        // Load and merge data
+        const { geojsonData, summitMap, jsonData } = await loadAndMergeData(geojsonUrl, jsonPath);
+        console.log('Summit map passed', summitMap)
 
-        // Initialize the timeline with the first 5 years
-        updateTimeline(summitData, geojsonData);
+        // Set up scrolling or interaction for the timeline
+        initializeTimeline()
+        autoAdvanceTimeline(jsonData, geojsonData, summitMap)
 
-        // Auto-advance the timeline at a set interval (every 5 seconds here)
-        autoAdvanceTimeline(summitData, geojsonData);
-       
     } catch (error) {
-        console.error("Error loading data:", error);
+        console.error("Error initializing app:", error);
     }
 }
 main();
