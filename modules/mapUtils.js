@@ -1,9 +1,7 @@
 import { svg, width, height, scale, center, translation } from "./globals.js"
 
-
 const coloredCountries = {};
 let summitCounter = new Map();
-//const countriesWithSummits = countriesWithSummits.map(country => countryNameMap[country] || country);
 let geojsonData;
 let summitData;
 
@@ -11,7 +9,6 @@ let projection = d3.geoNaturalEarth1()
     .center(center)
     .translate(translation)
 let path = d3.geoPath().projection(projection);
-
 
 export function drawMap(geojson) {
     console.log('geojson', geojson)
@@ -28,17 +25,21 @@ export function drawMap(geojson) {
 function resetSummitCounter() {
     summitCounter.clear();
 }
-
 function updateSummitCounter(summitMap, currentYear) {
-    if (summitMap.has(currentYear)) {
-        summitMap.get(currentYear).forEach(country => {
+    console.log('Summit map in function', summitMap)
+    console.log('Current year', currentYear)
+    console.log('Summit has year',summitMap[currentYear])
+    //if (summitMap.has(currentYear)) {
+        console.log('Summit map has current year', summitMap)
+        summitMap[currentYear].forEach(country => {
+            console.log('Country in summit map', country)
             summitCounter.set(country, (summitCounter.get(country) || 0) + 1);
         });
-    }
+   // }
 }
 
 export function updateMap(geojsonData, summitMap, currentYear) {
-    resetSummitCounter()
+    //resetSummitCounter()
     updateSummitCounter(summitMap, currentYear);
     svg.selectAll("path")
         .data(geojsonData.features)
@@ -52,9 +53,13 @@ export function updateMap(geojsonData, summitMap, currentYear) {
     svg.selectAll("text")
         .data(geojsonData.features)
         .join("text")
-        .attr("transform", d => `translate(${d3.geoPath().centroid(d)})`)
-        .attr("dy", ".35em")
+        .attr("transform", d => {
+            const centroid = path.centroid(d);
+            return `translate(${centroid})`;
+        })
+        .attr("dy", ".5em")
         .attr("text-anchor", "middle")
+        .attr("font-size", "14px")
         .text(d => summitCounter.has(d.properties.name) ? summitCounter.get(d.properties.name) : '');
 }
 

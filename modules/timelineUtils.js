@@ -125,5 +125,5 @@ export function autoAdvanceTimeline(summitData, geojsonData, summitMap, currentI
     };
 
     // Start advancing the timeline every 3 seconds
-    setInterval(advance, 3000);
+    setInterval(advance, 1000);
 }
