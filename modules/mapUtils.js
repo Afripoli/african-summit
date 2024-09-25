@@ -1,9 +1,6 @@
 import { svg, width, height, scale, center, translation } from "./globals.js"
 
-const coloredCountries = {};
 let summitCounter = new Map();
-let geojsonData;
-let summitData;
 
 let projection = d3.geoNaturalEarth1()
     .center(center)
