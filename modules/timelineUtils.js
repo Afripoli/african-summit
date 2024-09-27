@@ -81,7 +81,7 @@ export function updateTimeline(svg, summitData, geojsonData, summitMap, currentY
         .attr("x", (d, i) => circleSpacing * (i + 1))
         .attr("y", 100)
         .attr("text-anchor", "middle")
-        .style("fill", "gray")
+        .style("fill", (d, i) => i === 0 ? "black" : "gray")
         .text(d => d.summits.length > 0 ? d.summits[0].country : "");  // Update host country
 
     countryTextGroup.exit().remove();
