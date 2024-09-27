@@ -60,71 +60,7 @@ export function updateMap(geojsonData, summitMap, currentYear) {
         .text(d => summitCounter.has(d.properties.name) ? summitCounter.get(d.properties.name) : '');
 }
 
-// // Function to color all countries based on cumulative summit counts
-// function colorAccumulatedCountries(svg, summitCounter) {
-//     svg.selectAll("path")
-//         .attr("fill", d => {
-//             const countryName = d.properties.name;
-//             return summitCounter[countryName] ? "#f39c12" : "#d3d3d3";  // Highlight countries that hosted summits
-//         });
-// }
 
-// // Function to add or update summit counters on the map for accumulated summits
-// function updateSummitCounters(svg, geojsonData, summitCounter) {
-//     svg.selectAll("text").remove(); 
-//     svg.selectAll("path").each(function(d) {
-//         const countryName = d.properties.name;
-//         if (summitCounter[countryName]) {
-//             const centroid = d3.geoPath().centroid(d);  // Get the center of the country
-//             svg.append("text")
-//                 .attr("x", centroid[0])
-//                 .attr("y", centroid[1])
-//                 .attr("text-anchor", "middle")
-//                 .attr("fill", "black")
-//                 .attr("font-size", "12px")
-//                 .text(summitCounter[countryName]);  // Display the cumulative summit count
-//         }
-//     });
-// }
 
-// // Function to update the colors of the countries based on the hosting status
-// function updateCountryColors(countries) {
-//     d3.selectAll("path")
-//         .attr("fill", d => {
-//             return countries.includes(d.properties.name) ? "orange" : "#d3d3d3";
-//         });
-// }
 
-// // Function to calculate the center of each country and append text to display summit counts
-// function addSummitCounters(geojsonData) {
-//     console.log('GeoJSON for COUNTER', geojsonData)
-//     d3.selectAll("path")
-//         .each(function(d) {
-//             const countryName = d.properties.name;
-//             //console.log('Country name', countryName)
-//             // If the country has hosted summits, show the summit count
-//             if (coloredCountries[countryName]) {
-//                 const count = coloredCountries[countryName].count;
 
-//                 // Append a text element inside the country
-//                 appendSummitCounter(d, count);
-//             }
-//         });
-// }
-
-// // Function to append the summit counter text inside the country
-// function appendSummitCounter(countryData, count) {
-//     console.log('country data', countryData)
-//     console.log('COUNT', count)
-//     const centroid = path.centroid(countryData); // Get the centroid for positioning
-
-//     d3.select("svg").append("text")
-//         .attr("x", centroid[0])  // Position the text in the center of the country
-//         .attr("y", centroid[1])
-//         .attr("text-anchor", "middle")
-//         .attr("dy", ".35em")  // Vertically align the text
-//         .text(count)
-//         .style("font-size", "14px")
-//         .style("font-weight", "bold")
-//         .style("fill", "black");
-// }
