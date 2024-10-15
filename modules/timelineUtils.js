@@ -1,5 +1,5 @@
 import { updateMap } from "./mapUtils.js";
-import { maxYearsToShow } from './globals.js';
+import { hostCountry, maxYearsToShow } from './globals.js';
 
 let svg = null;
 let timelineWidth = 0;
@@ -14,7 +14,7 @@ export function initializeTimeline() {
 }
 
 // Function to update the timeline by displaying 5 years at a time
-export function updateTimeline(svg, summitData, geojsonData, summitMap, currentYearIndex) {
+export function updateTimeline(svg, summitData, geojsonData, summitMap, currentYearIndex, summitsByCountryMap) {
     if (currentYearIndex >= summitData.length) {
         console.log("Timeline has reached the end. Stopping further updates.");
         return;  // Exit if there are no more years to display
@@ -22,6 +22,8 @@ export function updateTimeline(svg, summitData, geojsonData, summitMap, currentY
     const containerWidth = document.getElementById("timeline").offsetWidth;
     const circleSpacing = containerWidth / 6;
     const displayedYears = summitData.slice(currentYearIndex, currentYearIndex + maxYearsToShow);
+    const highlightedYear = displayedYears[0].year;  // Get the first year (which is highlighted)
+
     const circleGroup = svg.selectAll("circle")
         .data(displayedYears, d => d.year);
 
@@ -52,7 +54,7 @@ export function updateTimeline(svg, summitData, geojsonData, summitMap, currentY
         .attr("x", (d, i) => circleSpacing * (i + 1))
         .attr("y", 80)
         .attr("text-anchor", "middle")
-        .style("fill", (d, i) => i === 0 ? "black" : "gray")
+        .style("fill", (d, i) => i === 0 ? "" : "gray")
         .text(d => d.year);
 
     yearTextGroup
@@ -109,17 +111,16 @@ export function updateTimeline(svg, summitData, geojsonData, summitMap, currentY
 
     lineGroup.exit().remove();
 
-    const highlightedYear = displayedYears[0].year;  // Get the first year (which is highlighted)
-    updateMap(geojsonData, summitMap, highlightedYear);
+    updateMap(geojsonData, summitMap, highlightedYear, summitsByCountryMap, hostCountry);
 }
 
 // // Function to auto-advance the timeline, updating one year at a time
-export function advanceTimeline(svg, summitData, geojsonData, summitMap, currentYearIndex, intervalId) {
+export function advanceTimeline(svg, summitData, geojsonData, summitMap, currentYearIndex, intervalId, summitsByCountryMap, hostCountry) {
     if (currentYearIndex >= summitData.length) {
         console.log("Stopping timeline");
         clearInterval(intervalId);  // Stop the interval when all years are shown
         return;
     }
     // Update timeline with the current year slice
-    updateTimeline(svg, summitData, geojsonData, summitMap, currentYearIndex);
+    updateTimeline(svg, summitData, geojsonData, summitMap, currentYearIndex, summitsByCountryMap, hostCountry);
 }
