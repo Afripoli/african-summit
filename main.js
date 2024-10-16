@@ -13,10 +13,11 @@ async function main() {
         const svg = initializeTimeline();
         let currentYearIndex = 0;
         // Function to auto-advance the timeline
+        drawMap(geojsonData)
         const intervalId = setInterval(() => {
             advanceTimeline(svg, jsonData, geojsonData, summitMap, currentYearIndex, intervalId, summitsByCountryMap, highlightIndex);
             currentYearIndex++;
-        }, 200);  // Adjust timing as needed
+        }, 750);  // Adjust timing as needed
 
     } catch (error) {
         console.error("Error initializing app:", error);

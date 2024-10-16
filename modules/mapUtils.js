@@ -15,9 +15,9 @@ export function drawMap(geojson) {
         .enter()
         .append("path")
         .attr("d", path)
-        .attr("fill", "#ccc")
-        .attr("stroke", "#ccc")
-        .attr("stroke-width", 0.25);
+        .attr("fill", "#fff")
+        .attr("stroke", "#46474c")
+        .attr("stroke-width", 0.15);
 }
 
 function resetSummitCounter() {
@@ -65,9 +65,9 @@ export function updateMap(geojsonData, summitMap, currentYear, summitsByCountryM
             const centroid = path.centroid(d);
             return `translate(${centroid})`
         })
-        .attr("dy", ".5em")
+        .attr("dy", ".25em")
         .attr("text-anchor", "middle")
-        .attr("font-size", "18px")
+        .attr("font-size", "20px")
         .attr("font-weight", "600")
         .text(d => summitCounter.has(d.properties.name) ? summitCounter.get(d.properties.name) : '');
 }
@@ -77,8 +77,8 @@ function colorHostCountry(svg, hostCountry) {
     console.log('host country in function', hostCountry)
     svg.selectAll("path")
         .attr("fill", d => (hostCountry.includes(d.properties.name)) ? "#fec03c" : "#fff")
-        .attr("stroke", "#000")
-        .attr("stroke-width", 0.5)
+        .attr("stroke", d => (hostCountry.includes(d.properties.name)) ? "#ff5733" : "#46474c")
+        .attr("stroke-width", d => (hostCountry.includes(d.properties.name)) ? 1 : 0.5) // Thicker stroke for host countries
         .style("cursor", d => (hostCountry.includes(d.properties.name)) ? "pointer" : "default") // Change cursor for host countries
         .transition()
         .duration(500)
