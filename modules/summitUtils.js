@@ -10,10 +10,12 @@ export function getSummitsforCountry(summitsByCountryMap, country) {
 
 export function displaySummitsCountry(country, summitsCountry) {
     console.log('summits country', summitsCountry);
+    console.log('Number of summits', summitsCountry.length)
+    const noSummits = summitsCountry.length;
     const summitListContainer = document.getElementById('summitList');
     console.log('Summit list container', summitListContainer);
     const hostCountry = document.getElementById('summitCountry');
-    hostCountry.innerHTML = `Summits hosted by ${country}`
+    hostCountry.innerHTML = `<b>${noSummits}</b> Summits hosted by ${country}`
     summitListContainer.innerHTML = '';
     summitsCountry.forEach(summit => {
         console.log('Item summit', summit);

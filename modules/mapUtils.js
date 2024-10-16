@@ -15,9 +15,9 @@ export function drawMap(geojson) {
         .enter()
         .append("path")
         .attr("d", path)
-        .attr("fill", "#d3d3d3")
-        .attr("stroke", "white")
-        .attr("stroke-width", 0.5);
+        .attr("fill", "#ccc")
+        .attr("stroke", "#ccc")
+        .attr("stroke-width", 0.25);
 }
 
 function resetSummitCounter() {
@@ -41,13 +41,11 @@ export function updateMap(geojsonData, summitMap, currentYear, summitsByCountryM
     updateSummitCounter(svg, summitMap, currentYear, hostCountry);   
 
     summitMap[currentYear].forEach(country => {
-        console.log('Country in summit map', country);
         console.log('HOST COUNTRY IN LOOP', hostCountry)
         hostCountry.push(country);
         colorHostCountry(svg, hostCountry)
         //summitCounter.set(country, (summitCounter.get(country) || 0) + 1);
     });
-
     svg.selectAll("path")
         .data(geojsonData.features)
         .join("path")
@@ -59,7 +57,6 @@ export function updateMap(geojsonData, summitMap, currentYear, summitsByCountryM
             console.log('Summit hosted in Country', summits)
             displaySummitsCountry(country, summits);  // Call function to display the summits
         });
-        //colorHostCountry(svg, hostCountry)
     // Add or update summit count text inside countries
     svg.selectAll("text")
         .data(geojsonData.features)
@@ -70,7 +67,8 @@ export function updateMap(geojsonData, summitMap, currentYear, summitsByCountryM
         })
         .attr("dy", ".5em")
         .attr("text-anchor", "middle")
-        .attr("font-size", "14px")
+        .attr("font-size", "18px")
+        .attr("font-weight", "600")
         .text(d => summitCounter.has(d.properties.name) ? summitCounter.get(d.properties.name) : '');
 }
 
@@ -78,7 +76,10 @@ export function updateMap(geojsonData, summitMap, currentYear, summitsByCountryM
 function colorHostCountry(svg, hostCountry) {
     console.log('host country in function', hostCountry)
     svg.selectAll("path")
-        .attr("fill", d => (hostCountry.includes(d.properties.name)) ? "#0043ff" : "#ccc")
+        .attr("fill", d => (hostCountry.includes(d.properties.name)) ? "#fec03c" : "#fff")
+        .attr("stroke", "#000")
+        .attr("stroke-width", 0.5)
+        .style("cursor", d => (hostCountry.includes(d.properties.name)) ? "pointer" : "default") // Change cursor for host countries
         .transition()
         .duration(500)
 }

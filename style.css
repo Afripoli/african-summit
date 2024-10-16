@@ -1,6 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+
+
+body {
+    font-family: 'Raleway', sans-serif !important;
+    font-size: 12px;
+    font-weight: 400;
+    /* width: 1350px; */
+    height: auto;
+    color: black;
+}
 .scroll-container {
-    height: 100vh;
-    overflow-y: scroll;  
+    /* height: 100vh; */
+    /* overflow-y: scroll;   */
+}
+#vis-title {
+    font-size: 50pt;
+    font-weight: 600;
+    line-height: 100pt;
+    justify-content: left;
+    text-align: left;
+    letter-spacing: -1px;
 }
 
 #timeline ul {
@@ -32,3 +51,12 @@
     transition: color 0.3s, font-weight 0.3s;
 }
 
+.fix-col {
+    max-height: 680px;
+    /* Set a fixed height for the column */
+    overflow-y: auto;
+    /* Enable vertical scrolling */
+    /* Optional: border for visibility */
+    padding: 10px;
+    /* Optional: padding for content */
+}
