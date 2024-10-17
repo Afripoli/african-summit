@@ -13,7 +13,7 @@ export function initializeTimeline() {
 }
 
 // Function to update the timeline by displaying 5 years at a time
-export function updateTimeline(svg, summitData, geojsonData, summitMap, currentYearIndex, summitsByCountryMap, highlightIndex) {
+export function updateTimeline(svg, summitData, geojsonData, summitMap, currentYearIndex, summitsByCountryMap, highlightIndex, summitCounter) {
     const totalYears = summitData.length;
     const containerWidth = document.getElementById("timeline").offsetWidth;
     const circleSpacing = containerWidth / 6;
@@ -106,7 +106,7 @@ export function updateTimeline(svg, summitData, geojsonData, summitMap, currentY
         lineGroup.exit().remove();
     //        updateMap(geojsonData, summitMap, highlightedYear, summitsByCountryMap, hostCountry);
     }
-    updateMap(geojsonData, summitMap, highlightedYear, summitsByCountryMap, hostCountry);
+    updateMap(geojsonData, summitMap, highlightedYear, summitsByCountryMap, hostCountry, summitCounter);
 
 }
 
@@ -136,7 +136,7 @@ export function highlightYears(highlightIndex, totalYears, maxYearsToShow, summi
 }
 
 // // Function to auto-advance the timeline, updating one year at a time
-export function advanceTimeline(svg, summitData, geojsonData, summitMap, currentYearIndex, intervalId, summitsByCountryMap, hostCountry, highlightIndex) {
+export function advanceTimeline(svg, summitData, geojsonData, summitMap, currentYearIndex, intervalId, summitsByCountryMap, hostCountry, highlightIndex, summitCounter) {
     console.log('Current year index', currentYearIndex);
     if (currentYearIndex >= summitData.length) {
         console.log("Stopping timeline");
@@ -144,5 +144,5 @@ export function advanceTimeline(svg, summitData, geojsonData, summitMap, current
         return;
     }
     // Update timeline with the current year slice
-    updateTimeline(svg, summitData, geojsonData, summitMap, currentYearIndex, summitsByCountryMap, hostCountry, highlightIndex);
+    updateTimeline(svg, summitData, geojsonData, summitMap, currentYearIndex, summitsByCountryMap, hostCountry, highlightIndex, summitCounter);
 }

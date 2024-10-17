@@ -1,7 +1,8 @@
 import { svg, center, translation } from "./globals.js"
 import { getSummitsforCountry, displaySummitsCountry } from "./summitUtils.js"
 
-let summitCounter = new Map();
+//let summitCounter = new Map();
+//console.log('Summit counter', summitCounter)
 
 let projection = d3.geoNaturalEarth1()
     .center(center)
@@ -20,10 +21,7 @@ export function drawMap(geojson) {
         .attr("stroke-width", 0.15);
 }
 
-// function resetSummitCounter() {
-//     summitCounter.clear();
-// }
-function updateSummitCounter(summitMap, currentYear) {
+function updateSummitCounter(summitMap, currentYear, summitCounter) {
     //console.log('Summit map in function', summitMap)
     //console.log('Current year', currentYear)
     //console.log('Summit has year',summitMap[currentYear])
@@ -36,9 +34,8 @@ function updateSummitCounter(summitMap, currentYear) {
    //}
 }
 
-export function updateMap(geojsonData, summitMap, currentYear, summitsByCountryMap, hostCountry) {
-    //resetSummitCounter()
-    updateSummitCounter(summitMap, currentYear, hostCountry);   
+export function updateMap(geojsonData, summitMap, currentYear, summitsByCountryMap, hostCountry, summitCounter) {
+    updateSummitCounter(summitMap, currentYear, summitCounter);   
 
     summitMap[currentYear].forEach(country => {
         //console.log('HOST COUNTRY IN LOOP', hostCountry)
