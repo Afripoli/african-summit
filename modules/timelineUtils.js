@@ -1,8 +1,7 @@
-import { updateMap } from "./mapUtils.js";
+import { updateMap, borderHostCountry } from "./mapUtils.js";
 import { hostCountry, maxYearsToShow } from './globals.js';
 
 let svg = null;
-let timelineWidth = 0;
 
 export function initializeTimeline() {
     const svg = d3.select("#timeline")
@@ -12,11 +11,11 @@ export function initializeTimeline() {
     return svg;
 }
 
-// Function to update the timeline by displaying 5 years at a time
 export function updateTimeline(svg, summitData, geojsonData, summitMap, currentYearIndex, summitsByCountryMap, highlightIndex, summitCounter) {
     const totalYears = summitData.length;
     const containerWidth = document.getElementById("timeline").offsetWidth;
     const circleSpacing = containerWidth / 6;
+
     let displayedYears = summitData.slice(currentYearIndex, currentYearIndex + maxYearsToShow);
     console.log(`CurrentYear index: ${currentYearIndex}, Displaying years in timeline,`, displayedYears)
     const highlightedYear = displayedYears[0].year;  // Get the first year (which is highlighted)
@@ -26,10 +25,11 @@ export function updateTimeline(svg, summitData, geojsonData, summitMap, currentY
     } else if (currentYearIndex >= totalYears) {
         console.log("Timeline has reached the end. Stopping further updates.");
         return;
-    }
-
-    else {
+    } else {
         displayedYears = summitData.slice(currentYearIndex, currentYearIndex + maxYearsToShow);
+       // const hostCountries = summitData.summits.map(summit => summit.country)
+             // Get all host countries for that year
+
         const circleGroup = svg.selectAll("circle")
             .data(displayedYears, d => d.year);
         circleGroup.enter()
@@ -37,8 +37,20 @@ export function updateTimeline(svg, summitData, geojsonData, summitMap, currentY
             .attr("cx", (d, i) => circleSpacing * (i + 1))
             .attr("cy", 50)  // Vertical positioning
             .attr("r", (d, i) => i === 0 ? 10 : 5)  // Highlight first year
-            .attr("fill", (d, i) => i === 0 ? "black" : "gray");
-        // Update phase: update the attributes of the circles (for reuse)
+            .attr("fill", (d, i) => i === 0 ? "black" : "gray")
+            .style("cursor", "pointer")  // Add cursor pointer style
+            .on("click", function(event, d) {
+                const clickedYear = d.year;  // Get the year that was clicked
+                const yearData = summitData.find(summit => summit.year === clickedYear);  // Get data for clicked year
+        
+                // Get all host countries for that year
+                const hostCountries = yearData.summits.length > 0 
+                    ? yearData.summits.map(summit => summit.country) 
+                    : [];
+        
+                // Now highlight the host countries on the map
+                borderHostCountry(svg, hostCountries);
+            })
         circleGroup
             .attr("cx", (d, i) => circleSpacing * (i + 1))
             .attr("cy", 50)
@@ -57,7 +69,20 @@ export function updateTimeline(svg, summitData, geojsonData, summitMap, currentY
             .attr("y", 80)
             .attr("text-anchor", "middle")
             .style("fill", (d, i) => i === 0 ? "" : "gray")
-            .text(d => d.year);
+            .text(d => d.year)
+            .style("cursor", "pointer")
+            .on("click", function(event, d) {
+                const clickedYear = d.year;  // Get the year that was clicked
+                const yearData = summitData.find(summit => summit.year === clickedYear);  // Get data for clicked year
+        
+                // Get all host countries for that year
+                const hostCountries = yearData.summits.length > 0 
+                    ? yearData.summits.map(summit => summit.country) 
+                    : [];
+        
+                // Now highlight the host countries on the map
+                borderHostCountry(svg, hostCountries);
+            })
         yearTextGroup
             .attr("x", (d, i) => circleSpacing * (i + 1))
             .attr("y", 80)
@@ -76,7 +101,20 @@ export function updateTimeline(svg, summitData, geojsonData, summitMap, currentY
             .attr("y", 100)  // Position slightly below the year text
             .attr("text-anchor", "middle")
             .style("fill", "gray")
-            .text(d => d.summits.length > 0 ? d.summits[0].country : "");  // Display the host country
+            .text(d => d.summits.length > 0 ? d.summits[0].country : "")
+            .style("cursor", "pointer")  // Add cursor pointer style
+            .on("click", function(event, d) {
+                const clickedYear = d.year;  // Get the year that was clicked
+                const yearData = summitData.find(summit => summit.year === clickedYear);  // Get data for clicked year
+        
+                // Get all host countries for that year
+                const hostCountries = yearData.summits.length > 0 
+                    ? yearData.summits.map(summit => summit.country) 
+                    : [];
+        
+                // Now highlight the host countries on the map
+                borderHostCountry(svg, hostCountries);
+            });
         countryTextGroup
             .attr("x", (d, i) => circleSpacing * (i + 1))
             .attr("y", 100)
@@ -95,7 +133,20 @@ export function updateTimeline(svg, summitData, geojsonData, summitMap, currentY
             .attr("x2", (d, i) => circleSpacing * (i + 2) - 10)  // End at the left edge of the next circle
             .attr("y2", 50)
             .attr("stroke", "gray")
-            .attr("stroke-width", 2);
+            .attr("stroke-width", 2)
+            .style("cursor", "pointer")  // Add cursor pointer style
+            .on("click", function(event, d) {
+                const clickedYear = d.year;  // Get the year that was clicked
+                const yearData = summitData.find(summit => summit.year === clickedYear);  // Get data for clicked year
+        
+                // Get all host countries for that year
+                const hostCountries = yearData.summits.length > 0 
+                    ? yearData.summits.map(summit => summit.country) 
+                    : [];
+        
+                // Now highlight the host countries on the map
+                borderHostCountry(svg, hostCountries);
+            });
         lineGroup
             .attr("x1", (d, i) => circleSpacing * (i + 1) + 10)
             .attr("y1", 50)
@@ -104,33 +155,55 @@ export function updateTimeline(svg, summitData, geojsonData, summitMap, currentY
             .attr("stroke", "gray")
             .attr("stroke-width", 2);
         lineGroup.exit().remove();
-    //        updateMap(geojsonData, summitMap, highlightedYear, summitsByCountryMap, hostCountry);
     }
     updateMap(geojsonData, summitMap, highlightedYear, summitsByCountryMap, hostCountry, summitCounter);
-
 }
 
-export function highlightYears(highlightIndex, totalYears, maxYearsToShow, summitData, svg) {
+function highlightYears(highlightIndex, totalYears, maxYearsToShow, summitData, svg) {
     const lastFiveYears = summitData.slice(totalYears - maxYearsToShow);  // Get last 5 years
-    console.log('Last five years', lastFiveYears)
     lastFiveYears.forEach((dataPoint, index) => {
         console.log(`Year: ${dataPoint.year}, , Highlight Index: ${highlightIndex}`);
-
         // Select and update circles
         svg.selectAll("circle")
             .filter(d => d.year === dataPoint.year)  // Filter based on year
             .attr("fill", index === highlightIndex ? "black" : "gray")  // Current year is black, others are gray
-            .attr("r", index === highlightIndex ? 10 : 5);  // First circle has larger radius
+            .attr("r", index === highlightIndex ? 10 : 5)
+            .on("click", function(event, d) {
+                const clickedYear = d.year;  // Get the year that was clicked
+                const yearData = summitData.find(summit => summit.year === clickedYear);  // Get data for clicked year        
+                const hostCountries = yearData.summits.length > 0 
+                    ? yearData.summits.map(summit => summit.country) 
+                    : [];        
+                borderHostCountry(hostCountries);
+            });
 
         // Select and update year text
         svg.selectAll("text.year")
             .filter(d => d.year === dataPoint.year)  // Filter based on year
-            .style("fill", index === highlightIndex ? "black" : "gray");  // First year text is black, others are gray
+            .style("fill", index === highlightIndex ? "black" : "gray")
+            .on("click", function(event, d) {
+                const clickedYear = d.year;  // Get the year that was clicked
+                const yearData = summitData.find(summit => summit.year === clickedYear);  // Get data for clicked year
+                const hostCountries = yearData.summits.length > 0 
+                    ? yearData.summits.map(summit => summit.country) 
+                    : [];
+                // Now highlight the host countries on the map
+                borderHostCountry(hostCountries);
+            });
 
         // Select and update country text
         svg.selectAll("text.country")
             .filter(d => d.year === dataPoint.year)  // Filter based on year
-            .style("fill", index === highlightIndex ? "black" : "gray");  // First country text is black, others are gray
+            .style("fill", index === highlightIndex ? "black" : "gray")
+            .on("click", function(event, d) {
+                const clickedYear = d.year;  // Get the year that was clicked
+                const yearData = summitData.find(summit => summit.year === clickedYear);  // Get data for clicked year        
+                const hostCountries = yearData.summits.length > 0 
+                    ? yearData.summits.map(summit => summit.country) 
+                    : [];
+                // Now highlight the host countries on the map
+                borderHostCountry(hostCountries);
+            });
     });
 
 }
