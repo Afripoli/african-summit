@@ -14,12 +14,12 @@ body {
     /* overflow-y: scroll;   */
 }
 #vis-title {
-    font-size: 50pt;
+    /* font-size: 50pt; */
     font-weight: 600;
-    line-height: 100pt;
+    /* line-height: 100pt;
     justify-content: left;
     text-align: left;
-    letter-spacing: -1px;
+    letter-spacing: -1px; */
 }
 
 #timeline ul {

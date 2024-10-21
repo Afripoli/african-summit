@@ -4,10 +4,10 @@ const geojsonUrl = "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/ma
 
 // Map
 const width = 800;
-const height = 650;
-const scale = 210;
+const height = 600;
+const scale = 50;
 const center = [0, 0];
-const translation = [width / 2.2, height / 2];
+const translation = [width / 2, height / 2];
 let hostCountry = [];
 const maxYearsToShow = 5;
 
