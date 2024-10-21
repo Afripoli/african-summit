@@ -18,25 +18,36 @@
             <div class="row scroll-container">
                 <h1 class="text-center mb-4 title pt-lg-2 fw-bold h1" id="vis-title">African summits over the years</h1>
                 <div class="col-1">
-                    <button type="button" id="restartButton" class="btn btn-primary">
+                    <!-- Desktop Restart button  -->
+                    <button type="button" id="restartButtonDesktop" class="btn btn-primary d-none d-md-block">
+                        Restart
+                        <img src="/src/img/refresh-cw.svg" alt="Refresh button">
+                    </button>
+                    <!-- Desktop Restart button  -->
+                    <button type="button" id="restartButtonMobile" class="btn btn-primary d-md-none">
                         Restart
                         <img src="/src/img/refresh-cw.svg" alt="Refresh button">
                     </button>
                 </div>
-                <div class="col-11 full-height">
+                <!-- Mobile timeline -->
+                <div class="col-11 d-md-none">
                     <h4>Timeline</h4>
-                    <div id="timeline">
-                    </div>
+                    <div id="mobile-timeline"></div>
+                </div>
+                <!-- Desktop timeline -->
+                <div class="col-11 full-height d-none d-md-block">
+                    <h4>Timeline</h4>
+                    <div id="timeline"></div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-8">
+                <div class="col-lg-8">
                     <h4 class="mt-4">Host countries</h4>
                     <p class="card-text">Click over the highlighted countries to see the list of hosted summits
                     </p>
                     <div id="map" class="map"></div>
                 </div>
-                <div class="col-4">
+                <div class="col-lg-4">
                     <!-- Container for displaying the summit list -->
                     <div id="summitListContainer" class="fix-col">
                         <h3 id="summitCountry"> </h3>
