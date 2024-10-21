@@ -1,10 +1,11 @@
 import { svg, center, translation } from "./globals.js"
 import { getSummitsforCountry, displaySummitsCountry } from "./summitUtils.js"
 
-let projection = d3.geoNaturalEarth1()
+let projection = d3.geoMercator()
     .center(center)
     .translate(translation)
 let path = d3.geoPath().projection(projection);
+
 
 export function drawMap(geojson) {
     //console.log('geojson', geojson)

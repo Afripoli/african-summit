@@ -58,6 +58,9 @@ export async function loadAndMergeData(geojsonUrl, jsonFilePath) {
                 feature.properties.summit = summitMap.get(countryName);
             }
         });
+
+        // Remove antarctica from geojson
+
         return {
             geojsonData,
             jsonData,
