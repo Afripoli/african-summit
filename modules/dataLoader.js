@@ -52,14 +52,19 @@ export async function loadAndMergeData(geojsonUrl, jsonFilePath) {
             summitCounter[country] = (summitCounter[country] || 0) + 1;
         });
 
+        // Remove antarctica from geojson
+
+        geojsonData.features = geojsonData.features.filter(feature => feature.properties.name !== "Antarctica");
         geojsonData.features.forEach(feature => {
             const countryName = feature.properties.name;
+            if (countryName === "Antarctica") {
+                return; // Skip Antarctica
+            }
             if (summitMap.has(countryName)) {
                 feature.properties.summit = summitMap.get(countryName);
             }
         });
 
-        // Remove antarctica from geojson
 
         return {
             geojsonData,
