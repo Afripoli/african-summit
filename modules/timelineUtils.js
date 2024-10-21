@@ -7,7 +7,7 @@ export function initializeTimeline() {
     const svg = d3.select("#timeline")
         .append("svg")
         .attr("width", "100%")
-        .attr("height", 150);
+        .attr("height", 225);
     return svg;
 }
 

@@ -21,6 +21,10 @@ body {
     text-align: left;
     letter-spacing: -1px; */
 }
+.col-11.full-height {
+    display: flex;
+    flex-direction: column;    
+}
 
 #timeline ul {
     list-style-type: none;
