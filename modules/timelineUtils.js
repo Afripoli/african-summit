@@ -3,7 +3,7 @@ import { hostCountry, maxYearsToShow } from './globals.js';
 
 // Initial states
 let timelineRunning = false;
-
+//let currentYearIndex = 0;
 
 export function initDesktopTimelineSVG() {
     const svg = d3.select("#desktop-timeline")
@@ -23,45 +23,69 @@ export function generateTimeline(svg, summitData, currentYearIndex) {
     //appendArrows(svg, summitData, containerHeight, containerWidth);
 }
 
-export function startTimeline(svg, summitData) {
+// export function startTimeline(svg, summitData) {
+//     const containerHeight = document.getElementById("desktop-timeline").offsetHeight;
+//     const containerWidth = document.getElementById("desktop-timeline").offsetWidth;
+//     if (!timelineRunning) {
+//         timelineRunning = true;
+//         // Call the updateTimeline function to handle automatic navigation
+//         updateTimeline(1, svg, summitData, currentYearIndex, containerHeight, containerWidth);
+//     }
+// }
+
+export function appendArrows(svg, summitData, currentYearIndex) {
     const containerHeight = document.getElementById("desktop-timeline").offsetHeight;
     const containerWidth = document.getElementById("desktop-timeline").offsetWidth;
-    if (!timelineRunning) {
-        timelineRunning = true;
-        // Call the updateTimeline function to handle automatic navigation
-        updateTimeline(1, svg, summitData, currentYearIndex, containerHeight, containerWidth);
-    }
-}
 
-function appendArrows(svg, summitData, containerHeight, containerWidth) {
     const upArrowDiv = document.createElement("div");
-        upArrowDiv.classList.add("arrow-container", "up-arrow");
-        upArrowDiv.innerHTML = '<i class="fas fa-chevron-up"></i>';
-        document.getElementById("desktop-timeline").appendChild(upArrowDiv);
-        // Append the Down Arrow (Bottom)
-        const downArrowDiv = document.createElement("div");
-        downArrowDiv.classList.add("arrow-container", "down-arrow");
-        downArrowDiv.innerHTML = '<i class="fas fa-chevron-down"></i>';
-        document.getElementById("desktop-timeline").appendChild(downArrowDiv);
-        // Add click event listeners to the arrows
-        upArrowDiv.addEventListener("click", () => updateTimeline(-1, svg, summitData, containerHeight, containerWidth));  // Move up
-        downArrowDiv.addEventListener("click", () => updateTimeline(1, svg, summitData, containerHeight, containerWidth)); 
+    upArrowDiv.classList.add("arrow-container", "up-arrow");
+    upArrowDiv.innerHTML = '<i class="fas fa-chevron-up"></i>';
+    upArrowDiv.style.position = "absolute";
+    upArrowDiv.style.left = `${(containerWidth / 2) - 20}px`; // Center above the timeline
+    upArrowDiv.style.top = "20px";
+    document.getElementById("desktop-timeline").appendChild(upArrowDiv);
+    // Append the Down Arrow (Bottom)
+    const downArrowDiv = document.createElement("div");
+    downArrowDiv.classList.add("arrow-container", "down-arrow");
+    downArrowDiv.innerHTML = '<i class="fas fa-chevron-down"></i>';
+    downArrowDiv.style.position = "absolute";
+    downArrowDiv.style.left = `${(containerWidth / 2) - 20}px`; // Center below the timeline
+    downArrowDiv.style.top = `${containerHeight - 40}px`;
+    document.getElementById("desktop-timeline").appendChild(downArrowDiv);
+    // Add click event listeners to the arrows
+    upArrowDiv.addEventListener("click", () => {
+        updateTimeline(-maxYearsToShow, svg, summitData, currentYearIndex);
+    });  // Move up
+    downArrowDiv.addEventListener("click", () => {
+        updateTimeline(maxYearsToShow, svg, summitData, currentYearIndex);
+    });
 }
-function updateTimeline(direction, svg, summitData, containerHeight, containerWidth) {
+function updateTimeline(direction, svg, summitData, currentYearIndex) {
     console.log('Direction', direction, 'Summit Data', summitData)
     console.log('Max year to show', maxYearsToShow);
-    const maxIndex = Math.max(0, summitData.length - maxYearsToShow);  // Calculate the maximum index
+    console.log('Current year index before update', currentYearIndex);
+    const previousIndex = currentYearIndex; // Store the previous index for logging
+    currentYearIndex += direction;
+    const maxIndex = summitData.length - maxYearsToShow;  // Calculate the maximum index
+    console.log('Max index is', maxIndex)
+    const calc = currentYearIndex + direction;
+    console.log('calculation is', calc)
     // Update the current index based on direction
-    console.log('Current year index before update', currentYearIndex)
-    currentYearIndex = Math.max(0, Math.min((maxIndex, currentYearIndex + direction + maxYearsToShow)));
+    currentYearIndex = Math.max(0, Math.min(currentYearIndex + direction, maxIndex));
+    //highlightIndex = 0; // Reset highlight index to start highlighting from the first year of the new range
+
+    console.log('Current year index after update', currentYearIndex);
     // Redraw the timeline with the updated index
-    drawTimeline(svg, summitData, currentYearIndex, containerHeight, containerWidth);
+    drawTimeline(svg, summitData, currentYearIndex);
+   // return currentYearIndex;  // Return the updated index
+
 }
-export function drawTimeline(svg, summitData, currentYearIndex, containerHeight, containerWidth) {
+export function drawTimeline(svg, summitData, currentYearIndex) {
     console.log('Current year index after update', currentYearIndex)
     console.log('Summit data in draw function is', summitData)
-   const displayedYears = summitData.slice(currentYearIndex, currentYearIndex + maxYearsToShow);  // Get the current set of years
-
+    const containerHeight = document.getElementById("desktop-timeline").offsetHeight;
+    const containerWidth = document.getElementById("desktop-timeline").offsetWidth;
+    const displayedYears = summitData.slice(currentYearIndex, currentYearIndex + maxYearsToShow);  // Get the current set of years
     const circleSpacing = containerHeight / (maxYearsToShow);
     // Bind the circle data and render circles
     const circleGroup = svg.selectAll("circle")
@@ -121,7 +145,7 @@ export function drawTimeline(svg, summitData, currentYearIndex, containerHeight,
             }
         });
     countryTextGroup.exit().remove();  // Remove any excess country labels
-        console.log('Displayed year in timeline util', displayedYears)
+    console.log('Displayed year in timeline util', displayedYears)
     // Bind the line data and render connecting vertical lines between circles
     const lineGroup = svg.selectAll("line")
         .data(displayedYears.slice(1));
@@ -134,35 +158,26 @@ export function drawTimeline(svg, summitData, currentYearIndex, containerHeight,
         .attr("y2", (d, i) => circleSpacing * (i + 2) - 10)  // End above the next circle
         .attr("stroke", "gray")
         .attr("stroke-width", 2);
-
     lineGroup.exit().remove();  // Remove any excess lines
-    console.log('Summit data check', summitData)
     // Update button visibility based on the current index
     d3.select(".up-button").style("visibility", currentYearIndex === 0 ? "hidden" : "visible");
     d3.select(".down-button").style("visibility", currentYearIndex + maxYearsToShow >= summitData.length ? "hidden" : "visible");
 }
 
 export function highlightYear(svg, summitData, currentYearIndex) {
-   // Remove highlight from all circles and text
-   svg.selectAll('circle').attr('r', 5).attr('fill', 'gray');  // Reset all circles to default size and color
-   svg.selectAll('text.year').style('font-weight', 'normal').style('fill', 'black');  // Reset year text
+    // Remove highlight from all circles and text
+    svg.selectAll('circle').attr('r', 5).attr('fill', 'gray');  // Reset all circles to default size and color
+    svg.selectAll('text.year').style('font-weight', 'normal').style('fill', 'black');  // Reset year text
+    // Find the circle and text for the year to highlight
+    const currentYearData = summitData[currentYearIndex];  // Get the current year data using the index
+    if (currentYearData || (currentYearData && currentYearData.year <= 2024)) {
+        // If currentYearData exists, filter the circles based on the current year
+        const circles = svg.selectAll('circle').filter(d => d.year === currentYearData.year);
+        const texts = svg.selectAll('text.year').filter(d => d.year === currentYearData.year);
+        circles.attr('r', 10).attr('fill', 'orange');  // Highlighted circle
+        texts.style('font-weight', 'bold').style('fill', 'orange');
+    }
 
-   // Find the circle and text for the year to highlight
-   const currentYearData = summitData[currentYearIndex];  // Get the current year data using the index
-//     console.log('Current year data', currentYearData)
-//    const circles = svg.selectAll('circle').filter(d => d.year === currentYearData.year);
-//    const texts = svg.selectAll('text.year').filter(d => d.year === currentYearData.year);
-
-   if (currentYearData || (currentYearData && currentYearData.year <= 2024)) {
-    // If currentYearData exists, filter the circles based on the current year
-    const circles = svg.selectAll('circle').filter(d => d.year === currentYearData.year);
-    const texts = svg.selectAll('text.year').filter(d => d.year === currentYearData.year);
-    
-    // Apply highlight (larger circle, different color, bold text)
-   circles.attr('r', 10).attr('fill', 'orange');  // Highlighted circle
-   texts.style('font-weight', 'bold').style('fill', 'orange'); 
-}
-   
 }
 
 export function initMobileTimelineSVG() {
