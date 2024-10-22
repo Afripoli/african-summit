@@ -15,42 +15,33 @@
 <body>
     <div class="timeline-summit">
         <div class="container-xl mt-4 main-container">
-            <div class="row row-timeline">
-                <div class="col">
-                    <h1 class="text-center mb-4 title pt-lg-2 fw-bold h1" id="vis-title">African summits over the years</h1>
-                    <p class="mb-0">From <u>1899</u> to <u>2024</u>, 12 countries have held 62 summits with African countries to discuss topics from critical minerals to peace and security</p>
-                    <p class="mt=0 mb-0">To start the timeline, press 
-                        <button type="button" id="restartButtonDesktop" class="btn btn-primary btn-sm btn-play d-inline d-none d-md-inline-block">
-                            <img src="/src/img/play.svg" class="play-med" alt="Play button">
-                        </button>
-                        <!-- Desktop Restart button  -->
-                        <button type="button" id="restartButtonMobile" class="btn btn-primary btn-play d-inline d-md-none">
-                            <img src="/src/img/play.svg" alt="Play button">
-                        </button>
-                    </p>
-                </div>
-                <!-- Mobile timeline -->
-                <div class="col-12 d-md-none">
-                    <div id="mobile-timeline"></div>
-                </div>
-                <!-- Desktop timeline -->
-                <div class="col-12 full-height d-none d-md-block">
+            <div class="row">
+                <h1 class="text-center mb-4 title pt-lg-2 fw-bold h1" id="vis-title">African summits over the years</h1>
+                <p class="mb-0">From <u>1899</u> to <u>2024</u>, 12 countries have held 62 summits with African
+                    countries to discuss topics from critical minerals to peace and security</p>
+                <p class="mt=0 mb-0">To start the timeline, press
+                    <button type="button" id="restartButtonDesktop"
+                        class="btn btn-primary btn-sm btn-play d-inline d-none d-md-inline-block">
+                        <img src="/src/img/play.svg" class="play-med" alt="Play button">
+                    </button>
+                    <!-- Desktop Restart button  -->
+                    <!-- <button type="button" id="restartButtonMobile" class="btn btn-primary btn-play d-inline d-md-none">
+                        <img src="/src/img/play.svg" alt="Play button">
+                    </button> -->
+                </p>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-timeline d-none d-md-block">
                     <div id="desktop-timeline"></div>
                 </div>
-            </div>
-            <div class="row row-map">
-                <div class="col-lg-8">
+                <div class="col-md-6 col-map">
                     <h4 class="mt-3">Host countries</h4>
                     <p class="card-text">Click over the highlighted countries to see the list of hosted summits
                     </p>
                     <div id="map" class="map"></div>
                 </div>
-                <div class="col-lg-4">
-                    <!-- Container for displaying the summit list -->
-                    <div id="summitListContainer" class="fix-col">
-                        <h3 id="summitCountry"> </h3>
-                        <ul id="summitList"></ul>
-                    </div>
+                <div class="col-md-3 col-infosummit">
+
                 </div>
             </div>
         </div>

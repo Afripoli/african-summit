@@ -1,6 +1,6 @@
-let currentClickedIndex = null;
+import { borderHostCountry } from "./mapUtils.js";
 
-export function resetHighlights() {
+export function resetHighlights(currentClickedIndex, circleGroup, yearTextGroup, countryTextGroup) {
     if (currentClickedIndex !== null) {
         circleGroup
             .filter((_, index) => index === currentClickedIndex)
@@ -8,15 +8,15 @@ export function resetHighlights() {
             .attr("r", 5);
     }
     yearTextGroup
-        .filter((_, index) => index === currentlyHighlightedIndex)
+        .filter((_, index) => index === currentClickedIndex)
         .style("fill", "gray");
 
     countryTextGroup
-        .filter((_, index) => index === currentlyHighlightedIndex)
+        .filter((_, index) => index === currentClickedIndex)
         .style("fill", "gray");
 }
 
-export function highlightYear(year) {
+export function highlightYear(displayedYears, year, circleGroup, yearTextGroup, summitData, svg, hostCountries) {
     const yearIndex = displayedYears.findIndex(d => d.year === year);
     if (yearIndex >= 0) {
         circleGroup
@@ -28,18 +28,16 @@ export function highlightYear(year) {
             .style("fill", "black");
 
         const yearData = summitData.find(summit => summit.year === year);
+        console.log('Year data'. yearData)
         const hostCountries = yearData.summits.length > 0
             ? yearData.summits.map(summit => summit.country)
             : [];
         // Highlight the countries on the map
         borderHostCountry(svg, hostCountries);
-
-        // Highlight corresponding country text
         countryTextGroup
             .filter((d, index) => index === yearIndex)
             .style("fill", "black");
 
-        // Update currently highlighted index
-        currentlyHighlightedIndex = yearIndex;
+            currentClickedIndex = yearIndex;
     }
 }

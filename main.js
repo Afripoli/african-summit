@@ -11,10 +11,10 @@ async function main() {
         // Detect screen size and initialize appropriate timeline
         if (window.innerWidth >= 768) {
             // Desktop version
-            initDesktopTimeline(geojsonData, summitMap, jsonData, summitsByCountryMap, summitCounter);
+            initDesktopTimeline(geojsonData, jsonData /*, summitMap, jsonData, summitsByCountryMap, summitCounter*/);
         } else {
             // Mobile version
-            initMobileTimeline(geojsonData, summitMap, jsonData, summitsByCountryMap, summitCounter);
+            initMobileTimeline(geojsonData, jsonData /*,  summitMap, jsonData, summitsByCountryMap, summitCounter*/);
         }
     } catch (error) {
         console.error("Error initializing app:", error);
