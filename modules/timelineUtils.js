@@ -1,6 +1,5 @@
 import { updateMap, borderHostCountry } from "./mapUtils.js";
 import { hostCountry, maxYearsToShow } from './globals.js';
-import { appendArrows } from './timelineHelperUtils.js'
 // import { resetHighlights, highlightYear } from './timelineHelperUtils.js'
 
 export function initDesktopTimelineSVG() {
@@ -8,21 +7,50 @@ export function initDesktopTimelineSVG() {
         .append("svg")
         .attr("width", "auto")
         .attr("height", "100vh");
-    appendArrows();
     return svg;
 }
 
+let currentYearIndex = 0;  // Declare currentYearIndex in a higher scope
+
+
 export function generateTimeline(svg, summitData) {
-    let currentYearIndex = 0;  // Tracks which slice of the data is being shown
     const containerHeight = document.getElementById("desktop-timeline").offsetHeight;
     const containerWidth = document.getElementById("desktop-timeline").offsetWidth;
     console.log('Summit data is', summitData) // we need to extract year
+    appendArrows(svg, summitData, containerHeight, containerWidth);
+    drawTimeline(svg, summitData, currentYearIndex, containerHeight, containerWidth);  // Draw the initial timeline
 
-    drawTimeline(svg, summitData, currentYearIndex, containerWidth, containerHeight);
 }
+function appendArrows(svg, summitData, containerHeight, containerWidth) {
+    const upArrowDiv = document.createElement("div");
+        upArrowDiv.classList.add("arrow-container", "up-arrow");
+        upArrowDiv.innerHTML = '<i class="fas fa-chevron-up"></i>';
+        document.getElementById("desktop-timeline").appendChild(upArrowDiv);
 
+        // Append the Down Arrow (Bottom)
+        const downArrowDiv = document.createElement("div");
+        downArrowDiv.classList.add("arrow-container", "down-arrow");
+        downArrowDiv.innerHTML = '<i class="fas fa-chevron-down"></i>';
+        document.getElementById("desktop-timeline").appendChild(downArrowDiv);
 
+        // Add click event listeners to the arrows
+        upArrowDiv.addEventListener("click", () => updateTimeline(-1, svg, summitData, containerHeight, containerWidth));  // Move up
+        downArrowDiv.addEventListener("click", () => updateTimeline(1, svg, summitData, containerHeight, containerWidth)); 
+}
+function updateTimeline(direction, svg, summitData, containerHeight, containerWidth) {
+    console.log('Direction', direction, 'Summit Data', summitData)
+    console.log('Max year to show', maxYearsToShow);
+    const maxIndex = Math.max(0, summitData.length - maxYearsToShow);  // Calculate the maximum index
+
+    // Update the current index based on direction
+    console.log('Current year index before update', currentYearIndex)
+    currentYearIndex = Math.max(0, Math.min((maxIndex, currentYearIndex + direction)));
+    // Redraw the timeline with the updated index
+    drawTimeline(svg, summitData, currentYearIndex, containerHeight, containerWidth);
+}
 function drawTimeline(svg, summitData, currentYearIndex, containerWidth, containerHeight) {
+    console.log('Current year index after update', currentYearIndex)
+
     console.log('Summit data in draw function is', summitData)
     const displayedYears = summitData.slice(currentYearIndex, currentYearIndex + maxYearsToShow);
     const circleSpacing = containerHeight / (maxYearsToShow + 1);

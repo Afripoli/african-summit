@@ -1,4 +1,6 @@
-export function appendArrows() {
+import { maxYearsToShow } from "./globals.js";
+
+export function appendArrows(summitData, currentYearIndex) {
     const upArrowDiv = document.createElement("div");
         upArrowDiv.classList.add("arrow-container", "up-arrow");
         upArrowDiv.innerHTML = '<i class="fas fa-chevron-up"></i>';
@@ -11,14 +13,16 @@ export function appendArrows() {
         document.getElementById("desktop-timeline").appendChild(downArrowDiv);
 
         // Add click event listeners to the arrows
-        upArrowDiv.addEventListener("click", () => updateTimeline(-1));  // Move up
-        downArrowDiv.addEventListener("click", () => updateTimeline(1)); 
+        upArrowDiv.addEventListener("click", () => updateTimeline(-1, summitData, currentYearIndex));  // Move up
+        downArrowDiv.addEventListener("click", () => updateTimeline(1, summitData, currentYearIndex)); 
 }
 
-function updateTimeline(direction, summitData) {
+function updateTimeline(direction, summitData, currentYearIndex) {
     console.log('Direction', direction, 'Summit Data', summitData)
     // Update the current index based on direction
     currentYearIndex = Math.max(0, Math.min(summitData.length - maxYearsToShow, currentYearIndex + direction * maxYearsToShow));
     // Redraw the timeline with the updated index
     drawTimeline();
 }
+
+

@@ -3,7 +3,7 @@ import { initDesktopTimelineSVG, generateTimeline } from "./timelineUtils.js";
 
 export function initDesktopTimeline(geojsonData, jsonData /*, summitMap, summitsByCountryMap, summitCounter*/) {
    // const svg = initDesktopTimelineSVG();
-    let currentYearIndex = 0;
+    //let currentYearIndex = 0;
     let highlightIndex = 0;
     let intervalId = null;
    // drawMap(geojsonData);
@@ -22,8 +22,8 @@ export function initDesktopTimeline(geojsonData, jsonData /*, summitMap, summits
         // if (intervalId) {
         //     clearInterval(intervalId);
         // } 
+
         const svg = initDesktopTimelineSVG();
-        currentYearIndex = 0;
         generateTimeline(svg, jsonData)
         //highlightIndex = 0;
         //intervalId = startInterval();  // Start or restart the timeline
