@@ -17,28 +17,7 @@ body {
     text-align: left;
     letter-spacing: -1px; */
 }
-.col-11.full-height {
-    display: flex;
-    flex-direction: column;    
-}
 
-#timeline ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-#timeline li {
-    padding: 10px;
-    border: 1px solid #ccc;
-    margin-bottom: 5px;
-    background-color: #f9f9f9;
-    text-align: center;
-}
-
-#timeline li:hover {
-    background-color: #e0e0e0;
-    cursor: pointer;
-}
 .timeline-container {
     display: flex;
     justify-content: space-between;
@@ -51,34 +30,37 @@ body {
     transition: color 0.3s, font-weight 0.3s;
 }
 
-.fix-col {
-    max-height: 680px;
-    /* Set a fixed height for the column */
-    overflow-y: auto;
-    /* Enable vertical scrolling */
-    /* Optional: border for visibility */
-    padding: 10px;
-    /* Optional: padding for content */
-}
 .container-xl.main-container {
     height: 100vh;
     overflow: hidden; /* Prevent scrolling */
     flex-direction: column;
     display: flex;
 }
-.row.row-timeline {
-    flex: 0 0 25%
-}
-.row.row-map {
-    flex: 0 0 75%
-}
-
 .play-med {
     height: 20px;
     width: auto;
 }
-
 .btn.btn-sm.btn-play {
     width: 40px;      /* Adjust width if needed */
     height: 40px;  
+}
+.arrow-container {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+    z-index: 10; /* Make sure arrows are on top of the SVG */
+}
+
+.up-arrow {
+    top: 300px;  /* Position at the top */
+}
+
+.down-arrow {
+    bottom: 1px;  /* Position at the bottom */
+}
+
+.arrow-container i {
+    font-size: 45px;  /* Size of the arrow */
+    color: #000;
 }

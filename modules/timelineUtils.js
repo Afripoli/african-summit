@@ -1,50 +1,26 @@
 import { updateMap, borderHostCountry } from "./mapUtils.js";
 import { hostCountry, maxYearsToShow } from './globals.js';
+import { appendArrows } from './timelineHelperUtils.js'
 // import { resetHighlights, highlightYear } from './timelineHelperUtils.js'
-
-let svg = null;
 
 export function initDesktopTimelineSVG() {
     const svg = d3.select("#desktop-timeline")
         .append("svg")
         .attr("width", "auto")
         .attr("height", "100vh");
+    appendArrows();
     return svg;
 }
 
 export function generateTimeline(svg, summitData) {
-    const maxYearsToShow = 5;  // Always display 5 years
     let currentYearIndex = 0;  // Tracks which slice of the data is being shown
     const containerHeight = document.getElementById("desktop-timeline").offsetHeight;
     const containerWidth = document.getElementById("desktop-timeline").offsetWidth;
     console.log('Summit data is', summitData) // we need to extract year
 
-    // Create left and right buttons
-    svg.append("text")
-        .attr("class", "up-button")
-        .attr("x", containerWidth / 2)  // Position the button in the center horizontally
-        .attr("y", 20)  // Place above the timeline
-        .text("^")
-        .style("cursor", "pointer")
-        .on("click", () => updateTimeline(-1, summitData));  // Move up
-
-    svg.append("text")
-        .attr("class", "down-button")
-        .attr("x", containerWidth / 2)  // Position the button in the center horizontally
-        .attr("y", containerHeight - 20)  // Place below the timeline
-        .text("v")
-        .style("cursor", "pointer")
-        .on("click", () => updateTimeline(1, summitData));  // Move down
     drawTimeline(svg, summitData, currentYearIndex, containerWidth, containerHeight);
 }
 
-function updateTimeline(direction, summitData) {
-    console.log('Direction', direction, 'Summit Data', summitData)
-    // Update the current index based on direction
-    currentYearIndex = Math.max(0, Math.min(summitData.length - maxYearsToShow, currentYearIndex + direction * maxYearsToShow));
-    // Redraw the timeline with the updated index
-    drawTimeline();
-}
 
 function drawTimeline(svg, summitData, currentYearIndex, containerWidth, containerHeight) {
     console.log('Summit data in draw function is', summitData)
@@ -70,21 +46,21 @@ function drawTimeline(svg, summitData, currentYearIndex, containerWidth, contain
     circleGroup.exit().remove();  // Remove any excess circles
 
     // Bind the year label data and render year labels next to the circles
-    const   yearTextGroup = svg.selectAll("text.year")
-            .data(displayedYears, d => d.year);
-            yearTextGroup.enter()
-                .append("text")
-                .attr("class", "year")
-                .merge(yearTextGroup)
-                .attr("x", containerWidth / 2 + 20)  // Position the label to the right of the circle
-                .attr("y", (d, i) => circleSpacing * (i + 1) + 5)  // Align with the circle vertically
-                .attr("text-anchor", "start")
-                .text(d => d.year)
-                .style("cursor", "pointer")
-                .on("click", function (event, d) {
-                    highlightYear(svg, summitData, d.year, currentYearIndex);  // Highlight the clicked year
-                });
-            yearTextGroup.exit().remove();  // Remove any excess year labels
+    const yearTextGroup = svg.selectAll("text.year")
+        .data(displayedYears, d => d.year);
+    yearTextGroup.enter()
+        .append("text")
+        .attr("class", "year")
+        .merge(yearTextGroup)
+        .attr("x", containerWidth / 2 + 20)  // Position the label to the right of the circle
+        .attr("y", (d, i) => circleSpacing * (i + 1) + 5)  // Align with the circle vertically
+        .attr("text-anchor", "start")
+        .text(d => d.year)
+        .style("cursor", "pointer")
+        .on("click", function (event, d) {
+            highlightYear(svg, summitData, d.year, currentYearIndex);  // Highlight the clicked year
+        });
+    yearTextGroup.exit().remove();  // Remove any excess year labels
 
     // Bind the country label data and render country labels next to the year
     const countryTextGroup = svg.selectAll("text.country")
@@ -134,16 +110,16 @@ function drawTimeline(svg, summitData, currentYearIndex, containerWidth, contain
 function highlightYear(svg, summitData, year, currentYearIndex) {
     const yearIndex = summitData.findIndex(d => d.year === year);
 
-        // Reset all circles and text to gray
-        svg.selectAll("circle").attr("fill", "gray").attr("r", 5);
-        svg.selectAll("text.year").style("fill", "gray");
-        svg.selectAll("text.country").style("fill", "gray");
+    // Reset all circles and text to gray
+    svg.selectAll("circle").attr("fill", "gray").attr("r", 5);
+    svg.selectAll("text.year").style("fill", "gray");
+    svg.selectAll("text.country").style("fill", "gray");
 
-        // Highlight the selected year
-        const highlightedIndex = yearIndex - currentYearIndex;
-        svg.selectAll("circle").filter((_, i) => i === highlightedIndex).attr("fill", "black").attr("r", 10);
-        svg.selectAll("text.year").filter((_, i) => i === highlightedIndex).style("fill", "black");
-        svg.selectAll("text.country").filter((_, i) => i === highlightedIndex).style("fill", "black");
+    // Highlight the selected year
+    const highlightedIndex = yearIndex - currentYearIndex;
+    svg.selectAll("circle").filter((_, i) => i === highlightedIndex).attr("fill", "black").attr("r", 10);
+    svg.selectAll("text.year").filter((_, i) => i === highlightedIndex).style("fill", "black");
+    svg.selectAll("text.country").filter((_, i) => i === highlightedIndex).style("fill", "black");
 
 }
 // export function updateDesktopTimeline(svg, summitData, geojsonData, summitMap, currentYearIndex, summitsByCountryMap, highlightIndex, summitCounter) {
