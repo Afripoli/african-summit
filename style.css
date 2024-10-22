@@ -9,10 +9,6 @@ body {
     height: auto;
     color: black;
 }
-.scroll-container {
-    /* height: 100vh; */
-    /* overflow-y: scroll;   */
-}
 #vis-title {
     /* font-size: 50pt; */
     font-weight: 600;
@@ -63,4 +59,16 @@ body {
     /* Optional: border for visibility */
     padding: 10px;
     /* Optional: padding for content */
+}
+.container-xl.main-container {
+    height: 100vh;
+    overflow: hidden; /* Prevent scrolling */
+    flex-direction: column;
+    display: flex;
+}
+.row.row-timeline {
+    flex: 0 0 30%
+}
+.row.row-map {
+    flex: 0 0 70%
 }

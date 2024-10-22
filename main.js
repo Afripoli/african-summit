@@ -16,7 +16,6 @@ async function main() {
             // Mobile version
             initMobileTimeline(geojsonData, summitMap, jsonData, summitsByCountryMap, summitCounter);
         }
-
     } catch (error) {
         console.error("Error initializing app:", error);
     }

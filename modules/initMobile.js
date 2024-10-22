@@ -1,4 +1,5 @@
-import { initMobileTimelineSVG, mobileTimeline } from './timelineUtils';
+import { initMobileTimelineSVG, mobileTimeline } from './timelineUtils.js';
+import { drawMap } from "./mapUtils.js";
 
 export function initMobileTimeline(geojsonData, summitMap, jsonData, summitsByCountryMap, summitCounter) {
     const svg = initMobileTimelineSVG();

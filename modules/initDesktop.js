@@ -1,5 +1,6 @@
-import { initDesktopTimelineSVG } from "./timelineUtils";
-import { maxYearsToShow } from "./modules/globals.js";
+import { initDesktopTimelineSVG, advanceTimeline } from "./timelineUtils.js";
+import { maxYearsToShow } from "./globals.js";
+import { drawMap } from "./mapUtils.js";
 
 export function initDesktopTimeline(geojsonData, summitMap, jsonData, summitsByCountryMap, summitCounter) {
     const svg = initDesktopTimelineSVG();

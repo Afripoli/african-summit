@@ -4,16 +4,16 @@ import { hostCountry, maxYearsToShow } from './globals.js';
 let svg = null;
 
 export function initDesktopTimelineSVG() {
-    const svg = d3.select("#timeline")
+    const svg = d3.select("#desktop-timeline")
         .append("svg")
         .attr("width", "100%")
-        .attr("height", 225);
+        .attr("height", 175);
     return svg;
 }
 
 export function updateDesktopTimeline(svg, summitData, geojsonData, summitMap, currentYearIndex, summitsByCountryMap, highlightIndex, summitCounter) {
     const totalYears = summitData.length;
-    const containerWidth = document.getElementById("timeline").offsetWidth;
+    const containerWidth = document.getElementById("desktop-timeline").offsetWidth;
     const circleSpacing = containerWidth / 6;
 
     let displayedYears = summitData.slice(currentYearIndex, currentYearIndex + maxYearsToShow);
