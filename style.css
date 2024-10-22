@@ -19,7 +19,6 @@ body {
 }
 
 .timeline-container {
-    display: flex;
     justify-content: space-between;
     margin-top: 20px;
 }
@@ -31,10 +30,7 @@ body {
 }
 
 .container-xl.main-container {
-    height: 100vh;
     overflow: hidden; /* Prevent scrolling */
-    flex-direction: column;
-    display: flex;
 }
 .play-med {
     height: 20px;
@@ -54,6 +50,7 @@ body {
 
 .up-arrow {
     top: 300px;  /* Position at the top */
+    right: 200px
 }
 
 .down-arrow {
@@ -64,3 +61,4 @@ body {
     font-size: 45px;  /* Size of the arrow */
     color: #000;
 }
+
