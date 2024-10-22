@@ -67,10 +67,10 @@ body {
     display: flex;
 }
 .row.row-timeline {
-    flex: 0 0 30%
+    flex: 0 0 25%
 }
 .row.row-map {
-    flex: 0 0 70%
+    flex: 0 0 75%
 }
 
 .play-med {

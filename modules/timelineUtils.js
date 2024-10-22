@@ -17,8 +17,9 @@ export function updateDesktopTimeline(svg, summitData, geojsonData, summitMap, c
     const circleSpacing = containerWidth / 6;
 
     let displayedYears = summitData.slice(currentYearIndex, currentYearIndex + maxYearsToShow);
-    console.log(`CurrentYear index: ${currentYearIndex}, Displaying years in timeline,`, displayedYears)
+    //console.log(`CurrentYear index: ${currentYearIndex}, Displaying years in timeline,`, displayedYears)
     const highlightedYear = displayedYears[0].year;  // Get the first year (which is highlighted)
+    let currentlyClickedIndex = null;
 
     if (currentYearIndex > totalYears - maxYearsToShow) {
         highlightYears(highlightIndex, totalYears, maxYearsToShow, summitData, svg, circleSpacing);
@@ -37,6 +38,18 @@ export function updateDesktopTimeline(svg, summitData, geojsonData, summitMap, c
             .attr("fill", (d, i) => i === 0 ? "black" : "gray")
             .style("cursor", "pointer")  // Add cursor pointer style
             .on("click", function (event, d) {
+                if (currentlyClickedIndex !== null) {
+                    circleGroup
+                        .filter((_, index) => index === currentlyClickedIndex)
+                        .attr("fill", "gray")
+                        .attr("r", 5)
+                }
+                d3.select(this)
+                    .attr("fill", "black")
+                    .attr("r", 10)
+
+                // Update the currently highlighted index
+                currentlyClickedIndex = i;
                 const clickedYear = d.year;  // Get the year that was clicked
                 const yearData = summitData.find(summit => summit.year === clickedYear);  // Get data for clicked year        
                 const hostCountries = yearData.summits.length > 0
