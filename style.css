@@ -72,3 +72,13 @@ body {
 .row.row-map {
     flex: 0 0 70%
 }
+
+.play-med {
+    height: 20px;
+    width: auto;
+}
+
+.btn.btn-sm.btn-play {
+    width: 40px;      /* Adjust width if needed */
+    height: 40px;  
+}

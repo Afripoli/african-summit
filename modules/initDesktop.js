@@ -6,6 +6,7 @@ export function initDesktopTimeline(geojsonData, summitMap, jsonData, summitsByC
     const svg = initDesktopTimelineSVG();
     let currentYearIndex = 0;
     let highlightIndex = 0;
+    let intervalId = null;
     drawMap(geojsonData);
     const startInterval = () => {
         return setInterval(() => {
@@ -16,19 +17,19 @@ export function initDesktopTimeline(geojsonData, summitMap, jsonData, summitsByC
             }
             advanceTimeline(svg, jsonData, geojsonData, summitMap, currentYearIndex, intervalId, summitsByCountryMap, highlightIndex, summitCounter);
             currentYearIndex++;
-        }, 200)
+        }, 400)
     }
-
-    let intervalId = startInterval();
     function resetSummitCounter() {
         summitCounter.clear();
     }
     document.getElementById('restartButtonDesktop').addEventListener('click', () => {
         resetSummitCounter();
-        clearInterval(intervalId);
+        if (intervalId) {
+            clearInterval(intervalId);
+        } 
         currentYearIndex = 0;
         highlightIndex = 0;
-        intervalId = startInterval();  // Start a new interval
-        console.log("Timeline restarted for desktop");
+        intervalId = startInterval();  // Start or restart the timeline
+        console.log("Timeline started/restarted for desktop");
     });
 }

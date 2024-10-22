@@ -16,27 +16,25 @@
     <div class="timeline-summit">
         <div class="container-xl mt-4 main-container">
             <div class="row row-timeline">
-                <h1 class="text-center mb-4 title pt-lg-2 fw-bold h1" id="vis-title">African summits over the years</h1>
-                <div class="col-1">
-                    <!-- Desktop Restart button  -->
-                    <button type="button" id="restartButtonDesktop" class="btn btn-primary d-none d-md-block">
-                        Restart
-                        <img src="/src/img/refresh-cw.svg" alt="Refresh button">
-                    </button>
-                    <!-- Desktop Restart button  -->
-                    <button type="button" id="restartButtonMobile" class="btn btn-primary d-md-none">
-                        Restart
-                        <img src="/src/img/refresh-cw.svg" alt="Refresh button">
-                    </button>
+                <div class="col">
+                    <h1 class="text-center mb-4 title pt-lg-2 fw-bold h1" id="vis-title">African summits over the years</h1>
+                    <p class="mb-0">From <u>1899</u> to <u>2024</u>, 12 countries have held 62 summits with African countries to discuss topics from critical minerals to peace and security</p>
+                    <p class="mt=0">To start the timeline, press 
+                        <button type="button" id="restartButtonDesktop" class="btn btn-primary btn-sm btn-play d-inline d-none d-md-inline-block">
+                            <img src="/src/img/play.svg" class="play-med" alt="Play button">
+                        </button>
+                        <!-- Desktop Restart button  -->
+                        <button type="button" id="restartButtonMobile" class="btn btn-primary btn-play d-inline d-md-none">
+                            <img src="/src/img/play.svg" alt="Play button">
+                        </button>
+                    </p>
                 </div>
                 <!-- Mobile timeline -->
-                <div class="col-11 d-md-none">
-                    <h4>Timeline</h4>
+                <div class="col-12 d-md-none">
                     <div id="mobile-timeline"></div>
                 </div>
                 <!-- Desktop timeline -->
-                <div class="col-11 full-height d-none d-md-block">
-                    <h4>Timeline</h4>
+                <div class="col-12 full-height d-none d-md-block">
                     <div id="desktop-timeline"></div>
                 </div>
             </div>

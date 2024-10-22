@@ -7,7 +7,7 @@ export function initDesktopTimelineSVG() {
     const svg = d3.select("#desktop-timeline")
         .append("svg")
         .attr("width", "100%")
-        .attr("height", 175);
+        .attr("height", 165);
     return svg;
 }
 
