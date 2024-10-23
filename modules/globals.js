@@ -9,7 +9,7 @@ const scale = 50;
 const center = [0, 0];
 const translation = [width / 2, height / 2];
 let hostCountry = [];
-const maxYearsToShow = 5;
+const maxYearsToShow = 4;
 
 
 let svg = d3.select("#map")

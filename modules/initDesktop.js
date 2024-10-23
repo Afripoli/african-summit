@@ -19,10 +19,13 @@ function playTimeline(svg, summitData, containerHeight, containerWidth) {
             highlightItem(svg, summitData, highlightIndex, currentYearIndex);  // Highlight the current year
             highlightIndex++;
             currentYearIndex += 1;
+            console.log('Highlight index is', highlightIndex)
             if (highlightIndex >= maxYearsToShow) {
                 currentYearIndex += maxYearsToShow;  // Advance by 5 years to the next subset
                 highlightIndex = 0;
                 console.log('Highlight index reset to 0')
+                console.log('Current year index is', currentYearIndex)
+                console.log('Summit Data Length', summitData.length)
                 // If the end of the data is reached, stop the interval
                 if (currentYearIndex >= summitData.length) {
                     clearInterval(intervalId);  // Stop the timeline when all years have been shown
@@ -52,6 +55,12 @@ function playTimeline(svg, summitData, containerHeight, containerWidth) {
             startPlaying();
         }
     });
+
+    // Restart button
+    const restartBtn = document.getElementById('restartButtonDesktop');
+    restartBtn.addEventListener('click', function() {
+        startPlaying();
+    })
 }
 
 export function initDesktopTimeline(geojsonData, summitData) {
