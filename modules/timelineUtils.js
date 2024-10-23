@@ -32,7 +32,17 @@ export function generateTimeline(svg, summitData, currentYearIndex) {
 //         updateTimeline(1, svg, summitData, currentYearIndex, containerHeight, containerWidth);
 //     }
 // }
-
+function clickingArrow(upArrowDiv, downArrowDiv, svg, summitData, currentYearIndex) {
+    const maxYearsToShow = 5;
+    upArrowDiv.addEventListener("click", () => {
+        console.log('Clicking Up arrow')
+        updateTimeline(-maxYearsToShow, svg, summitData, currentYearIndex);
+    });  // Move up
+    downArrowDiv.addEventListener("click", () => {
+        console.log('Clicking Down Arrow')
+        updateTimeline(maxYearsToShow, svg, summitData, currentYearIndex);
+    });
+}
 export function appendArrows(svg, summitData, currentYearIndex) {
     const containerHeight = document.getElementById("desktop-timeline").offsetHeight;
     const containerWidth = document.getElementById("desktop-timeline").offsetWidth;
@@ -53,31 +63,27 @@ export function appendArrows(svg, summitData, currentYearIndex) {
     downArrowDiv.style.top = `${containerHeight - 40}px`;
     document.getElementById("desktop-timeline").appendChild(downArrowDiv);
     // Add click event listeners to the arrows
-    upArrowDiv.addEventListener("click", () => {
-        updateTimeline(-maxYearsToShow, svg, summitData, currentYearIndex);
-    });  // Move up
-    downArrowDiv.addEventListener("click", () => {
-        updateTimeline(maxYearsToShow, svg, summitData, currentYearIndex);
-    });
+    clickingArrow(upArrowDiv, downArrowDiv, svg, summitData, currentYearIndex)
 }
+
 function updateTimeline(direction, svg, summitData, currentYearIndex) {
     console.log('Direction', direction, 'Summit Data', summitData)
-    console.log('Max year to show', maxYearsToShow);
     console.log('Current year index before update', currentYearIndex);
-    const previousIndex = currentYearIndex; // Store the previous index for logging
-    currentYearIndex += direction;
+    // currentYearIndex += direction;
     const maxIndex = summitData.length - maxYearsToShow;  // Calculate the maximum index
     console.log('Max index is', maxIndex)
-    const calc = currentYearIndex + direction;
-    console.log('calculation is', calc)
     // Update the current index based on direction
     currentYearIndex = Math.max(0, Math.min(currentYearIndex + direction, maxIndex));
-    //highlightIndex = 0; // Reset highlight index to start highlighting from the first year of the new range
-
     console.log('Current year index after update', currentYearIndex);
     // Redraw the timeline with the updated index
     drawTimeline(svg, summitData, currentYearIndex);
-   // return currentYearIndex;  // Return the updated index
+    // Optionally re-attach event listeners if necessary (usually only needed if UI elements change)
+    const upArrowDiv = document.querySelector(".up-arrow");
+    const downArrowDiv = document.querySelector(".down-arrow");
+    if (upArrowDiv && downArrowDiv) {
+        console.log('Clicking arrow in update timeline')
+        clickingArrow(upArrowDiv, downArrowDiv, svg, summitData, currentYearIndex);
+    }
 
 }
 export function drawTimeline(svg, summitData, currentYearIndex) {
@@ -99,7 +105,8 @@ export function drawTimeline(svg, summitData, currentYearIndex) {
         .attr("fill", "gray")
         .style("cursor", "pointer")
         .on("click", function (event, d) {
-            highlightYear(svg, summitData, d.year, currentYearIndex);  // Highlight the clicked year
+            //highlightItem(svg, summitData, d.year, currentYearIndex);  // Highlight the clicked year
+            highlightClickedItem(svg, d);
         });
 
     circleGroup.exit().remove();  // Remove any excess circles
@@ -117,7 +124,9 @@ export function drawTimeline(svg, summitData, currentYearIndex) {
         .text(d => d.year)
         .style("cursor", "pointer")
         .on("click", function (event, d) {
-            highlightYear(svg, summitData, d.year, currentYearIndex);  // Highlight the clicked year
+            //highlightItem(svg, summitData, d.year, currentYearIndex);  // Highlight the clicked year
+            console.log('D on clicked year is', d)
+            highlightClickedItem(svg, d);
         });
     yearTextGroup.exit().remove();  // Remove any excess year labels
 
@@ -164,20 +173,41 @@ export function drawTimeline(svg, summitData, currentYearIndex) {
     d3.select(".down-button").style("visibility", currentYearIndex + maxYearsToShow >= summitData.length ? "hidden" : "visible");
 }
 
-export function highlightYear(svg, summitData, currentYearIndex) {
-    // Remove highlight from all circles and text
-    svg.selectAll('circle').attr('r', 5).attr('fill', 'gray');  // Reset all circles to default size and color
-    svg.selectAll('text.year').style('font-weight', 'normal').style('fill', 'black');  // Reset year text
-    // Find the circle and text for the year to highlight
-    const currentYearData = summitData[currentYearIndex];  // Get the current year data using the index
+export function highlightItem(svg, summitData, currentYearIndex) {
+   // Reset the style of all circles and texts to default (gray)
+   svg.selectAll("circle").attr("fill", "gray");
+   svg.selectAll("text.year").style("fill", "black");
+   svg.selectAll("text.country").style("fill", "gray");
+
+   const currentYearData = summitData[currentYearIndex];  // Get the current year data using the index
     if (currentYearData || (currentYearData && currentYearData.year <= 2024)) {
         // If currentYearData exists, filter the circles based on the current year
         const circles = svg.selectAll('circle').filter(d => d.year === currentYearData.year);
-        const texts = svg.selectAll('text.year').filter(d => d.year === currentYearData.year);
-        circles.attr('r', 10).attr('fill', 'orange');  // Highlighted circle
-        texts.style('font-weight', 'bold').style('fill', 'orange');
-    }
+        const textYear = svg.selectAll('text.year').filter(d => d.year === currentYearData.year);
+        const countries = svg.selectAll("text.country").filter(d => d.year === currentYearData.year).style("fill", "orange");
 
+        circles.attr('r', 10).attr('fill', 'orange');  // Highlighted circle
+        textYear.style('font-weight', 'bold').style('fill', 'orange');
+        countries.style('font-weight', 'bold').style('fill', 'orange');
+    }
+}
+
+function highlightClickedItem(svg, clickedData) {
+    svg.selectAll("circle").attr("fill", "gray").attr('r', 5);  // Reset all circles
+    svg.selectAll("text.year").style("fill", "black").style("font-weight", "normal");  // Reset year text
+    svg.selectAll("text.country").style("fill", "gray").style("font-weight", "normal");  // Reset country text
+ 
+    console.log('Clicked data is', clickedData)
+    //const clickedYearData = summitData[clickedYear];  // Get the current year data using the index
+
+    // Highlight the clicked item
+    const circles = svg.selectAll('circle').filter(d => d.year === clickedData.year);
+    const textYear = svg.selectAll('text.year').filter(d => d.year === clickedData.year);
+    const countries = svg.selectAll('text.country').filter(d => d.year === clickedData.year);
+ 
+    circles.attr('r', 10).attr('fill', 'orange');  // Highlight circle
+    textYear.style('font-weight', 'bold').style('fill', 'orange');  // Highlight year text
+    countries.style('font-weight', 'bold').style('fill', 'orange');  // Highlight country text
 }
 
 export function initMobileTimelineSVG() {

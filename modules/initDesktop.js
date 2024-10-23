@@ -1,4 +1,4 @@
-import { initDesktopTimelineSVG, generateTimeline, drawTimeline, highlightYear, appendArrows } from "./timelineUtils.js";
+import { initDesktopTimelineSVG, generateTimeline, drawTimeline, highlightItem, appendArrows } from "./timelineUtils.js";
 import { maxYearsToShow } from "./globals.js";
 import { drawMap } from "./mapUtils.js";
 
@@ -62,7 +62,7 @@ function startTimelineAutoAdvance(svg, jsonData, currentYearIndex, highlightInde
 
     intervalId = setInterval(() => {
         const displayedYears = jsonData.slice(currentYearIndex, currentYearIndex + maxYearsToShow);  // Get the set of 5 years
-        highlightYear(svg, displayedYears, highlightIndex);
+        highlightItem(svg, displayedYears, highlightIndex);
         // Move to the next year to highlight within the same set
         highlightIndex++;
         // Once all 5 years are highlighted, move to the next set of 5 years
