@@ -18,17 +18,6 @@ body {
     letter-spacing: -1px; */
 }
 
-.timeline-container {
-    justify-content: space-between;
-    margin-top: 20px;
-}
-
-.timeline-year {
-    padding: 10px;
-    font-size: 16px;
-    transition: color 0.3s, font-weight 0.3s;
-}
-
 .container-xl.main-container {
     overflow: hidden; /* Prevent scrolling */
 }
