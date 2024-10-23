@@ -12,7 +12,7 @@ function playTimeline(svg, summitData, containerHeight, containerWidth) {
     // Play/Pause button
     const playPauseBtn = document.getElementById('playButtonDesktop');
     function startPlaying() {
-        currentYearIndex = 0;  // Always start from the first year
+        //currentYearIndex = 0;  // Always start from the first year
         //highlightIndex = 0;
         intervalId = setInterval(() => {
             drawTimeline(svg, summitData, currentYearIndex, containerHeight, containerWidth, maxYearsToShow);
@@ -42,10 +42,12 @@ function playTimeline(svg, summitData, containerHeight, containerWidth) {
                 isPlaying = false;
             }
         }, 200);  // Adjust timing as needed
+        console.log('Interval ID PLAY', intervalId)
     }
     // Play/Pause button logic
     playPauseBtn.addEventListener('click', function () {
         if (isPlaying) {
+            console.log('Interval ID PAUSE', intervalId)
             clearInterval(intervalId);  // Pause timeline
             playPauseBtn.innerHTML = '<img src="/src/img/play.svg" class="play-med img-fluid" alt="Play button">';  // Reset button to Play
             isPlaying = false;
@@ -55,7 +57,6 @@ function playTimeline(svg, summitData, containerHeight, containerWidth) {
             startPlaying();
         }
     });
-
     // Restart button
     const restartBtn = document.getElementById('restartButtonDesktop');
     restartBtn.addEventListener('click', function() {
