@@ -7,11 +7,11 @@ async function main() {
     try {
         // Load and merge data
         const { geojsonData, summitMap, jsonData, summitsByCountryMap } = await loadAndMergeData(geojsonUrl, jsonPath);
-        let summitCounter = new Map();
+        //let summitCounter = new Map();
         // Detect screen size and initialize appropriate timeline
         if (window.innerWidth >= 768) {
             // Desktop version
-            initDesktopTimeline(geojsonData, jsonData /*, summitMap, jsonData, summitsByCountryMap, summitCounter*/);
+            initDesktopTimeline(geojsonData, jsonData, summitMap, summitsByCountryMap /*, jsonData, summitsByCountryMap, summitCounter*/);
         } else {
             // Mobile version
             initMobileTimeline(geojsonData, jsonData /*,  summitMap, jsonData, summitsByCountryMap, summitCounter*/);

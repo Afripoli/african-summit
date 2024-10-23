@@ -20,7 +20,7 @@ export function drawMap(geojson) {
 }
 
 function updateSummitCounter(summitMap, currentYear, summitCounter) {
-    console.log('Summit map has current year', summitMap)
+    //console.log('Summit map has current year', summitMap)
     summitMap[currentYear].forEach(country => {
         console.log('Country in summit map', country);
         summitCounter.set(country, (summitCounter.get(country) || 0) + 1);
@@ -62,7 +62,7 @@ export function updateMap(geojsonData, summitMap, currentYear, summitsByCountryM
 
 // select host country
 function colorHostCountry(svg, hostCountry) {
-    console.log('Coloring host country', hostCountry)
+    //console.log('Coloring host country', hostCountry)
     svg.selectAll("path")
         .attr("fill", d => (hostCountry.includes(d.properties.name)) ? "#fec03c" : "#fff")
         .attr("stroke", d => (hostCountry.includes(d.properties.name)) ? "#ff5733" : "#46474c")

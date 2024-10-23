@@ -4,8 +4,8 @@ import { hostCountry, maxYearsToShow } from './globals.js';
 export function initDesktopTimelineSVG() {
     const svg = d3.select("#desktop-timeline")
         .append("svg")
-        .attr("width", "80%") // Readjust when BS columns are responsive
-        .attr("height", "70%");
+        .attr("width", "100%") // Readjust when BS columns are responsive
+        .attr("height", "600px");
     return svg;
 }
 
@@ -71,12 +71,13 @@ function updateTimeline(direction, svg, summitData, currentYearIndex) {
 
 }
 export function drawTimeline(svg, summitData, currentYearIndex) {
-    console.log('Current year index after update', currentYearIndex)
-    console.log('Summit data in draw function is', summitData)
+    //console.log('Current year index after update', currentYearIndex)
+    //console.log('Summit data in draw function is', summitData)
     const containerHeight = document.getElementById("desktop-timeline").offsetHeight;
     const containerWidth = document.getElementById("desktop-timeline").offsetWidth;
     const displayedYears = summitData.slice(currentYearIndex, currentYearIndex + maxYearsToShow);  // Get the current set of years
-    const circleSpacing = containerHeight / (maxYearsToShow);
+    console.log('Displaying on timeline the years: ', displayedYears)
+    const circleSpacing = containerHeight / (maxYearsToShow + 1);
     const circleGroup = svg.selectAll("circle")
         .data(displayedYears, d => d.year);
     circleGroup.enter()
@@ -137,7 +138,7 @@ export function drawTimeline(svg, summitData, currentYearIndex) {
             }
         });
     countryTextGroup.exit().remove();  // Remove any excess country labels
-    console.log('Displayed year in timeline util', displayedYears)
+    //console.log('Displayed year in timeline util', displayedYears)
     // Bind the line data and render connecting vertical lines between circles
     const lineGroup = svg.selectAll("line")
         .data(displayedYears.slice(1));
@@ -158,17 +159,20 @@ export function drawTimeline(svg, summitData, currentYearIndex) {
 
 export function highlightItem(svg, summitData, highlightIndex, currentYearIndex) {
     const displayedYears = summitData.slice(currentYearIndex, currentYearIndex + maxYearsToShow);  // Get the current set of years
-   // Reset the style of all circles and texts to default (gray)
+    // console.log('Input years for HighlightItem function', displayedYears)
+    // Reset the style of all circles and texts to default (gray)
    svg.selectAll("circle").attr("fill", "gray");
    svg.selectAll("text.year").style("fill", "black");
    svg.selectAll("text.country").style("fill", "gray");
 
    const currentYearData = displayedYears[highlightIndex];  // Get the current year data using the index
-    if (currentYearData || (currentYearData && currentYearData.year <= 2024)) {
+   console.log('Highlighting the Year:', currentYearData.year)
+    if (currentYearData || (currentYearData && currentYearData.year <= displayedYears[-1].year)) { // If the data of the current year is less or equal than last obs of displayed years array 
         // If currentYearData exists, filter the circles based on the current year
         const circles = svg.selectAll('circle').filter(d => d.year === currentYearData.year);
         const textYear = svg.selectAll('text.year').filter(d => d.year === currentYearData.year);
-        const countries = svg.selectAll("text.country").filter(d => d.year === currentYearData.year).style("fill", "orange");
+        const countries = svg.selectAll("text.country").filter(d => d.year === currentYearData.year);
+        console.log('Circles:', circles, 'TextYear:', textYear, 'Countries:', countries);
 
         circles.attr('r', 10).attr('fill', 'orange');  // Highlighted circle
         textYear.style('font-weight', 'bold').style('fill', 'orange');
