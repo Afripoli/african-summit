@@ -1,15 +1,11 @@
 import { updateMap, borderHostCountry } from "./mapUtils.js";
 import { hostCountry, maxYearsToShow } from './globals.js';
 
-// Initial states
-let timelineRunning = false;
-//let currentYearIndex = 0;
-
 export function initDesktopTimelineSVG() {
     const svg = d3.select("#desktop-timeline")
         .append("svg")
-        .attr("width", "100%")
-        .attr("height", "100%");
+        .attr("width", "80%") // Readjust when BS columns are responsive
+        .attr("height", "70%");
     return svg;
 }
 
@@ -19,19 +15,7 @@ export function generateTimeline(svg, summitData, currentYearIndex) {
     console.log('Summit data is', summitData) // we need to extract year
     // Display the first 5 years by default
     drawTimeline(svg, summitData, currentYearIndex, containerHeight, containerWidth);
-    // Append arrows for timeline navigation
-    //appendArrows(svg, summitData, containerHeight, containerWidth);
 }
-
-// export function startTimeline(svg, summitData) {
-//     const containerHeight = document.getElementById("desktop-timeline").offsetHeight;
-//     const containerWidth = document.getElementById("desktop-timeline").offsetWidth;
-//     if (!timelineRunning) {
-//         timelineRunning = true;
-//         // Call the updateTimeline function to handle automatic navigation
-//         updateTimeline(1, svg, summitData, currentYearIndex, containerHeight, containerWidth);
-//     }
-// }
 function clickingArrow(upArrowDiv, downArrowDiv, svg, summitData, currentYearIndex) {
     const maxYearsToShow = 5;
     upArrowDiv.addEventListener("click", () => {
@@ -93,7 +77,6 @@ export function drawTimeline(svg, summitData, currentYearIndex) {
     const containerWidth = document.getElementById("desktop-timeline").offsetWidth;
     const displayedYears = summitData.slice(currentYearIndex, currentYearIndex + maxYearsToShow);  // Get the current set of years
     const circleSpacing = containerHeight / (maxYearsToShow);
-    // Bind the circle data and render circles
     const circleGroup = svg.selectAll("circle")
         .data(displayedYears, d => d.year);
     circleGroup.enter()
@@ -173,13 +156,14 @@ export function drawTimeline(svg, summitData, currentYearIndex) {
     d3.select(".down-button").style("visibility", currentYearIndex + maxYearsToShow >= summitData.length ? "hidden" : "visible");
 }
 
-export function highlightItem(svg, summitData, currentYearIndex) {
+export function highlightItem(svg, summitData, highlightIndex, currentYearIndex) {
+    const displayedYears = summitData.slice(currentYearIndex, currentYearIndex + maxYearsToShow);  // Get the current set of years
    // Reset the style of all circles and texts to default (gray)
    svg.selectAll("circle").attr("fill", "gray");
    svg.selectAll("text.year").style("fill", "black");
    svg.selectAll("text.country").style("fill", "gray");
 
-   const currentYearData = summitData[currentYearIndex];  // Get the current year data using the index
+   const currentYearData = displayedYears[highlightIndex];  // Get the current year data using the index
     if (currentYearData || (currentYearData && currentYearData.year <= 2024)) {
         // If currentYearData exists, filter the circles based on the current year
         const circles = svg.selectAll('circle').filter(d => d.year === currentYearData.year);
@@ -196,10 +180,7 @@ function highlightClickedItem(svg, clickedData) {
     svg.selectAll("circle").attr("fill", "gray").attr('r', 5);  // Reset all circles
     svg.selectAll("text.year").style("fill", "black").style("font-weight", "normal");  // Reset year text
     svg.selectAll("text.country").style("fill", "gray").style("font-weight", "normal");  // Reset country text
- 
     console.log('Clicked data is', clickedData)
-    //const clickedYearData = summitData[clickedYear];  // Get the current year data using the index
-
     // Highlight the clicked item
     const circles = svg.selectAll('circle').filter(d => d.year === clickedData.year);
     const textYear = svg.selectAll('text.year').filter(d => d.year === clickedData.year);
