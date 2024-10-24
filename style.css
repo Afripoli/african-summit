@@ -54,3 +54,6 @@ body {
     color: #000;
 }
 
+.img-fluid.country-flag {
+    width: 50px;
+}

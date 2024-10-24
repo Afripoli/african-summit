@@ -1,3 +1,5 @@
+import { flagSrc } from './globals.js';
+
 export function getSummitsforCountry(summitsByCountryMap, country) {
     console.log('JSON data in getsummit function', summitsByCountryMap)
     let summitsCountry;
@@ -5,21 +7,29 @@ export function getSummitsforCountry(summitsByCountryMap, country) {
         let summitDetails = summitsByCountryMap.get(country);
         summitsCountry = summitDetails;
     }
-    return summitsCountry
+    return summitsCountry;
 }
 
 export function displaySummitsCountry(country, summitsCountry) {
-    console.log('summits country', summitsCountry);
+    const filterFlag = flagSrc.filter(item => item.country === country);
+    const flagCountry = filterFlag[0].img["img-src"];
+    console.log('summits country reversed', summitsCountry.reverse);
     console.log('Number of summits', summitsCountry.length)
     const noSummits = summitsCountry.length;
     const summitListContainer = document.getElementById('summitList');
     console.log('Summit list container', summitListContainer);
     const hostCountry = document.getElementById('summitCountry');
-    hostCountry.innerHTML = `${country} <img src="/src/img/play.svg" class="play-med" alt="Play button">`
+    country = country.toUpperCase();
+    hostCountry.innerHTML = `<img src="/src/img/country-flags-main/png100px/${flagCountry}" class="img-fluid country-flag" alt="Pause button"> ${country}`;
     const totalSummits = document.getElementById('total-summit');
     totalSummits.innerHTML = `Total summits hosted: <b>${noSummits}</b>`
+    const listSummit = document.getElementById('intro-list-summit');
+    listSummit.innerHTML = 'List of summits';
+    const listOrder = document.getElementById('list-order');
+    listOrder.innerHTML = '(from most to least recent)'
     summitListContainer.innerHTML = '';
-    summitsCountry.forEach(summit => {
+    summitListContainer.append
+    summitsCountry.reverse().forEach(summit => {
         console.log('Item summit', summit);
         const listItem = document.createElement('li');
         listItem.innerHTML = `
