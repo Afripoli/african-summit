@@ -16,8 +16,8 @@ function playTimeline(svg, summitData, geojsonData, summitMap, summitsByCountryM
         clearInterval(intervalId);
         intervalId = setInterval(() => {
             console.log('Start playing function: Current year input', currentYearIndex, 'Highlight year input', highlightIndex)
-
-            //console.log('Summit data', summitData);
+            console.log('Summit data', summitData);
+            console.log('General counter', generalCounter);
             const currentYearData = summitData[generalCounter];
             const hostCountry = currentYearData.summits.map(summit => summit.country);
             const currentYear = currentYearData.year;
@@ -81,6 +81,7 @@ function playTimeline(svg, summitData, geojsonData, summitMap, summitsByCountryM
         clearInterval(intervalId);
         currentYearIndex = 0;
         highlightIndex = 0;
+        generalCounter = 0;
         resetSummitCounter();
 
         // 1. Redraw the timeline from the first year
@@ -111,18 +112,20 @@ function arrowsClickListener(svg, summitData, currentYearIndex) {
     // if (currentYearIndex === summitData.length || currentYearIndex == 0) {
     //     return;
     // }
+    let currentYearafterUpdate;
+    let displayedYears;
     const upArrowDiv = document.querySelector('.up-arrow');
     upArrowDiv.addEventListener("click", () => {
         console.log('Clicking Up arrow');
         currentYearIndex = currentYearIndex - maxYearsToShow;
         //console.log('Current year index after clicking up arrow', currentYearIndex)
         updateTimelineUp(-maxYearsToShow, svg, summitData, currentYearIndex);
-        let currentYearafterUpdate = updateTimelineUp(-maxYearsToShow, svg, summitData, currentYearIndex).currentYearIndex;
-        let displayedYears = updateTimelineUp(-maxYearsToShow, svg, summitData, currentYearIndex).displayedYears;
+        currentYearafterUpdate = updateTimelineUp(-maxYearsToShow, svg, summitData, currentYearIndex).currentYearIndex;
+        displayedYears = updateTimelineUp(-maxYearsToShow, svg, summitData, currentYearIndex).displayedYears;
         console.log('Current Year after Update', currentYearafterUpdate);
         if (currentYearafterUpdate < maxYearsToShow) {
-            upArrowDiv.classList.add('disabled');  
-            upArrowDiv.style.cursor = 'not-allowed'; 
+            upArrowDiv.classList.add('disabled');
+            upArrowDiv.style.cursor = 'not-allowed';
         } else {
             console.log('Drawing timeline')
             drawTimeline(svg, summitData, currentYearafterUpdate, displayedYears)
@@ -131,7 +134,20 @@ function arrowsClickListener(svg, summitData, currentYearIndex) {
     const downArrowDiv = document.querySelector('.down-arrow');
     downArrowDiv.addEventListener("click", () => {
         console.log('Clicking Down Arrow');
+        console.log('Checking whether updated years index passed', currentYearafterUpdate);
+        currentYearIndex = currentYearIndex + maxYearsToShow;
         updateTimelineDown(maxYearsToShow, svg, summitData, currentYearIndex);
+        currentYearafterUpdate = updateTimelineDown(maxYearsToShow, svg, summitData, currentYearIndex).currentYearIndex;
+        displayedYears = updateTimelineDown(maxYearsToShow, svg, summitData, currentYearIndex).displayedYears;
+        console.log('Current year after clicking down arrow', currentYearafterUpdate);
+        console.log('Years to display after clicking down arrow', displayedYears)
+        if (currentYearafterUpdate >= summitData.length) {
+            downArrowDiv.classList.add('disabled');
+            downArrowDiv.style.cursor = 'not-allowed';
+        } else {
+            console.log('Drawing timeline')
+            drawTimeline(svg, summitData, currentYearafterUpdate, displayedYears);
+        }
     });
 }
 

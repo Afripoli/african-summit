@@ -70,9 +70,11 @@ export function updateTimelineUp(direction, svg, summitData, currentYearIndex) {
 // Updates timeline when Down arrow is clicked since function above does not work for this case
 export function updateTimelineDown(direction, svg, summitData, currentYearIndex) { 
     console.log('Current year index input', currentYearIndex);
-    let currentYearIndexMin = currentYearIndex - direction;
-    const displayedYears = summitData.slice(currentYearIndexMin, currentYearIndex);  // Get the current set of years
-    drawTimeline(svg, summitData, currentYearIndex, displayedYears);
+    let currentYearIndexMax = currentYearIndex + direction;
+    const displayedYears = summitData.slice(currentYearIndex, currentYearIndexMax);  // Get the current set of years
+    //drawTimeline(svg, summitData, currentYearIndex, displayedYears);
+
+    return { currentYearIndex, displayedYears }
 }
 
 export function drawTimeline(svg, summitData, currentYearIndex, displayedYears) {
