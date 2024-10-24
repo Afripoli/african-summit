@@ -57,3 +57,8 @@ body {
 .img-fluid.country-flag {
     width: 50px;
 }
+
+.col-lg-3.pb-3.col-summits-info {
+    height: 700px;
+    overflow-y: auto;
+}
