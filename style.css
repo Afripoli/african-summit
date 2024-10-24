@@ -31,15 +31,14 @@ body {
 }
 .arrow-container {
     position: absolute;
-    width: 100%;
-    text-align: center;
+    width: 215px;
     cursor: pointer;
     z-index: 10; /* Make sure arrows are on top of the SVG */
 }
 
 .up-arrow {
     top: 300px;  /* Position at the top */
-    right: 200px
+    /* right: 0px; */
 }
 
 .down-arrow {

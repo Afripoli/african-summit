@@ -15,7 +15,9 @@ export function displaySummitsCountry(country, summitsCountry) {
     const summitListContainer = document.getElementById('summitList');
     console.log('Summit list container', summitListContainer);
     const hostCountry = document.getElementById('summitCountry');
-    hostCountry.innerHTML = `<b>${noSummits}</b> Summits hosted by ${country}`
+    hostCountry.innerHTML = `${country} <img src="/src/img/play.svg" class="play-med" alt="Play button">`
+    const totalSummits = document.getElementById('total-summit');
+    totalSummits.innerHTML = `Total summits hosted: <b>${noSummits}</b>`
     summitListContainer.innerHTML = '';
     summitsCountry.forEach(summit => {
         console.log('Item summit', summit);

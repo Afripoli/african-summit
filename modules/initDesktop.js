@@ -1,4 +1,4 @@
-import { initDesktopTimelineSVG, generateTimeline, drawTimeline, highlightItem, appendUpArrow, appendDownArrow, updateTimelineUp, updateTimelineDown } from "./timelineUtils.js";
+import { initDesktopTimelineSVG, generateTimeline, drawTimeline, highlightItem, appendUpArrow, appendDownArrow, updateTimelineUp, updateTimelineDown, highlightClickedItem } from "./timelineUtils.js";
 import { maxYearsToShow } from "./globals.js";
 import { drawMap, updateMap } from "./mapUtils.js";
 
@@ -65,6 +65,7 @@ function playTimeline(svg, summitData, geojsonData, summitMap, summitsByCountryM
                 console.log('Restarting timeline from the beginning.');
                 currentYearIndex = 0;  // Reset the index
                 highlightIndex = 0;
+                generalCounter = 0;
                 timelineEnded = false;  // Reset the flag
             }
             // Resume from the saved current year and highlight index
@@ -141,7 +142,7 @@ function arrowsClickListener(svg, summitData, currentYearIndex) {
         displayedYears = updateTimelineDown(maxYearsToShow, svg, summitData, currentYearIndex).displayedYears;
         console.log('Current year after clicking down arrow', currentYearafterUpdate);
         console.log('Years to display after clicking down arrow', displayedYears)
-        if (currentYearafterUpdate >= summitData.length) {
+        if (currentYearafterUpdate > summitData.length) {
             downArrowDiv.classList.add('disabled');
             downArrowDiv.style.cursor = 'not-allowed';
         } else {
@@ -159,21 +160,19 @@ function timelineFinished(svg, summitData, currentYearIndex) {
     timelineEnded = true;  // Set the flag to true when the timeline ends
     addTimelineItemClickListeners(svg);
     arrowsClickListener(svg, summitData, currentYearIndex);
+    //highlightClickedItem(svg, clickedData)
 }
 function resetSummitCounter() {
     summitCounter.clear();
 }
 
 export function initDesktopTimeline(geojsonData, summitData, summitMap, summitCounter, summitsByCountryMap) {
-    const containerHeight = document.getElementById("desktop-timeline").offsetHeight;
-    const containerWidth = document.getElementById("desktop-timeline").offsetWidth;
     const svg = initDesktopTimelineSVG();  // Initialize the timeline SVG
     // Initially display the first 5 years
-    //drawTimeline(svg, summitData, currentYearIndex, containerHeight, containerWidth, maxYearsToShow);
     let displayedYears = summitData.slice(currentYearIndex, currentYearIndex + maxYearsToShow)
     console.log('Displaying years by default', displayedYears)
     generateTimeline(svg, summitData, currentYearIndex, displayedYears);
     drawMap(geojsonData);
     // Initialize play/pause functionality
-    playTimeline(svg, summitData, geojsonData, summitMap, summitsByCountryMap, summitCounter, summitsByCountryMap);
+    playTimeline(svg, summitData, geojsonData, summitMap, summitCounter, summitsByCountryMap);
 }

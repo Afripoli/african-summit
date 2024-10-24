@@ -31,9 +31,11 @@ export function appendUpArrow() {
     const upArrowDiv = document.createElement("div");
     upArrowDiv.classList.add("arrow-container", "up-arrow");
     upArrowDiv.innerHTML = '<i class="fas fa-chevron-up"></i>';
+    //upArrowDiv.style.left = `100px`;
+    upArrowDiv.style.textAlign = 'center';
     upArrowDiv.style.position = "absolute";
-    upArrowDiv.style.left = `${(containerWidth / 2) - 20}px`; // Center above the timeline
-    upArrowDiv.style.top = "20px";
+    //upArrowDiv.style.left = `${(containerWidth / 2)}px`; // Center above the timeline
+    // upArrowDiv.style.top = "20px";
     document.getElementById("desktop-timeline").appendChild(upArrowDiv);
 } 
 
@@ -44,8 +46,11 @@ export function appendDownArrow(svg, summitData, currentYearIndex) {
     downArrowDiv.classList.add("arrow-container", "down-arrow");
     downArrowDiv.innerHTML = '<i class="fas fa-chevron-down"></i>';
     downArrowDiv.style.position = "absolute";
-    downArrowDiv.style.left = `${(containerWidth / 2) - 20}px`; // Center below the timeline
-    downArrowDiv.style.top = `${containerHeight - 40}px`;
+    //downArrowDiv.style.left = `${(containerWidth / 2) - 20}px`; // Center below the timeline
+    //downArrowDiv.style.left = `100px`; // Center below the timeline
+    //downArrowDiv.style.top = `${containerHeight - 40}px`;
+    downArrowDiv.style.top = `900px`;
+    downArrowDiv.style.textAlign = 'center';
     document.getElementById("desktop-timeline").appendChild(downArrowDiv);
 }
 
@@ -98,6 +103,7 @@ export function drawTimeline(svg, summitData, currentYearIndex, displayedYears) 
         .style("cursor", "pointer")
         .on("click", function (event, d) {
             const yearData = summitData.find(summit => summit.year === d.year);  // Get data for clicked year
+            console.log('Data for the clicked year', yearData);
             const hostCountries = yearData.summits.map(summit => summit.country);
             console.log('Host country clicked', hostCountries)
             highlightClickedItem(svg, d);
@@ -120,6 +126,7 @@ export function drawTimeline(svg, summitData, currentYearIndex, displayedYears) 
         .style("cursor", "pointer")
         .on("click", function (event, d) {
             const yearData = summitData.find(summit => summit.year === d.year);  // Get data for clicked year
+            console.log('Data for the clicked year', yearData);
             const hostCountries = yearData.summits.map(summit => summit.country);
             console.log('Host country clicked', hostCountries)
             highlightClickedItem(svg, d);
@@ -140,6 +147,7 @@ export function drawTimeline(svg, summitData, currentYearIndex, displayedYears) 
         .style("fill", "gray")
         .on("click", function (event, d) {
             const yearData = summitData.find(summit => summit.year === d.year);  // Get data for clicked year
+            console.log('Data for the clicked year', yearData);
             const hostCountries = yearData.summits.map(summit => summit.country);
             console.log('Host country clicked', hostCountries)
             highlightClickedItem(svg, d);
