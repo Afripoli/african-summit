@@ -32,12 +32,22 @@ export function displaySummitsCountry(country, summitsCountry) {
     summitsCountry.reverse().forEach(summit => {
         console.log('Item summit', summit);
         const listItem = document.createElement('li');
+        let titleContent = summit.title ? `<i>${summit.title}</i>` : `${summit.summitNo} Summit <sup>*</sup> <spr>`;
+        let dateContent = summit.date ? `<strong class="mb-0"><img src="src/img/calendar.svg" class="img-fluid calendar"> </strong> ${summit.date}<br>` : '';
+        let placeContent = summit.place ? `<strong class="mb-0"><img src="src/img/map-pin.svg" class="img-fluid location"> </strong> ${summit.place}<br>` : '';
         listItem.innerHTML = `
-            <strong>Date:</strong> ${summit.date}<br>
-            <strong>Place:</strong> ${summit.place}<br>
-            <strong>Title:</strong> ${summit.title}<br>
-            <strong>Summit No:</strong> ${summit.summitNo}<br><br>
+            <h5 class="mb-0 mt-4"><span class="badge bg-secondary">${summit.summitNo}</span>  ${titleContent}</h5>
+            ${dateContent}
+            ${placeContent}
         `;
         summitListContainer.appendChild(listItem);
+        // Add a footnote if title is empty and it's not already added
+        if (!summit.title) {
+            const footnote = document.createElement('p');
+            footnote.innerHTML = `<sup>*</sup> Summit number only, no title found.`;
+            footnote.classList.add('fs-6', 'mt-3');  // Optionally, add a class for styling
+            summitListContainer.appendChild(footnote);
+            footnoteAdded = true;  // Ensure footnote is only added once
+        }
     })
 }

@@ -12,19 +12,7 @@ export function initDesktopTimelineSVG() {
 export function generateTimeline(svg, summitData, currentYearIndex, displayedYears) {
     drawTimeline(svg, summitData, currentYearIndex, displayedYears);
 }
-/*
-export function clickingArrow(upArrowDiv, downArrowDiv, svg, summitData, currentYearIndex) {
-    const maxYearsToShow = 5;
-    upArrowDiv.addEventListener("click", () => {
-        console.log('Clicking Up arrow')
-        updateTimeline(-maxYearsToShow, svg, summitData, currentYearIndex);
-    });  // Move up
-    downArrowDiv.addEventListener("click", () => {
-        console.log('Clicking Down Arrow')
-        updateTimeline(maxYearsToShow, svg, summitData, currentYearIndex);
-    });
-}
-*/
+
 export function appendUpArrow() {
     const containerHeight = document.getElementById("desktop-timeline").offsetHeight;
     const containerWidth = document.getElementById("desktop-timeline").offsetWidth;

@@ -11,6 +11,7 @@ let summitCounter = new Map();
 let generalCounter = 0; // saves a counter for each loop. We'll use it for the map
 
 function playTimeline(svg, summitData, geojsonData, summitMap, summitsByCountryMap) {
+    generalCounter = 0
     //console.log('Function PLAYTIMELINE ACTIVATED')
     function startPlaying(currentYearIndex, highlightIndex) {
         clearInterval(intervalId);
@@ -84,10 +85,6 @@ function playTimeline(svg, summitData, geojsonData, summitMap, summitsByCountryM
         highlightIndex = 0;
         generalCounter = 0;
         resetSummitCounter();
-
-        // 1. Redraw the timeline from the first year
-        //drawTimeline(svg, summitData, currentYearIndex, containerHeight, containerWidth); 
-        // 2. Check if it's already playing
         if (isPlaying) {
             console.log('Interval ID PAUSE', intervalId);
             clearInterval(intervalId);  // Pause the timeline if already playing
