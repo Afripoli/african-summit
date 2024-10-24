@@ -21,8 +21,10 @@ const mapStyle = {
 };
 // Timeline 
 const timelineStyle = {
-    "defaultItem": "#cccccc",
-    "highlightItem": "#000000"
+    "defaultItem": "#000000",
+    "highlightItem": "#ffbf3b",
+    "borderItem": "#000000",
+    "borderWidthItem": 2
 }
 
 // Country flags
@@ -108,4 +110,4 @@ let svg = d3.select("#map")
     .attr("viewBox", `0 0 ${width} ${height}`)
     .attr("preserveAspectRatio", "xMidYMid meet");
 
-export { jsonPath, geojsonUrl, width, height, svg, scale, center, translation, maxYearsToShow, hostCountry, flagSrc, mapStyle }
+export { jsonPath, geojsonUrl, width, height, svg, scale, center, translation, maxYearsToShow, hostCountry, flagSrc, mapStyle, timelineStyle }

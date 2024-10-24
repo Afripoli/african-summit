@@ -46,7 +46,7 @@ function playTimeline(svg, summitData, geojsonData, summitMap, summitsByCountryM
             }
             if (currentYearIndex >= summitData.length) {
                 clearInterval(intervalId);  // Stop at the end of the timeline
-                playPauseBtn.innerHTML = '<img src="/src/img/play.svg" class="play-med img-fluid" alt="Play button">';  // Reset button to Play
+                playPauseBtn.innerHTML = '<img src="/src/img/play-white.svg" class="play-med img-fluid" alt="Play button">';  // Reset button to Play
                 isPlaying = false;
             }
             console.log('Checking if values save correctly', currentYearIndex, highlightIndex)
@@ -59,7 +59,7 @@ function playTimeline(svg, summitData, geojsonData, summitMap, summitsByCountryM
         if (isPlaying) { // Check if is playing because we want to PAUSE
             clearInterval(intervalId);  // Pause timeline
             console.log('Pausing at Current Year Index:', currentYearIndex, 'Highlight Index:', highlightIndex);
-            playPauseBtn.innerHTML = '<img src="/src/img/play.svg" class="play-med img-fluid" alt="Play button">';  // Reset button to Play
+            playPauseBtn.innerHTML = '<img src="/src/img/play-white.svg" class="play-med img-fluid" alt="Play button">';  // Reset button to Play
             isPlaying = false;
         } else { // IF TIMELINE IS NOT PLAYING
             if (timelineEnded) { // If the timeline has ended, restart from the beginning
@@ -72,7 +72,7 @@ function playTimeline(svg, summitData, geojsonData, summitMap, summitsByCountryM
             // Resume from the saved current year and highlight index
             startPlaying(currentYearIndex, highlightIndex);
             console.log('Resuming from Current Year Index:', currentYearIndex, 'Highlight Index:', highlightIndex);
-            playPauseBtn.innerHTML = '<img src="/src/img/pause.svg" class="play-med img-fluid" alt="Pause button">'; // Change to play icon
+            playPauseBtn.innerHTML = '<img src="/src/img/pause-white.svg" class="play-med img-fluid" alt="Pause button">'; // Change to play icon
             isPlaying = true;
             //startPlaying(currentYearIndex, highlightIndex);
         }
@@ -90,7 +90,7 @@ function playTimeline(svg, summitData, geojsonData, summitMap, summitsByCountryM
             clearInterval(intervalId);  // Pause the timeline if already playing
         }
         // 3. Change play button to pause button and restart timeline autoplay
-        playPauseBtn.innerHTML = '<img src="/src/img/pause.svg" class="play-med img-fluid" alt="Pause button">'; // Change to pause icon
+        playPauseBtn.innerHTML = '<img src="/src/img/pause-white.svg" class="play-med img-fluid" alt="Pause button">'; // Change to pause icon
         isPlaying = true; // Set to playing
         // 4. Restart the autoplay from the beginning
         startPlaying(currentYearIndex, highlightIndex); // This function should handle the timeline progression

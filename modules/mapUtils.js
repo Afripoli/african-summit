@@ -60,7 +60,7 @@ export function updateMap(geojsonData, summitMap, currentYear, summitsByCountryM
         .join("text")
         .attr("transform", d => {
             const centroid = path.centroid(d);
-            console.log('Centroid is', centroid)
+            //console.log('Centroid is', centroid)
             return `translate(${centroid})`
         })
         .attr("dy", ".25em")
@@ -98,8 +98,8 @@ export function borderHostCountry(svg, hostCountries) {
     //const hostCountry = yearData.summits.length > 0 ? yearData.summits[0].country : null; // Get the host country for that year
     console.log('Bordering host countries', hostCountries)
     d3.selectAll("path")
-        .attr("stroke", d => (hostCountries.includes(d.properties.name)) ? mapStyle.defaultBorder : mapStyle.borderHost)
-        .attr("stroke-width", d => (hostCountries.includes(d.properties.name)) ? 4 : mapStyle.borderWidthHost) // Thicker stroke for host countries
+        .attr("stroke", d => (hostCountries.includes(d.properties.name)) ? mapStyle.borderHost : mapStyle.defaultBorder)
+        .attr("stroke-width", d => (hostCountries.includes(d.properties.name)) ? 2.5 : mapStyle.defaultBorderWidth) // Thicker stroke for host countries
         .style("cursor", d => (hostCountries.includes(d.properties.name)) ? "pointer" : "default") // Change cursor for host countries
 }
 

@@ -1,5 +1,5 @@
 import { updateMap, borderHostCountry } from "./mapUtils.js";
-import { maxYearsToShow } from './globals.js';
+import { maxYearsToShow, timelineStyle } from './globals.js';
 
 export function initDesktopTimelineSVG() {
     const svg = d3.select("#desktop-timeline")
@@ -25,7 +25,7 @@ export function appendUpArrow() {
     //upArrowDiv.style.left = `${(containerWidth / 2)}px`; // Center above the timeline
     // upArrowDiv.style.top = "20px";
     document.getElementById("desktop-timeline").appendChild(upArrowDiv);
-} 
+}
 
 export function appendDownArrow(svg, summitData, currentYearIndex) {
     const containerHeight = document.getElementById("desktop-timeline").offsetHeight;
@@ -61,7 +61,7 @@ export function updateTimelineUp(direction, svg, summitData, currentYearIndex) {
 }
 
 // Updates timeline when Down arrow is clicked since function above does not work for this case
-export function updateTimelineDown(direction, svg, summitData, currentYearIndex) { 
+export function updateTimelineDown(direction, svg, summitData, currentYearIndex) {
     console.log('Current year index input', currentYearIndex);
     let currentYearIndexMax = currentYearIndex + direction;
     const displayedYears = summitData.slice(currentYearIndex, currentYearIndexMax);  // Get the current set of years
@@ -177,12 +177,12 @@ export function highlightItem(svg, summitData, highlightIndex, currentYearIndex)
     const displayedYears = summitData.slice(currentYearIndex, currentYearIndex + maxYearsToShow);  // Get the current set of years
     // console.log('Input years for HighlightItem function', displayedYears)
     // Reset the style of all circles and texts to default (gray)
-   svg.selectAll("circle").attr("fill", "gray");
-   svg.selectAll("text.year").style("fill", "black");
-   svg.selectAll("text.country").style("fill", "gray");
+    svg.selectAll("circle").attr("fill", "gray");
+    svg.selectAll("text.year").style("fill", "black");
+    svg.selectAll("text.country").style("fill", "gray");
 
-   const currentYearData = displayedYears[highlightIndex];  // Get the current year data using the index
-   //console.log('Highlighting the Year:', currentYearData.year)
+    const currentYearData = displayedYears[highlightIndex];  // Get the current year data using the index
+    //console.log('Highlighting the Year:', currentYearData.year)
     if (currentYearData || (currentYearData && currentYearData.year <= displayedYears[-1].year)) { // If the data of the current year is less or equal than last obs of displayed years array 
         // If currentYearData exists, filter the circles based on the current year
         const circles = svg.selectAll('circle').filter(d => d.year === currentYearData.year);
@@ -190,25 +190,28 @@ export function highlightItem(svg, summitData, highlightIndex, currentYearIndex)
         const countries = svg.selectAll("text.country").filter(d => d.year === currentYearData.year);
         console.log('Circles:', circles, 'TextYear:', textYear, 'Countries:', countries);
 
-        circles.attr('r', 10).attr('fill', 'orange');  // Highlighted circle
-        textYear.style('font-weight', 'bold').style('fill', 'orange');
-        countries.style('font-weight', 'bold').style('fill', 'orange');
+        circles.attr('r', 10).attr('fill', timelineStyle.highlightItem);  // Highlighted circle
+        textYear.style('font-weight', 'bold').style('fill', timelineStyle.highlightItem);
+        countries.style('font-weight', 'bold').style('fill', timelineStyle.highlightItem);
     }
 }
 
 export function highlightClickedItem(svg, clickedData) {
-    svg.selectAll("circle").attr("fill", "gray").attr('r', 5);  // Reset all circles
-    svg.selectAll("text.year").style("fill", "black").style("font-weight", "normal");  // Reset year text
-    svg.selectAll("text.country").style("fill", "gray").style("font-weight", "normal");  // Reset country text
+    svg.selectAll("circle").attr("fill", timelineStyle.defaultItem).attr('r', 5);  // Reset all circles
+    svg.selectAll("text.year").style("fill", timelineStyle.defaultItem).style("font-weight", "normal");  // Reset year text
+    svg.selectAll("text.country").style("fill", timelineStyle.defaultItem).style("font-weight", "normal");  // Reset country text
     console.log('Clicked data is', clickedData)
     // Highlight the clicked item
     const circles = svg.selectAll('circle').filter(d => d.year === clickedData.year);
     const textYear = svg.selectAll('text.year').filter(d => d.year === clickedData.year);
     const countries = svg.selectAll('text.country').filter(d => d.year === clickedData.year);
- 
-    circles.attr('r', 10).attr('fill', 'orange');  // Highlight circle
-    textYear.style('font-weight', 'bold').style('fill', 'orange');  // Highlight year text
-    countries.style('font-weight', 'bold').style('fill', 'orange');  // Highlight country text
+
+    circles.attr('r', 10)
+        .attr('fill', timelineStyle.highlightItem)
+        .attr('stroke', timelineStyle.borderItem) // Set stroke color
+        .attr('stroke-width', timelineStyle.borderWidthItem);
+    textYear.style('font-weight', 'bold').style('fill', timelineStyle.highlightItem);  // Highlight year text
+    countries.style('font-weight', 'bold').style('fill', timelineStyle.highlightItem);  // Highlight country text
 }
 
 export function initMobileTimelineSVG() {
