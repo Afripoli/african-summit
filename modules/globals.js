@@ -10,6 +10,22 @@ const center = [0, 0];
 const translation = [width / 2, height / 2];
 let hostCountry = [];
 const maxYearsToShow = 4;
+
+const mapStyle = { 
+    "defaultFill": "#f2f2f2",
+    "defaultBorder": "#cccccc",
+    "defaultBorderWidth": 0.15,
+    "borderHost": "#000000",
+    "fillHost": "#ffbf3b",
+    "borderWidthHost": 1
+};
+// Timeline 
+const timelineStyle = {
+    "defaultItem": "#cccccc",
+    "highlightItem": "#000000"
+}
+
+// Country flags
 const flagSrc = [
     {
         country: "France",
@@ -92,4 +108,4 @@ let svg = d3.select("#map")
     .attr("viewBox", `0 0 ${width} ${height}`)
     .attr("preserveAspectRatio", "xMidYMid meet");
 
-export { jsonPath, geojsonUrl, width, height, svg, scale, center, translation, maxYearsToShow, hostCountry, flagSrc }
+export { jsonPath, geojsonUrl, width, height, svg, scale, center, translation, maxYearsToShow, hostCountry, flagSrc, mapStyle }

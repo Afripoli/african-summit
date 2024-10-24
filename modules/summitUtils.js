@@ -22,21 +22,22 @@ export function displaySummitsCountry(country, summitsCountry) {
     country = country.toUpperCase();
     hostCountry.innerHTML = `<img src="/src/img/country-flags-main/png100px/${flagCountry}" class="img-fluid country-flag" alt="Pause button"> ${country}`;
     const totalSummits = document.getElementById('total-summit');
-    totalSummits.innerHTML = `Total summits hosted: <b>${noSummits}</b>`
+    totalSummits.innerHTML = `Total summits hosted: ${noSummits}`
+    totalSummits.classList.add('fw-bolder')
     const listSummit = document.getElementById('intro-list-summit');
     listSummit.innerHTML = 'List of summits';
+    listSummit.classList.add('fw-bolder', 'mb-0')
     const listOrder = document.getElementById('list-order');
     listOrder.innerHTML = '(from most to least recent)'
     summitListContainer.innerHTML = '';
     summitListContainer.append
     summitsCountry.reverse().forEach(summit => {
-        console.log('Item summit', summit);
         const listItem = document.createElement('li');
-        let titleContent = summit.title ? `<i>${summit.title}</i>` : `${summit.summitNo} Summit <sup>*</sup> <spr>`;
+        let titleContent = summit.title ? `${summit.title}` : `${summit.summitNo} Summit <sup>*</sup> <spr>`;
         let dateContent = summit.date ? `<strong class="mb-0"><img src="src/img/calendar.svg" class="img-fluid calendar"> </strong> ${summit.date}<br>` : '';
         let placeContent = summit.place ? `<strong class="mb-0"><img src="src/img/map-pin.svg" class="img-fluid location"> </strong> ${summit.place}<br>` : '';
         listItem.innerHTML = `
-            <h5 class="mb-0 mt-4"><span class="badge bg-secondary">${summit.summitNo}</span>  ${titleContent}</h5>
+            <h5 class="mb-0 mt-4 fw-normal"><span class="badge bg-dark">${summit.summitNo}</span>  ${titleContent}</h5>
             ${dateContent}
             ${placeContent}
         `;
@@ -47,7 +48,6 @@ export function displaySummitsCountry(country, summitsCountry) {
             footnote.innerHTML = `<sup>*</sup> Summit number only, no title found.`;
             footnote.classList.add('fs-6', 'mt-3');  // Optionally, add a class for styling
             summitListContainer.appendChild(footnote);
-            footnoteAdded = true;  // Ensure footnote is only added once
         }
     })
 }

@@ -1,4 +1,4 @@
-import { svg, center, translation, hostCountry } from "./globals.js"
+import { svg, center, translation, hostCountry, mapStyle } from "./globals.js"
 import { getSummitsforCountry, displaySummitsCountry } from "./summitUtils.js"
 
 let projection = d3.geoNaturalEarth1()
@@ -14,9 +14,9 @@ export function drawMap(geojson) {
         .enter()
         .append("path")
         .attr("d", path)
-        .attr("fill", "#fff")
-        .attr("stroke", "#46474c")
-        .attr("stroke-width", 0.15);
+        .attr("fill", mapStyle.defaultFill)
+        .attr("stroke", mapStyle.defaultBorder)
+        .attr("stroke-width", mapStyle.defaultBorderWidth);
 }
 
 function updateSummitCounter(summitMap, currentYear, summitCounter) {
@@ -31,7 +31,7 @@ export function updateMap(geojsonData, summitMap, currentYear, summitsByCountryM
     console.log('Summit counter input', summitCounter)
     updateSummitCounter(summitMap, currentYear, summitCounter);
     console.log('Host country input', hostCountry)
-    console.log('Summit map data for that current year', [currentYear],  summitMap[currentYear])
+    console.log('Summit map data for that current year', [currentYear], summitMap[currentYear])
     summitMap[currentYear].forEach(country => {
         console.log('COUNTRIES IN SUMMIT MAP', country)
         hostCountry.push(country);
@@ -44,8 +44,9 @@ export function updateMap(geojsonData, summitMap, currentYear, summitsByCountryM
         .attr("d", path)
         .attr("fill", d => {
             const country = d.properties.name;
-            return summitCounter.has(country) ? "orange" : "#fff"; // Fill orange if present in the map, else white
+            return summitCounter.has(country) ? mapStyle.fillHost : mapStyle.defaultFill; // Fill orange if present in the map, else white
         })
+        .style("cursor", "pointer")
         .on("click", function (event, d) {
             console.log('Country on click', d.properties.name)
             const country = d.properties.name;
@@ -59,22 +60,35 @@ export function updateMap(geojsonData, summitMap, currentYear, summitsByCountryM
         .join("text")
         .attr("transform", d => {
             const centroid = path.centroid(d);
+            console.log('Centroid is', centroid)
             return `translate(${centroid})`
         })
         .attr("dy", ".25em")
         .attr("text-anchor", "middle")
-        .attr("font-size", "20px")
+        .attr("font-size", "12.5px")
         .attr("font-weight", "600")
-        .text(d => summitCounter.has(d.properties.name) ? summitCounter.get(d.properties.name) : '');
+        .text(d => {
+            const iso = d.id;
+            const countryName = d.properties.name; // Get country name
+            const count = summitCounter.has(countryName) ? summitCounter.get(countryName) : undefined;
+            // Only display if the country is in summitCounter
+            if (count !== undefined) {
+                const iso = d.id || '';  // Get ISO abbreviation
+                return `${iso}: ${count}`; // Format text as "ISO: count"
+            } else {
+                return ''; // Return empty string if not in summitCounter
+            }
+        })
+        .style("cursor", "pointer");
 }
 
 // select host country
 function colorHostCountry(svg, hostCountry) {
     console.log('Coloring host country', hostCountry)
     svg.selectAll("path")
-        .attr("fill", d => (hostCountry.includes(d.properties.name)) ? "#fec03c" : "#fff")
-        .attr("stroke", d => (hostCountry.includes(d.properties.name)) ? "#ff5733" : "#46474c")
-        .attr("stroke-width", d => (hostCountry.includes(d.properties.name)) ? 1 : 0.5) // Thicker stroke for host countries
+        .attr("fill", d => (hostCountry.includes(d.properties.name)) ? mapStyle.borderHost : mapStyle.defaultFill)
+        .attr("stroke", d => (hostCountry.includes(d.properties.name)) ? mapStyle.borderHost : mapStyle.defaultBorder)
+        .attr("stroke-width", d => (hostCountry.includes(d.properties.name)) ? mapStyle.borderWidthHost : mapStyle.defaultBorderWidth) // Thicker stroke for host countries
         .style("cursor", d => (hostCountry.includes(d.properties.name)) ? "pointer" : "default") // Change cursor for host countries
         .transition()
         .duration(500)
@@ -84,8 +98,9 @@ export function borderHostCountry(svg, hostCountries) {
     //const hostCountry = yearData.summits.length > 0 ? yearData.summits[0].country : null; // Get the host country for that year
     console.log('Bordering host countries', hostCountries)
     d3.selectAll("path")
-        .attr("stroke", d => (hostCountries.includes(d.properties.name)) ? "blue" : "#46474c")
-        .attr("stroke-width", d => (hostCountries.includes(d.properties.name)) ? 4 : 0.5) // Thicker stroke for host countries
+        .attr("stroke", d => (hostCountries.includes(d.properties.name)) ? mapStyle.defaultBorder : mapStyle.borderHost)
+        .attr("stroke-width", d => (hostCountries.includes(d.properties.name)) ? 4 : mapStyle.borderWidthHost) // Thicker stroke for host countries
         .style("cursor", d => (hostCountries.includes(d.properties.name)) ? "pointer" : "default") // Change cursor for host countries
 }
 
+'#fec03c'
