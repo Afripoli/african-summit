@@ -1,8 +1,9 @@
-import { svg, center, translation, hostCountry, mapStyle } from "./globals.js"
+import { svg, center, scale, translation, hostCountry, mapStyle } from "./globals.js"
 import { getSummitsforCountry, displaySummitsCountry } from "./summitUtils.js"
 
-let projection = d3.geoNaturalEarth1()
+let projection = d3.geoMercator()
     .center(center)
+    .scale(scale)
     .translate(translation)
 let path = d3.geoPath().projection(projection);
 
