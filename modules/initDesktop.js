@@ -1,4 +1,4 @@
-import { initDesktopTimelineSVG, generateTimeline, drawTimeline, highlightItem, appendArrows, updateTimeline, updateTimelineDown } from "./timelineUtils.js";
+import { initDesktopTimelineSVG, generateTimeline, drawTimeline, highlightItem, appendUpArrow, appendDownArrow, updateTimelineUp, updateTimelineDown } from "./timelineUtils.js";
 import { maxYearsToShow } from "./globals.js";
 import { drawMap, updateMap } from "./mapUtils.js";
 
@@ -11,7 +11,7 @@ let summitCounter = new Map();
 let generalCounter = 0; // saves a counter for each loop. We'll use it for the map
 
 function playTimeline(svg, summitData, geojsonData, summitMap, summitsByCountryMap) {
-    console.log('Function PLAYTIMELINE ACTIVATED')
+    //console.log('Function PLAYTIMELINE ACTIVATED')
     function startPlaying(currentYearIndex, highlightIndex) {
         clearInterval(intervalId);
         intervalId = setInterval(() => {
@@ -28,7 +28,7 @@ function playTimeline(svg, summitData, geojsonData, summitMap, summitsByCountryM
             highlightItem(svg, summitData, highlightIndex, currentYearIndex);  // Highlight the current year
             updateMap(geojsonData, summitMap, currentYear, summitsByCountryMap, hostCountry, summitCounter)
             highlightIndex += 1;
-            generalCounter +=1;
+            generalCounter += 1;
             console.log('General counter is', generalCounter)
             if (highlightIndex >= maxYearsToShow) {
                 currentYearIndex += maxYearsToShow;  // Advance by 5 years to the next subset
@@ -102,39 +102,47 @@ function addTimelineItemClickListeners(svg) {
         .on("click", function (event, d) {
             const clickedYearData = summitData[d.index]; // Get data based on the index of the clicked item
             highlightHostCountries(clickedYearData); // Highlight corresponding host countries
-            // Additional actions you may want to take
         });
 }
-function addArrowClickListeners(svg, summitData, currentYearIndex) {
-    console.log('Adding arrow click event listeners')
-    const upArrow = document.querySelector('.up-arrow');
-    upArrow.addEventListener("click", () => {
+function arrowsClickListener(svg, summitData, currentYearIndex) {
+    //const yearsToJump = -maxYearsToShow;
+    //currentYearIndex = currentYearIndex + yearsToJump;
+    //console.log('Current year index in Click Listener - input', currentYearIndex)
+    // if (currentYearIndex === summitData.length || currentYearIndex == 0) {
+    //     return;
+    // }
+    const upArrowDiv = document.querySelector('.up-arrow');
+    upArrowDiv.addEventListener("click", () => {
         console.log('Clicking Up arrow');
         currentYearIndex = currentYearIndex - maxYearsToShow;
-        updateTimeline(-maxYearsToShow, svg, summitData, currentYearIndex);
-    });
-    const downArrow = document.querySelector('.down-arrow');
-    downArrow.addEventListener("click", () => {
-        console.log('Clicking Down Arrow');
-        currentYearIndex = currentYearIndex + maxYearsToShow;
-        if (currentYearIndex <= summitData.length) {
-            updateTimelineDown(maxYearsToShow, svg, summitData, currentYearIndex);
+        //console.log('Current year index after clicking up arrow', currentYearIndex)
+        updateTimelineUp(-maxYearsToShow, svg, summitData, currentYearIndex);
+        let currentYearafterUpdate = updateTimelineUp(-maxYearsToShow, svg, summitData, currentYearIndex).currentYearIndex;
+        let displayedYears = updateTimelineUp(-maxYearsToShow, svg, summitData, currentYearIndex).displayedYears;
+        console.log('Current Year after Update', currentYearafterUpdate);
+        if (currentYearafterUpdate < maxYearsToShow) {
+            upArrowDiv.classList.add('disabled');  
+            upArrowDiv.style.cursor = 'not-allowed'; 
         } else {
-            console.log('Reached the end of the timeline. Down arrow disabled.');
-            // Optionally, disable the down arrow by adding a class or removing the event listener
-            downArrow.classList.add('down-arrow', 'disabled');  // Add a class to visually disable it
-            downArrow.style.cursor = 'not-allowed'; // Change cursor to indicate it's not clickable
-            //downArrow.removeEventListener("click", arguments.callee); // Disable the click event
+            console.log('Drawing timeline')
+            drawTimeline(svg, summitData, currentYearafterUpdate, displayedYears)
         }
-        
+    });  // Move up
+    const downArrowDiv = document.querySelector('.down-arrow');
+    downArrowDiv.addEventListener("click", () => {
+        console.log('Clicking Down Arrow');
+        updateTimelineDown(maxYearsToShow, svg, summitData, currentYearIndex);
     });
 }
+
 function timelineFinished(svg, summitData, currentYearIndex) {
     clearInterval(intervalId);  // Clear the interval when the timeline finishes
-    appendArrows(svg, summitData, currentYearIndex);  // Call to append arrows when the timeline stops
+    console.log('Timeline finished - input - current year index', currentYearIndex)
+    appendUpArrow();
+    appendDownArrow();
     timelineEnded = true;  // Set the flag to true when the timeline ends
     addTimelineItemClickListeners(svg);
-    addArrowClickListeners(svg, summitData, currentYearIndex);
+    arrowsClickListener(svg, summitData, currentYearIndex);
 }
 function resetSummitCounter() {
     summitCounter.clear();

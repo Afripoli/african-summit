@@ -25,10 +25,9 @@ export function clickingArrow(upArrowDiv, downArrowDiv, svg, summitData, current
     });
 }
 */
-export function appendArrows(svg, summitData, currentYearIndex) {
+export function appendUpArrow() {
     const containerHeight = document.getElementById("desktop-timeline").offsetHeight;
     const containerWidth = document.getElementById("desktop-timeline").offsetWidth;
-
     const upArrowDiv = document.createElement("div");
     upArrowDiv.classList.add("arrow-container", "up-arrow");
     upArrowDiv.innerHTML = '<i class="fas fa-chevron-up"></i>';
@@ -36,7 +35,11 @@ export function appendArrows(svg, summitData, currentYearIndex) {
     upArrowDiv.style.left = `${(containerWidth / 2) - 20}px`; // Center above the timeline
     upArrowDiv.style.top = "20px";
     document.getElementById("desktop-timeline").appendChild(upArrowDiv);
-    // Append the Down Arrow (Bottom)
+} 
+
+export function appendDownArrow(svg, summitData, currentYearIndex) {
+    const containerHeight = document.getElementById("desktop-timeline").offsetHeight;
+    const containerWidth = document.getElementById("desktop-timeline").offsetWidth;
     const downArrowDiv = document.createElement("div");
     downArrowDiv.classList.add("arrow-container", "down-arrow");
     downArrowDiv.innerHTML = '<i class="fas fa-chevron-down"></i>';
@@ -44,22 +47,24 @@ export function appendArrows(svg, summitData, currentYearIndex) {
     downArrowDiv.style.left = `${(containerWidth / 2) - 20}px`; // Center below the timeline
     downArrowDiv.style.top = `${containerHeight - 40}px`;
     document.getElementById("desktop-timeline").appendChild(downArrowDiv);
-    // Add click event listeners to the arrows
 }
 
-export function updateTimeline(direction, svg, summitData, currentYearIndex) {
+export function updateTimelineUp(direction, svg, summitData, currentYearIndex) {
+    // if (currentYearIndexMin <= 0) {
+    //     console.log('Current year index Min is', currentYearIndex, 'No update of timeline')
+    //     return;
+    // }
     console.log('Direction', direction, 'Summit Data', summitData)
-    console.log('Current year index input', currentYearIndex);
-    const maxIndex = summitData.length - maxYearsToShow;
-    console.log('Max index calculation', maxIndex);
-    let currentYearIndexMin = Math.max(0, Math.min(currentYearIndex + direction, maxIndex));
+    console.log('Current year index input Arrow Up', currentYearIndex);
+    //const maxIndex = summitData.length - maxYearsToShow;
+    //console.log('Max index calculation', maxIndex);
+    //let currentYearIndexMin = Math.max(0, Math.min(currentYearIndex + direction, maxIndex));
+    let currentYearIndexMin = currentYearIndex + direction;
     console.log('Current year index Min', currentYearIndexMin);
-    if (currentYearIndex < maxYearsToShow) {
-        return;
-    }
     const displayedYears = summitData.slice(currentYearIndexMin, currentYearIndex);  // Get the current set of years
-    // Redraw the timeline with the updated index
-    drawTimeline(svg, summitData, currentYearIndex, displayedYears);
+    //drawTimeline(svg, summitData, currentYearIndex, displayedYears);     // Redraw the timeline with the updated index
+
+    return { currentYearIndex, displayedYears }
 }
 
 // Updates timeline when Down arrow is clicked since function above does not work for this case
