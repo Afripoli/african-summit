@@ -1,4 +1,4 @@
-import { svg, center, translation } from "./globals.js"
+import { svg, center, translation, hostCountry } from "./globals.js"
 import { getSummitsforCountry, displaySummitsCountry } from "./summitUtils.js"
 
 let projection = d3.geoNaturalEarth1()
@@ -28,8 +28,12 @@ function updateSummitCounter(summitMap, currentYear, summitCounter) {
 }
 
 export function updateMap(geojsonData, summitMap, currentYear, summitsByCountryMap, hostCountry, summitCounter) {
+    console.log('Summit counter input', summitCounter)
     updateSummitCounter(summitMap, currentYear, summitCounter);
+    console.log('Host country input', hostCountry)
+    console.log('Summit map data for that current year', [currentYear],  summitMap[currentYear])
     summitMap[currentYear].forEach(country => {
+        console.log('COUNTRIES IN SUMMIT MAP', country)
         hostCountry.push(country);
         colorHostCountry(svg, hostCountry)
         //summitCounter.set(country, (summitCounter.get(country) || 0) + 1);
@@ -38,6 +42,10 @@ export function updateMap(geojsonData, summitMap, currentYear, summitsByCountryM
         .data(geojsonData.features)
         .join("path")
         .attr("d", path)
+        .attr("fill", d => {
+            const country = d.properties.name;
+            return summitCounter.has(country) ? "orange" : "#fff"; // Fill orange if present in the map, else white
+        })
         .on("click", function (event, d) {
             console.log('Country on click', d.properties.name)
             const country = d.properties.name;
@@ -62,7 +70,7 @@ export function updateMap(geojsonData, summitMap, currentYear, summitsByCountryM
 
 // select host country
 function colorHostCountry(svg, hostCountry) {
-    //console.log('Coloring host country', hostCountry)
+    console.log('Coloring host country', hostCountry)
     svg.selectAll("path")
         .attr("fill", d => (hostCountry.includes(d.properties.name)) ? "#fec03c" : "#fff")
         .attr("stroke", d => (hostCountry.includes(d.properties.name)) ? "#ff5733" : "#46474c")
@@ -72,7 +80,7 @@ function colorHostCountry(svg, hostCountry) {
         .duration(500)
 }
 
-export function borderHostCountry(hostCountries) {
+export function borderHostCountry(svg, hostCountries) {
     //const hostCountry = yearData.summits.length > 0 ? yearData.summits[0].country : null; // Get the host country for that year
     console.log('Bordering host countries', hostCountries)
     d3.selectAll("path")

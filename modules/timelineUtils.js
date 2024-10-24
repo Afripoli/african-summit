@@ -1,5 +1,5 @@
 import { updateMap, borderHostCountry } from "./mapUtils.js";
-import { hostCountry, maxYearsToShow } from './globals.js';
+import { maxYearsToShow } from './globals.js';
 
 export function initDesktopTimelineSVG() {
     const svg = d3.select("#desktop-timeline")
@@ -9,14 +9,11 @@ export function initDesktopTimelineSVG() {
     return svg;
 }
 
-export function generateTimeline(svg, summitData, currentYearIndex) {
-    const containerHeight = document.getElementById("desktop-timeline").offsetHeight;
-    const containerWidth = document.getElementById("desktop-timeline").offsetWidth;
-    console.log('Summit data is', summitData) // we need to extract year
-    // Display the first 5 years by default
-    drawTimeline(svg, summitData, currentYearIndex, containerHeight, containerWidth);
+export function generateTimeline(svg, summitData, currentYearIndex, displayedYears) {
+    drawTimeline(svg, summitData, currentYearIndex, displayedYears);
 }
-function clickingArrow(upArrowDiv, downArrowDiv, svg, summitData, currentYearIndex) {
+/*
+export function clickingArrow(upArrowDiv, downArrowDiv, svg, summitData, currentYearIndex) {
     const maxYearsToShow = 5;
     upArrowDiv.addEventListener("click", () => {
         console.log('Clicking Up arrow')
@@ -27,6 +24,7 @@ function clickingArrow(upArrowDiv, downArrowDiv, svg, summitData, currentYearInd
         updateTimeline(maxYearsToShow, svg, summitData, currentYearIndex);
     });
 }
+*/
 export function appendArrows(svg, summitData, currentYearIndex) {
     const containerHeight = document.getElementById("desktop-timeline").offsetHeight;
     const containerWidth = document.getElementById("desktop-timeline").offsetWidth;
@@ -47,35 +45,38 @@ export function appendArrows(svg, summitData, currentYearIndex) {
     downArrowDiv.style.top = `${containerHeight - 40}px`;
     document.getElementById("desktop-timeline").appendChild(downArrowDiv);
     // Add click event listeners to the arrows
-    clickingArrow(upArrowDiv, downArrowDiv, svg, summitData, currentYearIndex)
 }
 
-function updateTimeline(direction, svg, summitData, currentYearIndex) {
+export function updateTimeline(direction, svg, summitData, currentYearIndex) {
     console.log('Direction', direction, 'Summit Data', summitData)
-    console.log('Current year index before update', currentYearIndex);
-    // currentYearIndex += direction;
-    const maxIndex = summitData.length - maxYearsToShow;  // Calculate the maximum index
-    console.log('Max index is', maxIndex)
-    // Update the current index based on direction
-    currentYearIndex = Math.max(0, Math.min(currentYearIndex + direction, maxIndex));
-    console.log('Current year index after update', currentYearIndex);
-    // Redraw the timeline with the updated index
-    drawTimeline(svg, summitData, currentYearIndex);
-    // Optionally re-attach event listeners if necessary (usually only needed if UI elements change)
-    const upArrowDiv = document.querySelector(".up-arrow");
-    const downArrowDiv = document.querySelector(".down-arrow");
-    if (upArrowDiv && downArrowDiv) {
-        console.log('Clicking arrow in update timeline')
-        clickingArrow(upArrowDiv, downArrowDiv, svg, summitData, currentYearIndex);
+    console.log('Current year index input', currentYearIndex);
+    const maxIndex = summitData.length - maxYearsToShow;
+    console.log('Max index calculation', maxIndex);
+    let currentYearIndexMin = Math.max(0, Math.min(currentYearIndex + direction, maxIndex));
+    console.log('Current year index Min', currentYearIndexMin);
+    if (currentYearIndex < maxYearsToShow) {
+        return;
     }
-
+    const displayedYears = summitData.slice(currentYearIndexMin, currentYearIndex);  // Get the current set of years
+    // Redraw the timeline with the updated index
+    drawTimeline(svg, summitData, currentYearIndex, displayedYears);
 }
-export function drawTimeline(svg, summitData, currentYearIndex) {
+
+// Updates timeline when Down arrow is clicked since function above does not work for this case
+export function updateTimelineDown(direction, svg, summitData, currentYearIndex) { 
+    console.log('Current year index input', currentYearIndex);
+    let currentYearIndexMin = currentYearIndex - direction;
+    const displayedYears = summitData.slice(currentYearIndexMin, currentYearIndex);  // Get the current set of years
+    drawTimeline(svg, summitData, currentYearIndex, displayedYears);
+}
+
+export function drawTimeline(svg, summitData, currentYearIndex, displayedYears) {
+    //console.log('Host country input in draw timeline', hostCountry)
     //console.log('Current year index after update', currentYearIndex)
-    //console.log('Summit data in draw function is', summitData)
+    console.log('Summit data in draw function is', summitData)
     const containerHeight = document.getElementById("desktop-timeline").offsetHeight;
     const containerWidth = document.getElementById("desktop-timeline").offsetWidth;
-    const displayedYears = summitData.slice(currentYearIndex, currentYearIndex + maxYearsToShow);  // Get the current set of years
+    //const displayedYears = summitData.slice(currentYearIndex, currentYearIndex + maxYearsToShow);  // Get the current set of years
     console.log('Displaying on timeline the years: ', displayedYears)
     const circleSpacing = containerHeight / (maxYearsToShow + 1);
     const circleGroup = svg.selectAll("circle")
@@ -89,8 +90,11 @@ export function drawTimeline(svg, summitData, currentYearIndex) {
         .attr("fill", "gray")
         .style("cursor", "pointer")
         .on("click", function (event, d) {
-            //highlightItem(svg, summitData, d.year, currentYearIndex);  // Highlight the clicked year
+            const yearData = summitData.find(summit => summit.year === d.year);  // Get data for clicked year
+            const hostCountries = yearData.summits.map(summit => summit.country);
+            console.log('Host country clicked', hostCountries)
             highlightClickedItem(svg, d);
+            borderHostCountry(svg, hostCountries);
         });
 
     circleGroup.exit().remove();  // Remove any excess circles
@@ -108,9 +112,11 @@ export function drawTimeline(svg, summitData, currentYearIndex) {
         .text(d => d.year)
         .style("cursor", "pointer")
         .on("click", function (event, d) {
-            //highlightItem(svg, summitData, d.year, currentYearIndex);  // Highlight the clicked year
-            console.log('D on clicked year is', d)
+            const yearData = summitData.find(summit => summit.year === d.year);  // Get data for clicked year
+            const hostCountries = yearData.summits.map(summit => summit.country);
+            console.log('Host country clicked', hostCountries)
             highlightClickedItem(svg, d);
+            borderHostCountry(svg, hostCountries);
         });
     yearTextGroup.exit().remove();  // Remove any excess year labels
 
@@ -125,6 +131,13 @@ export function drawTimeline(svg, summitData, currentYearIndex) {
         .attr("y", (d, i) => circleSpacing * (i + 1) + 25)  // Align with the year label
         .attr("text-anchor", "start")
         .style("fill", "gray")
+        .on("click", function (event, d) {
+            const yearData = summitData.find(summit => summit.year === d.year);  // Get data for clicked year
+            const hostCountries = yearData.summits.map(summit => summit.country);
+            console.log('Host country clicked', hostCountries)
+            highlightClickedItem(svg, d);
+            borderHostCountry(svg, hostCountries);
+        })
         .each(function (d, i) {
             const textElement = d3.select(this);
             if (d.summits.length > 0) {
@@ -166,7 +179,7 @@ export function highlightItem(svg, summitData, highlightIndex, currentYearIndex)
    svg.selectAll("text.country").style("fill", "gray");
 
    const currentYearData = displayedYears[highlightIndex];  // Get the current year data using the index
-   console.log('Highlighting the Year:', currentYearData.year)
+   //console.log('Highlighting the Year:', currentYearData.year)
     if (currentYearData || (currentYearData && currentYearData.year <= displayedYears[-1].year)) { // If the data of the current year is less or equal than last obs of displayed years array 
         // If currentYearData exists, filter the circles based on the current year
         const circles = svg.selectAll('circle').filter(d => d.year === currentYearData.year);
@@ -180,7 +193,7 @@ export function highlightItem(svg, summitData, highlightIndex, currentYearIndex)
     }
 }
 
-function highlightClickedItem(svg, clickedData) {
+export function highlightClickedItem(svg, clickedData) {
     svg.selectAll("circle").attr("fill", "gray").attr('r', 5);  // Reset all circles
     svg.selectAll("text.year").style("fill", "black").style("font-weight", "normal");  // Reset year text
     svg.selectAll("text.country").style("fill", "gray").style("font-weight", "normal");  // Reset country text
@@ -272,14 +285,3 @@ export function mobileTimeline(svg, summitData, currentYearIndex) {
     countryTextGroup.exit().remove();
 }
 
-// // Function to auto-advance the timeline, updating one year at a time
-export function advanceTimeline(svg, summitData, geojsonData, summitMap, currentYearIndex, intervalId, summitsByCountryMap, hostCountry, highlightIndex, summitCounter) {
-    console.log('Current year index', currentYearIndex);
-    if (currentYearIndex >= summitData.length) {
-        console.log("Stopping timeline");
-        clearInterval(intervalId);  // Stop the interval when all years are shown
-        return;
-    }
-    // Update timeline with the current year slice
-    updateDesktopTimeline(svg, summitData, geojsonData, summitMap, currentYearIndex, summitsByCountryMap, hostCountry, highlightIndex, summitCounter);
-}

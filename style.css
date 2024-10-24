@@ -45,7 +45,11 @@ body {
 .down-arrow {
     bottom: 1px;  /* Position at the bottom */
 }
-
+.down-arrow.disabled {
+    opacity: 0.25;         /* Make the element appear faded */
+    pointer-events: none; /* Disable any click or hover events */
+    cursor: not-allowed; 
+}
 .arrow-container i {
     font-size: 45px;  /* Size of the arrow */
     color: #000;
