@@ -26,7 +26,7 @@ function playTimeline(svg, summitData, geojsonData, summitMap, summitsByCountryM
             console.log('Host country is', hostCountry);
             let displayedYears = summitData.slice(currentYearIndex, currentYearIndex + maxYearsToShow)
             //console.log('Current year', currentYear)
-            drawTimeline(svg, summitData, currentYearIndex, displayedYears);
+            drawTimeline(svg, summitData, displayedYears);
             highlightItem(svg, summitData, highlightIndex, currentYearIndex);  // Highlight the current year
             updateMap(geojsonData, summitMap, currentYear, summitsByCountryMap, hostCountry, summitCounter)
             highlightIndex += 1;
@@ -42,7 +42,7 @@ function playTimeline(svg, summitData, geojsonData, summitMap, summitsByCountryM
                     timelineFinished(svg, summitData, currentYearIndex);
                 } else {
                     // Display the next set of 5 years
-                    generateTimeline(svg, summitData, currentYearIndex, displayedYears);
+                    generateTimeline(svg, summitData, displayedYears);
                 }
             }
             if (currentYearIndex >= summitData.length) {
@@ -106,42 +106,47 @@ function addTimelineItemClickListeners(svg) {
         });
 }
 function arrowsClickListener(svg, summitData, currentYearIndex) {
-    let currentYearafterUpdate;
+    console.log('FIRST Current year index', currentYearIndex)
+    let currentYearafterUpdate = currentYearIndex;
+    let currentYearMin = currentYearafterUpdate; 
+    let currentYearMax;
     let displayedYears;
     const upArrowDiv = document.querySelector('.up-arrow');
     const downArrowDiv = document.querySelector('.down-arrow');
     function handleArrowClick(maxYearsToShow) {
-        console.log('Handle arrow click | Current year index is', currentYearIndex)
-        if (currentYearIndex >= summitData.length - maxYearsToShow && maxYearsToShow > 0) { // Case: timeline reached end. Drop Arrow clicked.
-            console.log('Setting current YEAR INDEX to 0')
-             currentYearIndex = 0 - 4;
+        console.log('Current year updated at start', currentYearafterUpdate) // 44
+        if (maxYearsToShow < 0) { // Click Arrow up
+            //let updateResult = updateTimelineUp(maxYearsToShow, svg, summitData, currentYearafterUpdate);
+            // currentYearafterUpdate = updateResult.currentYearIndex;
+            // console.log('Current year after update after running updateResult function', currentYearafterUpdate)
+            // currentYearMin = updateResult.currentYearIndexMin;
+            // console.log('Arrow up | Min value: ', currentYearMin, 'Current year before: ', currentYearafterUpdate);
+            // //displayedYears = updateResult.displayedYears;
+            //if (currentYearafterUpdate === currentYearIndex) 
+            // Update values
+            currentYearafterUpdate = currentYearMin; // 44 // 40
+            currentYearMin = currentYearafterUpdate + maxYearsToShow; // 40 // 36
+            displayedYears = summitData.slice(currentYearMin, currentYearafterUpdate);
+            console.log('Arrow up | Min value: ', currentYearMin, 'Current year updated: ', currentYearafterUpdate);
+            console.log('Arrow up | Displayed years: ', displayedYears)
+        } else if (maxYearsToShow > 0) { // Click arrow down
+            let updateResult = updateTimelineDown(maxYearsToShow, svg, summitData, currentYearafterUpdate);
+            currentYearMax = updateResult.currentYearIndexMax;
+            currentYearafterUpdate = updateResult.currentYearIndex;
+            //displayedYears = updateResult.displayedYears;
+
+            // Update values
+            currentYearafterUpdate = currentYearMax;
+            currentYearMax = currentYearMax + maxYearsToShow;
+            displayedYears = summitData.slice(currentYearafterUpdate, currentYearMax);
+            console.log('Arrow down | Current year updated: ', currentYearafterUpdate, 'Max value: ', currentYearMax)
+            console.log('Arrow down | Displayed years: ', displayedYears)
+
         }
-        currentYearIndex += maxYearsToShow;
-        const updateResult = maxYearsToShow > 0
-            ? updateTimelineDown(maxYearsToShow, svg, summitData, currentYearIndex)
-            : updateTimelineUp(maxYearsToShow, svg, summitData, currentYearIndex);
-        // Update the current year index and displayed years based on the update result
-        currentYearafterUpdate = updateResult.currentYearIndex;
-        console.log('Current year updated', currentYearafterUpdate);
-        displayedYears = updateResult.displayedYears;
-
-        if (currentYearafterUpdate <= 4 && maxYearsToShow < 0) {
-            console.log('Reaching first subset timeline. Updating values')
-            currentYearIndex = summitData.length + 4;
-            currentYearafterUpdate = summitData.length + 4;
-            //upArrowDiv.classList.add('disabled');
-        } 
-        //else if (currentYearafterUpdate >= summitData.length) {
-        //     console.log('Reaching LAST subset timeline. Updating values')
-        //     currentYearIndex = 0 - 4;
-        //     currentYearafterUpdate = 0 - 4;
-        //     //downArrowDiv.classList.add('disabled');
-        // }
-        drawTimeline(svg, summitData, currentYearafterUpdate, displayedYears);
-        // Reattach the arrow listeners in case they were removed during redraw
+        drawTimeline(svg, summitData, displayedYears);
         //attachArrowEventListeners();
-
     }
+
     function attachArrowEventListeners() {
         upArrowDiv.addEventListener("click", () => handleArrowClick(-maxYearsToShow));
         downArrowDiv.addEventListener("click", () => handleArrowClick(maxYearsToShow));
@@ -171,7 +176,7 @@ export function initDesktopTimeline(geojsonData, summitData, summitMap, summitCo
     // Initially display the first 5 years
     let displayedYears = summitData.slice(currentYearIndex, currentYearIndex + maxYearsToShow)
     console.log('Displaying years by default', displayedYears)
-    generateTimeline(svg, summitData, currentYearIndex, displayedYears);
+    generateTimeline(svg, summitData, displayedYears);
     drawMap(geojsonData);
     // Initialize play/pause functionality
     playTimeline(svg, summitData, geojsonData, summitMap, summitCounter, summitsByCountryMap);

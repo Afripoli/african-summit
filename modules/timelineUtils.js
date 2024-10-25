@@ -9,8 +9,8 @@ export function initDesktopTimelineSVG() {
     return svg;
 }
 
-export function generateTimeline(svg, summitData, currentYearIndex, displayedYears) {
-    drawTimeline(svg, summitData, currentYearIndex, displayedYears);
+export function generateTimeline(svg, summitData, displayedYears) {
+    drawTimeline(svg, summitData, displayedYears);
 }
 
 export function appendUpArrow() {
@@ -46,30 +46,27 @@ export function updateTimelineUp(direction, svg, summitData, currentYearIndex) {
     console.log('Current year index input Arrow Up', currentYearIndex);
     let currentYearIndexMin;
     currentYearIndexMin = currentYearIndex + direction;
-    console.log('Current year index Min', currentYearIndexMin);
-    const displayedYears = summitData.slice(currentYearIndexMin, currentYearIndex);  // Get the current set of years
-    //drawTimeline(svg, summitData, currentYearIndex, displayedYears);     // Redraw the timeline with the updated index
-    return { currentYearIndex, displayedYears }
+    console.log('Updating timeline Up | Current year index Min', currentYearIndexMin);
+    //const displayedYears = summitData.slice(currentYearIndexMin, currentYearIndex);  // Get the current set of years
+    return { currentYearIndex, /*displayedYears,*/ currentYearIndexMin }
 }
 
 // Updates timeline when Down arrow is clicked since function above does not work for this case
 export function updateTimelineDown(direction, svg, summitData, currentYearIndex) {
-    console.log('Current year index input', currentYearIndex);
+    console.log('Current year index input Arrow Down', currentYearIndex);
     let currentYearIndexMax;
     currentYearIndexMax = currentYearIndex + direction;
-    const displayedYears = summitData.slice(currentYearIndex, currentYearIndexMax);  // Get the current set of years
-    //drawTimeline(svg, summitData, currentYearIndex, displayedYears);
-    return { currentYearIndex, displayedYears }
+    console.log('Current year index Max', currentYearIndexMax);
+    //const displayedYears = summitData.slice(currentYearIndex, currentYearIndexMax);  // Get the current set of years
+    return { currentYearIndex, /*displayedYears,*/ currentYearIndexMax }
 }
 
-export function drawTimeline(svg, summitData, currentYearIndex, displayedYears) {
-    //console.log('Host country input in draw timeline', hostCountry)
-    //console.log('Current year index after update', currentYearIndex)
-    console.log('Summit data in draw function is', summitData)
+export function drawTimeline(svg, summitData, displayedYears) {
+    //console.log('Current year index input Timeline UP', currentYearIndex)
     const containerHeight = document.getElementById("desktop-timeline").offsetHeight;
     const containerWidth = document.getElementById("desktop-timeline").offsetWidth;
     //const displayedYears = summitData.slice(currentYearIndex, currentYearIndex + maxYearsToShow);  // Get the current set of years
-    console.log('Displaying on timeline the years: ', displayedYears)
+    console.log('Drawing years: ', displayedYears)
     const circleSpacing = containerHeight / (maxYearsToShow + 1);
     const circleGroup = svg.selectAll("circle")
         .data(displayedYears, d => d.year);
@@ -161,8 +158,8 @@ export function drawTimeline(svg, summitData, currentYearIndex, displayedYears) 
         .attr("stroke-width", 2);
     lineGroup.exit().remove();  // Remove any excess lines
     // Update button visibility based on the current index
-    d3.select(".up-button").style("visibility", currentYearIndex === 0 ? "hidden" : "visible");
-    d3.select(".down-button").style("visibility", currentYearIndex + maxYearsToShow >= summitData.length ? "hidden" : "visible");
+    //d3.select(".up-button").style("visibility", currentYearIndex === 0 ? "hidden" : "visible");
+    //d3.select(".down-button").style("visibility", currentYearIndex + maxYearsToShow >= summitData.length ? "hidden" : "visible");
 }
 
 export function highlightItem(svg, summitData, highlightIndex, currentYearIndex) {

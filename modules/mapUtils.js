@@ -23,18 +23,18 @@ export function drawMap(geojson) {
 function updateSummitCounter(summitMap, currentYear, summitCounter) {
     //console.log('Summit map has current year', summitMap)
     summitMap[currentYear].forEach(country => {
-        console.log('Country in summit map', country);
+        //console.log('Country in summit map', country);
         summitCounter.set(country, (summitCounter.get(country) || 0) + 1);
     });
 }
 
 export function updateMap(geojsonData, summitMap, currentYear, summitsByCountryMap, hostCountry, summitCounter) {
-    console.log('Summit counter input', summitCounter)
+    //console.log('Summit counter input', summitCounter)
     updateSummitCounter(summitMap, currentYear, summitCounter);
-    console.log('Host country input', hostCountry)
-    console.log('Summit map data for that current year', [currentYear], summitMap[currentYear])
+    //console.log('Host country input', hostCountry)
+    //console.log('Summit map data for that current year', [currentYear], summitMap[currentYear])
     summitMap[currentYear].forEach(country => {
-        console.log('COUNTRIES IN SUMMIT MAP', country)
+        //console.log('COUNTRIES IN SUMMIT MAP', country)
         hostCountry.push(country);
         colorHostCountry(svg, hostCountry)
         //summitCounter.set(country, (summitCounter.get(country) || 0) + 1);
@@ -49,10 +49,10 @@ export function updateMap(geojsonData, summitMap, currentYear, summitsByCountryM
         })
         .style("cursor", "pointer")
         .on("click", function (event, d) {
-            console.log('Country on click', d.properties.name)
+            //console.log('Country on click', d.properties.name)
             const country = d.properties.name;
             const summits = getSummitsforCountry(summitsByCountryMap, country);
-            console.log('Summit hosted in Country', summits)
+            //console.log('Summit hosted in Country', summits)
             displaySummitsCountry(country, summits);  // Call function to display the summits
         });
     // Add or update summit count text inside countries
@@ -85,7 +85,7 @@ export function updateMap(geojsonData, summitMap, currentYear, summitsByCountryM
 
 // select host country
 function colorHostCountry(svg, hostCountry) {
-    console.log('Coloring host country', hostCountry)
+    //console.log('Coloring host country', hostCountry)
     svg.selectAll("path")
         .attr("fill", d => (hostCountry.includes(d.properties.name)) ? mapStyle.borderHost : mapStyle.defaultFill)
         .attr("stroke", d => (hostCountry.includes(d.properties.name)) ? mapStyle.borderHost : mapStyle.defaultBorder)
@@ -97,7 +97,7 @@ function colorHostCountry(svg, hostCountry) {
 
 export function borderHostCountry(svg, hostCountries) {
     //const hostCountry = yearData.summits.length > 0 ? yearData.summits[0].country : null; // Get the host country for that year
-    console.log('Bordering host countries', hostCountries)
+    //console.log('Bordering host countries', hostCountries)
     d3.selectAll("path")
         .attr("stroke", d => (hostCountries.includes(d.properties.name)) ? mapStyle.borderHost : mapStyle.defaultBorder)
         .attr("stroke-width", d => (hostCountries.includes(d.properties.name)) ? 2.5 : mapStyle.defaultBorderWidth) // Thicker stroke for host countries
