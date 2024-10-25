@@ -43,30 +43,22 @@ export function appendDownArrow(svg, summitData, currentYearIndex) {
 }
 
 export function updateTimelineUp(direction, svg, summitData, currentYearIndex) {
-    // if (currentYearIndexMin <= 0) {
-    //     console.log('Current year index Min is', currentYearIndex, 'No update of timeline')
-    //     return;
-    // }
-    console.log('Direction', direction, 'Summit Data', summitData)
     console.log('Current year index input Arrow Up', currentYearIndex);
-    //const maxIndex = summitData.length - maxYearsToShow;
-    //console.log('Max index calculation', maxIndex);
-    //let currentYearIndexMin = Math.max(0, Math.min(currentYearIndex + direction, maxIndex));
-    let currentYearIndexMin = currentYearIndex + direction;
+    let currentYearIndexMin;
+    currentYearIndexMin = currentYearIndex + direction;
     console.log('Current year index Min', currentYearIndexMin);
     const displayedYears = summitData.slice(currentYearIndexMin, currentYearIndex);  // Get the current set of years
     //drawTimeline(svg, summitData, currentYearIndex, displayedYears);     // Redraw the timeline with the updated index
-
     return { currentYearIndex, displayedYears }
 }
 
 // Updates timeline when Down arrow is clicked since function above does not work for this case
 export function updateTimelineDown(direction, svg, summitData, currentYearIndex) {
     console.log('Current year index input', currentYearIndex);
-    let currentYearIndexMax = currentYearIndex + direction;
+    let currentYearIndexMax;
+    currentYearIndexMax = currentYearIndex + direction;
     const displayedYears = summitData.slice(currentYearIndex, currentYearIndexMax);  // Get the current set of years
     //drawTimeline(svg, summitData, currentYearIndex, displayedYears);
-
     return { currentYearIndex, displayedYears }
 }
 
