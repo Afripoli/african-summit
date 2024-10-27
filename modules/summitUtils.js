@@ -20,7 +20,7 @@ export function displaySummitsCountry(country, summitsCountry) {
     console.log('Summit list container', summitListContainer);
     const hostCountry = document.getElementById('summitCountry');
     country = country.toUpperCase();
-    hostCountry.innerHTML = `<img src="/src/img/country-flags-main/png100px/${flagCountry}" class="img-fluid country-flag" alt="Pause button"> ${country}`;
+    hostCountry.innerHTML = `<img src="/src/img/country-flags-main/png100px/${flagCountry}" class="img-fluid country-flag" alt="Flag"> ${country}`;
     const totalSummits = document.getElementById('total-summit');
     totalSummits.innerHTML = `Total summits hosted: ${noSummits}`
     totalSummits.classList.add('fw-bolder')

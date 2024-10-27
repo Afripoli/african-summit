@@ -80,7 +80,12 @@ export function updateMap(geojsonData, summitMap, currentYear, summitsByCountryM
                 return ''; // Return empty string if not in summitCounter
             }
         })
-        .style("cursor", "pointer");
+        .style("cursor", "pointer")
+        .on("click", function (event, d) {
+            const country = d.properties.name;
+            const summits = getSummitsforCountry(summitsByCountryMap, country);
+            displaySummitsCountry(country, summits);  // Call function to display the summits
+        });
 }
 
 // select host country
