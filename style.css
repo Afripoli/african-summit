@@ -26,7 +26,7 @@ body {
     width: auto;
 }
 .btn.btn-sm.btn-play {
-    width: 40px;      /* Adjust width if needed */
+    width: 100px;      /* Adjust width if needed */
     height: 40px;  
 }
 .arrow-container {
