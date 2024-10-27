@@ -108,51 +108,62 @@ function addTimelineItemClickListeners(svg) {
 function arrowsClickListener(svg, summitData, currentYearIndex) {
     console.log('FIRST Current year index', currentYearIndex)
     let currentYearafterUpdate = currentYearIndex;
-    let currentYearMin = currentYearafterUpdate; 
-    let currentYearMax;
     let displayedYears;
     const upArrowDiv = document.querySelector('.up-arrow');
     const downArrowDiv = document.querySelector('.down-arrow');
     function handleArrowClick(maxYearsToShow) {
-        console.log('Current year updated at start', currentYearafterUpdate) // 44
+        console.log('On click | Current year index', currentYearIndex, '| Current year updated', currentYearafterUpdate) // 
         if (maxYearsToShow < 0) { // Click Arrow up
-            //let updateResult = updateTimelineUp(maxYearsToShow, svg, summitData, currentYearafterUpdate);
-            // currentYearafterUpdate = updateResult.currentYearIndex;
-            // console.log('Current year after update after running updateResult function', currentYearafterUpdate)
-            // currentYearMin = updateResult.currentYearIndexMin;
-            // console.log('Arrow up | Min value: ', currentYearMin, 'Current year before: ', currentYearafterUpdate);
-            // //displayedYears = updateResult.displayedYears;
-            //if (currentYearafterUpdate === currentYearIndex) 
-            // Update values
-            currentYearafterUpdate = currentYearMin; // 44 // 40
-            currentYearMin = currentYearafterUpdate + maxYearsToShow; // 40 // 36
-            displayedYears = summitData.slice(currentYearMin, currentYearafterUpdate);
-            console.log('Arrow up | Min value: ', currentYearMin, 'Current year updated: ', currentYearafterUpdate);
-            console.log('Arrow up | Displayed years: ', displayedYears)
-        } else if (maxYearsToShow > 0) { // Click arrow down
-            let updateResult = updateTimelineDown(maxYearsToShow, svg, summitData, currentYearafterUpdate);
-            currentYearMax = updateResult.currentYearIndexMax;
-            currentYearafterUpdate = updateResult.currentYearIndex;
-            //displayedYears = updateResult.displayedYears;
-
-            // Update values
-            currentYearafterUpdate = currentYearMax;
-            currentYearMax = currentYearMax + maxYearsToShow;
-            displayedYears = summitData.slice(currentYearafterUpdate, currentYearMax);
-            console.log('Arrow down | Current year updated: ', currentYearafterUpdate, 'Max value: ', currentYearMax)
-            console.log('Arrow down | Displayed years: ', displayedYears)
-
+            currentYearafterUpdate = currentYearIndex;
+            currentYearIndex = currentYearIndex + maxYearsToShow;
+            displayedYears = summitData.slice(currentYearIndex, currentYearafterUpdate);
+        } else { // Click arrow down
+            currentYearIndex = currentYearafterUpdate;
+            currentYearafterUpdate = currentYearIndex + maxYearsToShow;
+            displayedYears = summitData.slice(currentYearIndex, currentYearafterUpdate);    
         }
+        
+        // if (maxYearsToShow < 0) { // Click Arrow up
+        //     if (currentYearafterUpdate === 4) {
+        //         currentYearafterUpdate = summitData.length;
+        //         currentYearMin = summitData.length; // 44
+        //     } 
+        //     else if (currentYearMax === undefined) {
+        //         currentYearafterUpdate = currentYearafterUpdate + maxYearsToShow;
+        //         currentYearMax = currentYearafterUpdate; 
+        //     }
+        //     // Update values
+        //     currentYearafterUpdate = currentYearMin;  // 
+        //     currentYearMin = currentYearafterUpdate + maxYearsToShow; // 
+        //     currentYearMax = currentYearafterUpdate; // 
+        //     displayedYears = summitData.slice(currentYearMin, currentYearafterUpdate);
+        //     console.log('Arrow up | Min value: ', currentYearMin, 'Current year updated: ', currentYearafterUpdate);
+        //     console.log('Arrow up | Displayed years: ', displayedYears)
+        //     // 28 - 32 - 32
+        // } else if (maxYearsToShow > 0) { // Click arrow down
+        //     if (currentYearafterUpdate >= summitData.length - 4) {
+        //         currentYearafterUpdate = -4;
+        //     } 
+        //     else if (currentYearMax === undefined) {
+        //          currentYearMax = currentYearafterUpdate
+        //     }
+        //     // Update values
+        //     currentYearafterUpdate = currentYearMax; // 
+        //     currentYearMin = currentYearafterUpdate - maxYearsToShow; // 
+        //     currentYearMax = currentYearMax + maxYearsToShow; // 
+        //     displayedYears = summitData.slice(currentYearafterUpdate, currentYearMax);
+        //     console.log('Arrow down | Current year updated: ', currentYearafterUpdate, 'Max value: ', currentYearMax)
+        //     console.log('Arrow down | Displayed years: ', displayedYears)
+        // }
         drawTimeline(svg, summitData, displayedYears);
-        //attachArrowEventListeners();
     }
 
     function attachArrowEventListeners() {
         upArrowDiv.addEventListener("click", () => handleArrowClick(-maxYearsToShow));
         downArrowDiv.addEventListener("click", () => handleArrowClick(maxYearsToShow));
     }
-     // Initial attachment of arrow listeners
-     attachArrowEventListeners();
+    // Initial attachment of arrow listeners
+    attachArrowEventListeners();
 }
 
 function timelineFinished(svg, summitData, currentYearIndex) {
