@@ -114,13 +114,17 @@ function arrowsClickListener(svg, summitData, currentYearIndex) {
     function handleArrowClick(maxYearsToShow) {
         console.log('On click | Current year index', currentYearIndex, '| Current year updated', currentYearafterUpdate) // 
         if (maxYearsToShow < 0) { // Click Arrow up
+            // Timeline clicking reached the beginning
+            if (currentYearIndex === 0) currentYearIndex = summitData.length;
             currentYearafterUpdate = currentYearIndex;
             currentYearIndex = currentYearIndex + maxYearsToShow;
             displayedYears = summitData.slice(currentYearIndex, currentYearafterUpdate);
         } else { // Click arrow down
+            // Timeline clicking reached the end
+            if (currentYearafterUpdate >= summitData.length) currentYearafterUpdate = 0;
             currentYearIndex = currentYearafterUpdate;
             currentYearafterUpdate = currentYearIndex + maxYearsToShow;
-            displayedYears = summitData.slice(currentYearIndex, currentYearafterUpdate);    
+            displayedYears = summitData.slice(currentYearIndex, currentYearafterUpdate);   
         }
         
         // if (maxYearsToShow < 0) { // Click Arrow up
