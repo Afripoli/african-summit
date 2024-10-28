@@ -17,14 +17,16 @@ const mapStyle = {
     "defaultBorderWidth": 0.15,
     "borderHost": "#000000",
     "fillHost": "#ffbf3b",
-    "borderWidthHost": 1
+    "borderWidthHost": 1,
+    "clickedYearCountry": "#d87b00"
 };
 // Timeline 
 const timelineStyle = {
     "defaultItem": "#000000",
     "highlightItem": "#ffbf3b",
     "borderItem": "#000000",
-    "borderWidthItem": 2
+    "borderWidthItem": 2,
+    "clickedYearCountry": "#d87b00"
 }
 
 // Country flags

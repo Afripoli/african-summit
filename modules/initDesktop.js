@@ -10,7 +10,8 @@ let timelineEnded = false;
 let summitCounter = new Map();
 let generalCounter = 0; // saves a counter for each loop. We'll use it for the map
 
-function playTimeline(svg, summitData, geojsonData, summitMap, summitsByCountryMap) {
+function playTimeline(svg, summitData, geojsonData, summitMap, summitsByCountryMap, countriesWithSummits) {
+    console.log('Countries with summits in playtimeline', countriesWithSummits)
     generalCounter = 0
     //console.log('Function PLAYTIMELINE ACTIVATED')
     function startPlaying(currentYearIndex, highlightIndex) {
@@ -26,7 +27,7 @@ function playTimeline(svg, summitData, geojsonData, summitMap, summitsByCountryM
             console.log('Host country is', hostCountry);
             let displayedYears = summitData.slice(currentYearIndex, currentYearIndex + maxYearsToShow)
             //console.log('Current year', currentYear)
-            drawTimeline(svg, summitData, displayedYears);
+            drawTimeline(svg, summitData, displayedYears, countriesWithSummits);
             highlightItem(svg, summitData, highlightIndex, currentYearIndex);  // Highlight the current year
             updateMap(geojsonData, summitMap, currentYear, summitsByCountryMap, hostCountry, summitCounter)
             highlightIndex += 1;
@@ -39,7 +40,7 @@ function playTimeline(svg, summitData, geojsonData, summitMap, summitsByCountryM
                 if (currentYearIndex >= summitData.length) {
                     clearInterval(intervalId);  // Stop the timeline when all years have been shown
                     console.log("Timeline reached the last observation and has stopped.");
-                    timelineFinished(svg, summitData, currentYearIndex);
+                    timelineFinished(svg, summitData, currentYearIndex, countriesWithSummits);
                 } else {
                     // Display the next set of 5 years
                     generateTimeline(svg, summitData, displayedYears);
@@ -51,7 +52,7 @@ function playTimeline(svg, summitData, geojsonData, summitMap, summitsByCountryM
                 isPlaying = false;
             }
             console.log('Checking if values save correctly', currentYearIndex, highlightIndex)
-        }, 100);
+        }, 50);
     }
     // Play/Pause button logic
     const playPauseBtn = document.getElementById('playButtonDesktop');
@@ -107,7 +108,7 @@ function addTimelineItemClickListeners(svg) {
             highlightHostCountries(clickedYearData); // Highlight corresponding host countries
         });
 }
-function arrowsClickListener(svg, summitData, currentYearIndex) {
+function arrowsClickListener(svg, summitData, currentYearIndex, countriesWithSummits) {
     console.log('FIRST Current year index', currentYearIndex)
     let currentYearafterUpdate = currentYearIndex;
     let displayedYears;
@@ -143,7 +144,7 @@ function arrowsClickListener(svg, summitData, currentYearIndex) {
             currentYearafterUpdate = currentYearIndex + maxYearsToShow;
             displayedYears = summitData.slice(currentYearIndex, currentYearafterUpdate);   
         }
-        drawTimeline(svg, summitData, displayedYears);
+        drawTimeline(svg, summitData, displayedYears, countriesWithSummits);
     }
 
     // Define named event handler functions to add/remove listeners
@@ -165,14 +166,14 @@ function arrowsClickListener(svg, summitData, currentYearIndex) {
     //attachArrowEventListeners();
 }
 
-function timelineFinished(svg, summitData, currentYearIndex) {
+function timelineFinished(svg, summitData, currentYearIndex, countriesWithSummits) {
     clearInterval(intervalId);  // Clear the interval when the timeline finishes
     console.log('Timeline finished - input - current year index', currentYearIndex)
     appendUpArrow();
     appendDownArrow();
     timelineEnded = true;  // Set the flag to true when the timeline ends
     addTimelineItemClickListeners(svg);
-    arrowsClickListener(svg, summitData, currentYearIndex);
+    arrowsClickListener(svg, summitData, currentYearIndex, countriesWithSummits);
     //highlightClickedItem(svg, clickedData)
 }
 function resetSummitCounter() {
@@ -181,7 +182,7 @@ function resetSummitCounter() {
     console.log('Summit counter after clearing:', summitCounter);
 }
 
-export function initDesktopTimeline(geojsonData, summitData, summitMap, summitCounter, summitsByCountryMap) {
+export function initDesktopTimeline(geojsonData, summitData, summitMap, summitCounter, summitsByCountryMap, countriesWithSummits) {
     const svg = initDesktopTimelineSVG();  // Initialize the timeline SVG
     // Initially display the first 5 years
     let displayedYears = summitData.slice(currentYearIndex, currentYearIndex + maxYearsToShow)
@@ -189,5 +190,5 @@ export function initDesktopTimeline(geojsonData, summitData, summitMap, summitCo
     generateTimeline(svg, summitData, displayedYears);
     drawMap(geojsonData);
     // Initialize play/pause functionality
-    playTimeline(svg, summitData, geojsonData, summitMap, summitCounter, summitsByCountryMap);
+    playTimeline(svg, summitData, geojsonData, summitMap, summitCounter, summitsByCountryMap, countriesWithSummits);
 }

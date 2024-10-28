@@ -62,3 +62,16 @@ body {
     height: 575px;
     overflow-y: auto;
 }
+#lupa {
+    width: 35px;     
+    height: 35px;
+    cursor: none;
+}
+
+.same-font-size,
+text.country,
+.text.year,
+#summitList,
+.summitNospan {
+    font-size: 18px;
+}

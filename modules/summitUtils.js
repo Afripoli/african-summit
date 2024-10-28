@@ -19,8 +19,8 @@ export function displaySummitsCountry(country, summitsCountry) {
     const summitListContainer = document.getElementById('summitList');
     console.log('Summit list container', summitListContainer);
     const hostCountry = document.getElementById('summitCountry');
-    country = country.toUpperCase();
-    hostCountry.innerHTML = `<img src="/src/img/country-flags-main/png100px/${flagCountry}" class="img-fluid country-flag" alt="Flag"> ${country}`;
+    country = country;
+    hostCountry.innerHTML = `<img src="/src/img/country-flags-main/png100px/${flagCountry}" class="img-fluid country-flag border border-dark border-2 rounded" alt="Flag"> ${country}`;
     const totalSummits = document.getElementById('total-summit');
     totalSummits.innerHTML = `Total summits hosted: ${noSummits}`
     totalSummits.classList.add('fw-bolder')
@@ -37,7 +37,7 @@ export function displaySummitsCountry(country, summitsCountry) {
         let dateContent = summit.date ? `<strong class="mb-0"><img src="src/img/calendar.svg" class="img-fluid calendar"> </strong> ${summit.date}<br>` : '';
         let placeContent = summit.place ? `<strong class="mb-0"><img src="src/img/map-pin.svg" class="img-fluid location"> </strong> ${summit.place}<br>` : '';
         listItem.innerHTML = `
-            <h5 class="mb-0 mt-4 fw-normal"><span class="badge bg-dark">${summit.summitNo}</span>  ${titleContent}</h5>
+            <h5 class="mb-0 mt-4 fw-normal"><span class="badge bg-dark summitNospan">${summit.summitNo}</span>  ${titleContent}</h5>
             ${dateContent}
             ${placeContent}
         `;

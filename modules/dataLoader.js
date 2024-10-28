@@ -48,7 +48,7 @@ export async function loadAndMergeData(geojsonUrl, jsonFilePath) {
         });
 
         countriesWithSummits.forEach(country => {
-            //console.log('Country in countrieswithsummits', countriesWithSummits)
+            console.log('Country in countrieswithsummits', countriesWithSummits)
             summitCounter[country] = (summitCounter[country] || 0) + 1;
         });
 

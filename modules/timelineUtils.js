@@ -61,7 +61,8 @@ export function updateTimelineDown(direction, svg, summitData, currentYearIndex)
     return { currentYearIndex, /*displayedYears,*/ currentYearIndexMax }
 }
 
-export function drawTimeline(svg, summitData, displayedYears) {
+export function drawTimeline(svg, summitData, displayedYears, countriesWithSummits) {
+    console.log('Set countries with summits in drawtimeline function', countriesWithSummits)
     //console.log('Current year index input Timeline UP', currentYearIndex)
     const containerHeight = document.getElementById("desktop-timeline").offsetHeight;
     const containerWidth = document.getElementById("desktop-timeline").offsetWidth;
@@ -84,7 +85,7 @@ export function drawTimeline(svg, summitData, displayedYears) {
             const hostCountries = yearData.summits.map(summit => summit.country);
             console.log('Host country clicked', hostCountries)
             highlightClickedItem(svg, d);
-            borderHostCountry(svg, hostCountries);
+            borderHostCountry(svg, hostCountrie, countriesWithSummits);
         });
 
     circleGroup.exit().remove();  // Remove any excess circles
@@ -107,7 +108,7 @@ export function drawTimeline(svg, summitData, displayedYears) {
             const hostCountries = yearData.summits.map(summit => summit.country);
             console.log('Host country clicked', hostCountries)
             highlightClickedItem(svg, d);
-            borderHostCountry(svg, hostCountries);
+            borderHostCountry(svg, hostCountries, countriesWithSummits);
         });
     yearTextGroup.exit().remove();  // Remove any excess year labels
 
@@ -128,7 +129,7 @@ export function drawTimeline(svg, summitData, displayedYears) {
             const hostCountries = yearData.summits.map(summit => summit.country);
             console.log('Host country clicked', hostCountries)
             highlightClickedItem(svg, d);
-            borderHostCountry(svg, hostCountries);
+            borderHostCountry(svg, hostCountries, countriesWithSummits);
         })
         .each(function (d, i) {
             const textElement = d3.select(this);
@@ -196,11 +197,11 @@ export function highlightClickedItem(svg, clickedData) {
     const countries = svg.selectAll('text.country').filter(d => d.year === clickedData.year);
 
     circles.attr('r', 10)
-        .attr('fill', timelineStyle.highlightItem)
+        .attr('fill', timelineStyle.clickedYearCountry)
         .attr('stroke', timelineStyle.borderItem) // Set stroke color
         .attr('stroke-width', timelineStyle.borderWidthItem);
-    textYear.style('font-weight', 'bold').style('fill', timelineStyle.highlightItem);  // Highlight year text
-    countries.style('font-weight', 'bold').style('fill', timelineStyle.highlightItem);  // Highlight country text
+    textYear.style('font-weight', 'bold').style('fill', timelineStyle.clickedYearCountry);  // Highlight year text
+    countries.style('font-weight', 'bold').style('fill', timelineStyle.clickedYearCountry);  // Highlight country text
 }
 
 export function initMobileTimelineSVG() {

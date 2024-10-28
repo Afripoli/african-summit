@@ -90,7 +90,7 @@ export function updateMap(geojsonData, summitMap, currentYear, summitsByCountryM
 
 // select host country
 function colorHostCountry(svg, hostCountry) {
-    //console.log('Coloring host country', hostCountry)
+    console.log('Coloring host country', hostCountry)
     svg.selectAll("path")
         .attr("fill", d => (hostCountry.includes(d.properties.name)) ? mapStyle.borderHost : mapStyle.defaultFill)
         .attr("stroke", d => (hostCountry.includes(d.properties.name)) ? mapStyle.borderHost : mapStyle.defaultBorder)
@@ -100,13 +100,23 @@ function colorHostCountry(svg, hostCountry) {
         .duration(500)
 }
 
-export function borderHostCountry(svg, hostCountries) {
-    //const hostCountry = yearData.summits.length > 0 ? yearData.summits[0].country : null; // Get the host country for that year
-    //console.log('Bordering host countries', hostCountries)
+export function borderHostCountry(svg, hostCountries, countriesWithSummits) {
+    console.log('Set countries with summits in borderHostCountry', countriesWithSummits)
+    console.log('Bordering host countries', hostCountries)
     d3.selectAll("path")
-        .attr("stroke", d => (hostCountries.includes(d.properties.name)) ? mapStyle.borderHost : mapStyle.defaultBorder)
-        .attr("stroke-width", d => (hostCountries.includes(d.properties.name)) ? 2.5 : mapStyle.defaultBorderWidth) // Thicker stroke for host countries
-        .style("cursor", d => (hostCountries.includes(d.properties.name)) ? "pointer" : "default") // Change cursor for host countries
+        .each(function (d) {
+            if (countriesWithSummits.has(d.properties.name)) {
+                d3.select(this)
+                    .attr("fill", mapStyle.fillHost)  // Reset to yellow for countries with summits
+                    .attr("stroke", mapStyle.defaultBorder)
+                    .attr("stroke-width", mapStyle.defaultBorderWidth);
+            }
+        });
+    d3.selectAll("path")
+        .each(function (d) {
+            if (hostCountries.includes(d.properties.name)) {
+                d3.select(this)
+                    .attr("fill", mapStyle.clickedYearCountry)  // Set to orange for host countries
+            }
+        });
 }
-
-'#fec03c'
