@@ -5,7 +5,7 @@ export function initDesktopTimelineSVG() {
     const svg = d3.select("#desktop-timeline")
         .append("svg")
         .attr("width", "100%") // Readjust when BS columns are responsive
-        .attr("height", "600px");
+        .attr("height", "450px");
     return svg;
 }
 
@@ -37,7 +37,7 @@ export function appendDownArrow(svg, summitData, currentYearIndex) {
     //downArrowDiv.style.left = `${(containerWidth / 2) - 20}px`; // Center below the timeline
     //downArrowDiv.style.left = `100px`; // Center below the timeline
     //downArrowDiv.style.top = `${containerHeight - 40}px`;
-    downArrowDiv.style.top = `900px`;
+    //downArrowDiv.style.top = `900px`;
     downArrowDiv.style.textAlign = 'center';
     document.getElementById("desktop-timeline").appendChild(downArrowDiv);
 }
@@ -75,7 +75,7 @@ export function drawTimeline(svg, summitData, displayedYears, countriesWithSummi
         .append("circle")
         .merge(circleGroup)
         .attr("cx", containerWidth / 3)  // Keep the circles centered horizontally
-        .attr("cy", (d, i) => circleSpacing * (i + 1))  // Space them vertically
+        .attr("cy", (d, i) => circleSpacing * (i + 1) - (circleSpacing / 2))  // Adjust to start first circle at top
         .attr("r", (d, i) => i === 0 ? 10 : 5)  // Make the first circle bigger
         .attr("fill", "gray")
         .style("cursor", "pointer")
@@ -98,7 +98,7 @@ export function drawTimeline(svg, summitData, displayedYears, countriesWithSummi
         .attr("class", "year")
         .merge(yearTextGroup)
         .attr("x", (containerWidth / 3) + 10)  // Position the label to the right of the circle
-        .attr("y", (d, i) => circleSpacing * (i + 1) + 5)  // Align with the circle vertically
+        .attr("y", (d, i) => circleSpacing * (i + 1) + 5 - (circleSpacing / 2))  // Align with the circle vertically
         .attr("text-anchor", "start")
         .text(d => d.year)
         .style("cursor", "pointer")
@@ -120,7 +120,7 @@ export function drawTimeline(svg, summitData, displayedYears, countriesWithSummi
         .attr("class", "country")
         .merge(countryTextGroup)
         .attr("x", (containerWidth / 3) + 1)  // Position the country label to the right of the year label
-        .attr("y", (d, i) => circleSpacing * (i + 1) + 25)  // Align with the year label
+        .attr("y", (d, i) => circleSpacing * (i + 1) + 25 - (circleSpacing / 2) )  // Align with the year label
         .attr("text-anchor", "start")
         .style("fill", "gray")
         .on("click", function (event, d) {
@@ -152,9 +152,9 @@ export function drawTimeline(svg, summitData, displayedYears, countriesWithSummi
         .append("line")
         .merge(lineGroup)
         .attr("x1", containerWidth / 3)
-        .attr("y1", (d, i) => circleSpacing * (i + 1) + 10)  // Start from below the previous circle
+        .attr("y1", (d, i) => circleSpacing * (i + 1) + 10 - (circleSpacing / 2))  // Start from below the previous circle
         .attr("x2", containerWidth / 3)
-        .attr("y2", (d, i) => circleSpacing * (i + 2) - 10)  // End above the next circle
+        .attr("y2", (d, i) => circleSpacing * (i + 2) - 10 - (circleSpacing / 2))  // End above the next circle
         .attr("stroke", "gray")
         .attr("stroke-width", 2);
     lineGroup.exit().remove();  // Remove any excess lines
