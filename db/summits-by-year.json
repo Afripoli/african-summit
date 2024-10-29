@@ -117,6 +117,19 @@
         ]
     },
     {
+        "year": 1983,
+        "summits": [
+            {
+                "country": "France",
+                "date": "1883",
+                "place": "Vittel",
+                "summitNo": "10th",
+                "title": "L’intégrité du Tchad",
+                "img-src": "fr.png"
+            }
+        ]
+    },
+    {
         "year": 1984,
         "summits": [
             {
