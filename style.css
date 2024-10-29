@@ -85,3 +85,20 @@ body {
     height: 515px; 
     padding-left: 10px;
 }
+
+#apri-logo {
+    width: 160px
+}
+
+.mobile-navigation-icon {
+    width: 24px;
+    height: 25px;
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+    margin-left: 30px;
+}
+.header-search-form-two a {
+    line-height: 0;
+    font-size: 18px;
+}
