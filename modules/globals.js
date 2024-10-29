@@ -3,7 +3,7 @@ const jsonPath = './db/summits-by-year.json';
 const geojsonUrl = "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson";
 
 // Map
-const width = 600;
+const width = 500;
 const height = 350;
 const scale = width / 2 / Math.PI;
 const center = [0, 0];
