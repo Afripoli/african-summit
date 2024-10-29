@@ -7,7 +7,7 @@
                 "date": "13 November 1973",
                 "place": "Paris",
                 "summitNo": "1st",
-                "title": "Un nouveau cadre de dialogue",
+                "title": "Un Nouveau Cadre de Dialogue",
                 "img-src": "fr.png"
             }
         ]
@@ -20,7 +20,7 @@
                 "date": "1975",
                 "place": "Bangui",
                 "summitNo": "2nd",
-                "title": "Le nouvel ordre économique mondial",
+                "title": "Le Nouvel Ordre Économique Mondial",
                 "img-src": "fr.png"
             }
         ]
@@ -33,7 +33,7 @@
                 "date": "1976",
                 "place": "Paris",
                 "summitNo": "3rd",
-                "title": "Priorité au développement",
+                "title": "Priorité au Développement",
                 "img-src": "fr.png"
             }
         ]
@@ -46,7 +46,7 @@
                 "date": "1977",
                 "place": "Dakar",
                 "summitNo": "4th",
-                "title": "La montée des périls en Afrique",
+                "title": "La Montée des Périls en Afrique",
                 "img-src": "fr.png"
             }
         ]
@@ -59,7 +59,7 @@
                 "date": "1978",
                 "place": "Paris",
                 "summitNo": "5th",
-                "title": "Sécurité et développement",
+                "title": "Sécurité et Développement",
                 "img-src": "fr.png"
             }
         ]
@@ -72,7 +72,7 @@
                 "date": "1979",
                 "place": "Kigali",
                 "summitNo": "6th",
-                "title": "Les relations euro-africaines",
+                "title": "Les Relations Euro-Africaines",
                 "img-src": "fr.png"
             }
         ]
@@ -85,7 +85,7 @@
                 "date": "1980",
                 "place": "Nice",
                 "summitNo": "7th",
-                "title": "Le trilogue à l’honneur",
+                "title": "Le Trilogue à L’honneur",
                 "img-src": "fr.png"
             }
         ]
@@ -98,7 +98,7 @@
                 "date": "1981",
                 "place": "Paris",
                 "summitNo": "8th",
-                "title": "Solidarité et développement",
+                "title": "Solidarité et Développement",
                 "img-src": "fr.png"
             }
         ]
@@ -111,7 +111,7 @@
                 "date": "1982",
                 "place": "Kinshasa",
                 "summitNo": "9th",
-                "title": "Le dialogue Nord-Sud face à la crise mondiale",
+                "title": "Le Dialogue Nord-Sud Face à La Crise Mondiale",
                 "img-src": "fr.png"
             }
         ]
@@ -121,10 +121,10 @@
         "summits": [
             {
                 "country": "France",
-                "date": "1883",
+                "date": "1983",
                 "place": "Vittel",
                 "summitNo": "10th",
-                "title": "L’intégrité du Tchad",
+                "title": "L’Intégrité du Tchad",
                 "img-src": "fr.png"
             }
         ]
@@ -137,7 +137,7 @@
                 "date": "1984",
                 "place": "Bujumbura",
                 "summitNo": "11th",
-                "title": "Autosuffisance alimentaire et développement coordonné",
+                "title": "Autosuffisance Alimentaire et Développement Coordonné",
                 "img-src": "fr.png"
             }
         ]
@@ -150,7 +150,7 @@
                 "date": "1985",
                 "place": "Paris",
                 "summitNo": "12th",
-                "title": "L’endettement croissant de l’Afrique",
+                "title": "L’Endettement Croissant de L’Afrique",
                 "img-src": "fr.png"
             }
         ]
@@ -163,7 +163,7 @@
                 "date": "1986",
                 "place": "Lomé",
                 "summitNo": "13th",
-                "title": "Un «Plan Marshall pour l’Afrique»",
+                "title": "Un «Plan Marshall pour L’Afrique»",
                 "img-src": "fr.png"
             }
         ]
@@ -176,7 +176,7 @@
                 "date": "1987",
                 "place": "Antibes",
                 "summitNo": "14th",
-                "title": "La dette et les matières premières",
+                "title": "La Dette et Les Matières Premières",
                 "img-src": "fr.png"
             }
         ]
@@ -189,7 +189,7 @@
                 "date": "1988",
                 "place": "Casablanca",
                 "summitNo": "15th",
-                "title": "Vers la résolution des conflits régionaux",
+                "title": "Vers La Résolution des Conflits Régionaux",
                 "img-src": "fr.png"
             }
         ]
@@ -202,7 +202,7 @@
                 "date": "1990",
                 "place": "La Baule",
                 "summitNo": "16th",
-                "title": "Prime à la démocratisation",
+                "title": "Prime à La Démocratisation",
                 "img-src": "fr.png"
             }
         ]
@@ -215,7 +215,7 @@
                 "date": "1992",
                 "place": "Liberville",
                 "summitNo": "17th",
-                "title": "La rigueur économique",
+                "title": "La Rigueur Économique",
                 "img-src": "fr.png"
             }
         ]
@@ -241,7 +241,7 @@
                 "date": "8-9 November 1994",
                 "place": "Biarritz",
                 "summitNo": "18th",
-                "title": "Sécurité et interventions militaires",
+                "title": "Sécurité et Interventions Militaires",
                 "img-src": "fr.png"
             }
         ]
@@ -254,7 +254,7 @@
                 "date": "1996",
                 "place": "Ougadougou",
                 "summitNo": "19th",
-                "title": "Bonne gouvernance et développement",
+                "title": "Bonne Gouvernance et Développement",
                 "img-src": "fr.png"
             }
         ]
@@ -267,7 +267,7 @@
                 "date": "1998",
                 "place": "Paris",
                 "summitNo": "20th",
-                "title": "La sécurité en Afrique",
+                "title": "La Sécurité en Afrique",
                 "img-src": "fr.png"
             },
             {
@@ -301,7 +301,7 @@
                 "date": "2001",
                 "place": "Yaoundé",
                 "summitNo": "21st",
-                "title": "L’Afrique face aux défis de la  mondialisation",
+                "title": "L’Afrique Face aux Défis de la Mondialisation",
                 "img-src": "fr.png"
             }
         ]
@@ -322,7 +322,7 @@
                 "date": "2003",
                 "place": "Paris",
                 "summitNo": "22nd",
-                "title": "L’Afrique et la France, ensemble, dans le nouveau partenariat",
+                "title": "L’Afrique et La France, Ensemble, Dans Le Nouveau Partenariat",
                 "img-src": "fr.png"
             },
             {
@@ -356,7 +356,7 @@
                 "date": "4-5 November 2006",
                 "place": "Beijing",
                 "summitNo": "3rd",
-                "title": "Friendship, peace, cooperation and development",
+                "title": "Friendship, Peace, Cooperation and Development",
                 "img-src": "cn.png"
             }
         ]
@@ -411,7 +411,7 @@
                 "date": "2009",
                 "place": "Sharm el Sheikh",
                 "summitNo": "4th",
-                "title": "Deepening the new type of China-Africa Strategic Partnership for sustainable development",
+                "title": "Deepening the New Type of China-Africa Strategic Partnership for Sustainable Development",
                 "img-src": "cn.png"
             }
         ]
@@ -450,7 +450,7 @@
                 "date": "19-20 July 2012",
                 "place": "Beijing",
                 "summitNo": "5th",
-                "title": "Build on past achievements and open up new prospects for the new type of China-Africa strategic partnership",
+                "title": "Build on Past Achievements and Open Up New Prospects For The New Type of China-Africa Strategic Partnership",
                 "img-src": "cn.png"
             }
         ]
@@ -615,7 +615,7 @@
                 "date": "29-30 November 2021",
                 "place": "Dakar",
                 "summitNo": "8th",
-                "title": "Deepen China-Africa Partnership and Promote Sustainable Development to Build a China-Africa Community with a Shared Future in the New Era.",
+                "title": "Deepen China-Africa Partnership and Promote Sustainable Development to Build a China-Africa Community with a Shared Future in the New Era",
                 "img-src": "cn.png"
             },
             {
@@ -645,7 +645,7 @@
                 "date": "27-28 August 2022",
                 "place": "Tunis",
                 "summitNo": "8th",
-                "title": "Achieving sustainable and inclusive growth with reduced economic inequalities",
+                "title": "Achieving Sustainable and Inclusive Growth with Reduced Economic Inequalities",
                 "img-src": "jp.png"
             }
         ]
@@ -658,7 +658,7 @@
                 "date": "27-28 July 2023",
                 "place": "St Petersburg",
                 "summitNo": "2nd",
-                "title": "New level of mutually beneficial partnership",
+                "title": "New Level of Mutually Beneficial Partnership",
                 "img-src": "ru.png"
             },
             {

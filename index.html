@@ -18,58 +18,66 @@
     <div class="timeline-summit">
         <div class="container-xl mt-4 main-container">
             <div class="intro row row-cols-lg-1 row-cols-sm-2 row-cols-1 g-2 g-md-3">
-                <h1 class="text-center mb-4 title pt-lg-2 fw-bold h1" id="vis-title">A timeline of diplomatic summits with African states</h1>
-                <p class="mb-0 same-font-size">This interactive map provides insight into the deepening diplomatic ties between African countries and their global partners. It depicts the growing number of countries that have engaged in Africa+1* summits over time, from 1883 to today</p>
-                <p class="mt=0 mb-0 same-font-size">
-                    <button type="button" class="btn btn-dark btn-sm d-inline d-none d-md-inline-block" id="lupa"><img src="/src/img/search.svg" class="img-fluid"> </button>
-                    <i>Explore the data in two ways: by viewing the summits over time, or per country.
+                <h1 class="text-center mb-4 title pt-lg-2 fw-bold h1" id="vis-title">A timeline of diplomatic summits
+                    with African states</h1>
+                <p class="mb-0 same-font-size same-font-color">This interactive map provides insight into the deepening diplomatic ties between African countries and their global partners. It depicts the growing number of countries that have engaged in
+                    Africa+1* summits over time, from 1973 to today. The numbers on the map represent how many summits each country has hosted.</p>
+                <p class="mt=0 mb-0 font-size-instr">
+                    <img src="/src/img/search.svg" id="lupa" class="img-fluid"><i>  Explore the data in two ways: by viewing the summits over time, or per country.</i>
+                </p>
 
-                        To see  the growing number of summits over time, click on the ”animate” button below. Thereafter, click on a year to see summits that occurred at that specific time. Use the  arrows to access earlier and later entries.
-                        
-                        To see summits per country, click on the map. Information about specific summits will be displayed on the right of the map.</i></p>
-                <p class="mt=0 mb-0 same-font-size">To start the timeline, press
-                <div class="controls">
+                <p class="mb-0 font-size-instr"><i>To see the growing number of summits over time, click on the ”animate” button below. Thereafter,
+                        click on a year to see summits that occurred at that specific time. Use the arrows to access
+                        earlier and later entries. To see summits per country, click on the map. Information about specific summits will be
+                        displayed on the right of the map.</i></p>
+                </i></p>
+                <!-- <div class="controls mt-0">
                     <button type="button" id="playButtonDesktop"
-                    class="btn btn-dark btn-sm btn-play d-inline d-none d-md-inline-block">
-                         <img src="/src/img/play-white.svg" class="play-med" alt="Play button"> Animate
+                        class="btn btn-dark btn-sm btn-play d-inline d-none d-md-inline-block">
+                        <img src="/src/img/play-white.svg" class="play-med" alt="Play button"> Animate
                     </button>
-                    <!-- <button type="button" id="pauseButtonDesktop"
-                    class="btn btn-primary btn-sm btn-play d-inline d-none d-md-inline-block">
-                        <img src="/src/img/pause.svg" class="play-med" alt="Pause button">
-                    </button> -->
                     <button type="button" id="restartButtonDesktop"
-                    class="btn btn-dark btn-sm btn-play d-inline d-none d-md-inline-block">
+                        class="btn btn-dark btn-sm btn-play d-inline d-none d-md-inline-block">
                         <img src="/src/img/refresh-cw-white.svg" class="play-med" alt="Restart button"> Restart
                     </button>
-                </div>
-                    <!-- Desktop Restart button  -->
-                    <button type="button" id="restartButtonMobile" class="btn btn-primary btn-play d-inline d-md-none">
-                        <img src="/src/img/play-white.svg" alt="Play button">
-                    </button>
-                </p>
+                </div> -->
+                <!-- <button type="button" id="restartButtonMobile" class="btn btn-primary btn-play d-inline d-md-none">
+                    <img src="/src/img/play-white.svg" alt="Play button">
+                </button> -->
+                
             </div>
             <div class="row row-cols-lg-3 row-cols-sm-2 row-cols-1 g-2 g-md-3">
-                <div class="col-lg-2 pb-3 col-timeline column-with-border pe-2">
+                <div class="col-lg-3 pb-3 col-timeline column-with-border">
                     <div class="mx-auto">
-                        <h4 class="mt-3">Summit over time</h4>
+                        <h4 class="mt-3">Summits over time:</h4>
+                        <div class="d-flex">
+                            <button type="button" id="playButtonDesktop"
+                                class="btn btn-dark btn-sm btn-play d-inline d-none d-md-inline-block me-2">
+                                <img src="/src/img/play-white.svg" class="play-med" alt="Play button"> Animate
+                            </button>
+                            <button type="button" id="restartButtonDesktop"
+                                class="btn btn-dark btn-sm btn-play d-inline d-none d-md-inline-block">
+                                <img src="/src/img/refresh-cw-white.svg" class="play-med" alt="Restart button"> Restart
+                            </button>
+                        </div>
                         <div id="desktop-timeline" class="mt-0 pt-0"></div>
                     </div>
                 </div>
-                <div class="col-lg-6 pb-3 col-map column-with-border ms-4">
+                <div class="col-lg-6 pb-3 col-map column-with-border">
                     <div class="mx-auto">
-                        <h4 class="mt-3">Summits per country</h4>
+                        <h4 class="mt-3 ms-3">Summits per country:</h4>
                         <div id="map" class="map"></div>
                     </div>
                 </div>
-                <div class="col-lg-3 pb-3 col-summits-info">
-                    <div class="mx-auto"> 
+                <div class="col-lg-3 pb-3 col-summits-info mt-5 pt-3 ps-4">
+                    <div class="mx-auto">
                         <div id="summitListContainer" class="fix-col">
-                            <h5 id="summitCountry" class="mb-4 mt-3">
+                            <h4 id="summitCountry" class="mb-4 mt-3">
                                 <img src="" id="country-icon" class="img-fluid">
-                            </h5>
-                            <h4 id="total-summit" class="mb-3"></h4>
-                            <h4 id="intro-list-summit" class="mb-1"></h4>
-                            <p  id="list-order" class="small"></p>
+                            </h4>
+                            <h5 id="total-summit" class="mb-1"></h5>
+                            <h5 id="intro-list-summit" class="mb-0"></h5>
+                            <p id="list-order" class="small mt-0"></p>
                             <ul id="summitList" class="list-unstyled"></ul>
                         </div>
                     </div>
