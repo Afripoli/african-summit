@@ -42,7 +42,7 @@ body {
 }
 
 .down-arrow {
-    bottom: -450px;  /* Position at the bottom */
+    bottom: -510px;  /* Position at the bottom */
 }
 .down-arrow.disabled {
     opacity: 0.25;         /* Make the element appear faded */
