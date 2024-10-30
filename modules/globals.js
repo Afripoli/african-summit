@@ -28,7 +28,8 @@ const timelineStyle = {
     "borderWidthItem": 2,
     "clickedYearCountry": "#d87b00",
     "fontItem": "18px",
-    "fontWeight": "normal"
+    "fontWeight": "normal",
+    "fontWeightHighlight": "bold"
 }
 
 // Country flags

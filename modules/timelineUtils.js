@@ -103,6 +103,7 @@ export function drawTimeline(svg, summitData, displayedYears, countriesWithSummi
         .text(d => d.year)
         .style("cursor", "pointer")
         .style("font-size", `${timelineStyle.fontItem}`)
+        .style("font-weight", `${timelineStyle.fontWeightHighlight}`)
         .on("click", function (event, d) {
             const yearData = summitData.find(summit => summit.year === d.year);  // Get data for clicked year
             console.log('Data for the clicked year', yearData);
@@ -168,23 +169,23 @@ export function drawTimeline(svg, summitData, displayedYears, countriesWithSummi
 export function highlightItem(svg, summitData, highlightIndex, currentYearIndex) {
     const displayedYears = summitData.slice(currentYearIndex, currentYearIndex + maxYearsToShow);  // Get the current set of years
     // console.log('Input years for HighlightItem function', displayedYears)
-    // Reset the style of all circles and texts to default (gray)
-    svg.selectAll("circle").attr("fill", `${timelineStyle.defaultItem}`)
-    svg.selectAll("text.year").style("fill", `${timelineStyle.defaultItem}`);
+    // Reset the style of all circles
+    svg.selectAll("circle").attr("fill", `${timelineStyle.defaultItem}`);
+    svg.selectAll("text.year").style("fill", `${timelineStyle.defaultItem}`).style("font-weight", `${timelineStyle.fontWeightHighlight}`);
     svg.selectAll("text.country").style("fill", `${timelineStyle.defaultItem}`);
 
     const currentYearData = displayedYears[highlightIndex];  // Get the current year data using the index
-    //console.log('Highlighting the Year:', currentYearData.year)
+    console.log('current year data', currentYearData)
     if (currentYearData || (currentYearData && currentYearData.year <= displayedYears[-1].year)) { // If the data of the current year is less or equal than last obs of displayed years array 
         // If currentYearData exists, filter the circles based on the current year
         const circles = svg.selectAll('circle').filter(d => d.year === currentYearData.year);
         const textYear = svg.selectAll('text.year').filter(d => d.year === currentYearData.year);
-        const countries = svg.selectAll("text.country").filter(d => d.year === currentYearData.year);
+        const countries = svg.selectAll('text.country').filter(d => d.year === currentYearData.year);
         //console.log('Circles:', circles, 'TextYear:', textYear, 'Countries:', countries);
 
-        circles.attr('r', 10).attr('fill', timelineStyle.highlightItem);  // Highlighted circle
-        textYear.style('fill', timelineStyle.highlightItem);
-        countries.style('fill', timelineStyle.highlightItem);
+        circles.attr('r', 10).attr('fill', `${timelineStyle.highlightItem}`);
+        textYear.style('fill', `${timelineStyle.highlightItem}`).style("font-weight", `${timelineStyle.fontWeightHighlight}`);
+        countries.style('fill', `${timelineStyle.highlightItem}`).style("color", `${timelineStyle.highlightItem}`);
     }
 }
 
