@@ -95,9 +95,9 @@ const flagSrc = [
         }
     },
     {
-        country: "England",
+        country: "United Kingdom",
         img: {
-            "img-src": "gb-eng.png"
+            "img-src": "gb-nir.png"
         }
     },
     {

@@ -92,12 +92,17 @@ export function updateMap(geojsonData, summitMap, currentYear, summitsByCountryM
         .attr("font-size", "14px")
         .attr("font-weight", "450")
         .text(d => {
-            const iso = d.id;
-            const countryName = d.properties.name; // Get country name
+            let iso = d.id;
+            let countryName = d.properties.name; // Get country name
             const count = summitCounter.has(countryName) ? summitCounter.get(countryName) : undefined;
+            // Replace "England" with "UK"
+            if (countryName === "England") {
+                iso = "UK";
+            }
+
             // Only display if the country is in summitCounter
             if (count !== undefined) {
-                const iso = d.id || '';  // Get ISO abbreviation
+                //const iso = d.id || '';  // Get ISO abbreviation
                 return `${iso}: ${count}`; // Format text as "ISO: count"
             } else {
                 return ''; // Return empty string if not in summitCounter

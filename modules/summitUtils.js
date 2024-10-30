@@ -11,6 +11,9 @@ export function getSummitsforCountry(summitsByCountryMap, country) {
 }
 
 export function displaySummitsCountry(country, summitsCountry) {
+    if (country === "England") {
+        country = "United Kingdom";
+    }
     const filterFlag = flagSrc.filter(item => item.country === country);
     const flagCountry = filterFlag[0].img["img-src"];
     console.log('summits country reversed', summitsCountry.reverse);
