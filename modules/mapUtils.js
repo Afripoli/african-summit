@@ -142,8 +142,6 @@ function colorHostCountry(svg, hostCountry) {
         ? mapStyle.borderHost
         : mapStyle.defaultFill
     )
-    //.attr("stroke", d => (hostCountry.includes(d.properties.name)) ? mapStyle.borderHost : mapStyle.defaultBorder)
-    //.attr("stroke-width", d => (hostCountry.includes(d.properties.name)) ? mapStyle.borderWidthHost : mapStyle.defaultBorderWidth) // Thicker stroke for host countries
     .style("cursor", (d) =>
       hostCountry.includes(d.properties.name) ? "pointer" : "default"
     ) // Change cursor for host countries
@@ -172,7 +170,7 @@ export function borderClickedCountry(svg, hostCountries, countriesWithSummits) {
   });
 }
 
-export function updateMapByYear(geojsondata, year, cumulativeSummits) {
+export function updateMapByYear(geojsonData, year, cumulativeSummits) {
   console.log("Year in updateMapByYear", year);
   console.log(
     "Passing cumulative summits in updateMapByYear",
@@ -192,11 +190,11 @@ export function updateMapByYear(geojsondata, year, cumulativeSummits) {
     .attr("fill", (d) => {
       const country = d.properties.name;
       if (newCountries.has(country)) {
-        return mapStyle.newCountry; // Brown color for new countries
+        return `${mapStyle.clickedYearCountry}`; // Brown color for new countries
       } else if (cumulative.has(country)) {
-        return mapStyle.cumulativeCountry; // Yellow color for cumulative countries
+        return `${mapStyle.fillHost}`; // Yellow color for cumulative countries
       } else {
-        return mapStyle.defaultFill; // Default color for other countries
+        return `${mapStyle.defaultFill}`; // Default color for other countries
       }
     })
     .style("cursor", "pointer")
