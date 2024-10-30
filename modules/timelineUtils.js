@@ -75,9 +75,9 @@ export function drawTimeline(svg, summitData, displayedYears, countriesWithSummi
         .append("circle")
         .merge(circleGroup)
         .attr("cx", containerWidth / 3)  // Keep the circles centered horizontally
-        .attr("cy", (d, i) => circleSpacing * (i + 1) - (circleSpacing / 2))  // Adjust to start first circle at top
+        .attr("cy", (d, i) => circleSpacing * (i + 1) - (circleSpacing / 3))  // Adjust to start first circle at top
         .attr("r", (d, i) => i === 0 ? 10 : 5)  // Make the first circle bigger
-        .attr("fill", "gray")
+        .attr("fill", `${timelineStyle.defaultItem}`)
         .style("cursor", "pointer")
         .on("click", function (event, d) {
             const yearData = summitData.find(summit => summit.year === d.year);  // Get data for clicked year
@@ -98,10 +98,11 @@ export function drawTimeline(svg, summitData, displayedYears, countriesWithSummi
         .attr("class", "year")
         .merge(yearTextGroup)
         .attr("x", (containerWidth / 3) + 10)  // Position the label to the right of the circle
-        .attr("y", (d, i) => circleSpacing * (i + 1) + 5 - (circleSpacing / 2))  // Align with the circle vertically
+        .attr("y", (d, i) => circleSpacing * (i + 1) + 5 - (circleSpacing / 3))  // Align with the circle vertically
         .attr("text-anchor", "start")
         .text(d => d.year)
         .style("cursor", "pointer")
+        .style("font-size", `${timelineStyle.fontItem}`)
         .on("click", function (event, d) {
             const yearData = summitData.find(summit => summit.year === d.year);  // Get data for clicked year
             console.log('Data for the clicked year', yearData);
@@ -120,9 +121,10 @@ export function drawTimeline(svg, summitData, displayedYears, countriesWithSummi
         .attr("class", "country")
         .merge(countryTextGroup)
         .attr("x", (containerWidth / 3) + 1)  // Position the country label to the right of the year label
-        .attr("y", (d, i) => circleSpacing * (i + 1) + 25 - (circleSpacing / 2) )  // Align with the year label
+        .attr("y", (d, i) => circleSpacing * (i + 1) + 25 - (circleSpacing / 3) )  // Align with the year label
         .attr("text-anchor", "start")
-        .style("fill", "gray")
+        .style("font-size", `${timelineStyle.fontItem}`)
+        .style("fill", `${timelineStyle.defaultItem}`)
         .on("click", function (event, d) {
             const yearData = summitData.find(summit => summit.year === d.year);  // Get data for clicked year
             console.log('Data for the clicked year', yearData);
@@ -152,9 +154,9 @@ export function drawTimeline(svg, summitData, displayedYears, countriesWithSummi
         .append("line")
         .merge(lineGroup)
         .attr("x1", containerWidth / 3)
-        .attr("y1", (d, i) => circleSpacing * (i + 1) + 10 - (circleSpacing / 2))  // Start from below the previous circle
+        .attr("y1", (d, i) => circleSpacing * (i + 1) + 10 - (circleSpacing / 3))  // Start from below the previous circle
         .attr("x2", containerWidth / 3)
-        .attr("y2", (d, i) => circleSpacing * (i + 2) - 10 - (circleSpacing / 2))  // End above the next circle
+        .attr("y2", (d, i) => circleSpacing * (i + 2) - 10 - (circleSpacing / 3))  // End above the next circle
         .attr("stroke", "gray")
         .attr("stroke-width", 2);
     lineGroup.exit().remove();  // Remove any excess lines
@@ -167,9 +169,9 @@ export function highlightItem(svg, summitData, highlightIndex, currentYearIndex)
     const displayedYears = summitData.slice(currentYearIndex, currentYearIndex + maxYearsToShow);  // Get the current set of years
     // console.log('Input years for HighlightItem function', displayedYears)
     // Reset the style of all circles and texts to default (gray)
-    svg.selectAll("circle").attr("fill", "gray");
-    svg.selectAll("text.year").style("fill", "black");
-    svg.selectAll("text.country").style("fill", "gray");
+    svg.selectAll("circle").attr("fill", `${timelineStyle.defaultItem}`)
+    svg.selectAll("text.year").style("fill", `${timelineStyle.defaultItem}`);
+    svg.selectAll("text.country").style("fill", `${timelineStyle.defaultItem}`);
 
     const currentYearData = displayedYears[highlightIndex];  // Get the current year data using the index
     //console.log('Highlighting the Year:', currentYearData.year)
@@ -181,8 +183,8 @@ export function highlightItem(svg, summitData, highlightIndex, currentYearIndex)
         //console.log('Circles:', circles, 'TextYear:', textYear, 'Countries:', countries);
 
         circles.attr('r', 10).attr('fill', timelineStyle.highlightItem);  // Highlighted circle
-        textYear.style('font-weight', 'bold').style('fill', timelineStyle.highlightItem);
-        countries.style('font-weight', 'bold').style('fill', timelineStyle.highlightItem);
+        textYear.style('fill', timelineStyle.highlightItem);
+        countries.style('fill', timelineStyle.highlightItem);
     }
 }
 

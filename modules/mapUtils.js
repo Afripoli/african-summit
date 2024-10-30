@@ -56,18 +56,41 @@ export function updateMap(geojsonData, summitMap, currentYear, summitsByCountryM
             displaySummitsCountry(country, summits);  // Call function to display the summits
         });
     // Add or update summit count text inside countries
+    const countryOffsets = {
+        "Italy": { x: -5, y: 15 }, // Custom offset for Italy
+        "South Korea": { x: -10, y: 20 }, // Custom offset for Korea
+        "USA": { x: 0, y: 20 }, // Custom offset for USA
+        "China": { x: -25, y: 0 }, // Custom offset for Turkey
+        "France": { x: -40, y: 0 }, // Custom offset for France
+        "Saudi Arabia": { x: -20, y: 0 }, // Custom offset for Saudi Arabia
+        "India": { x: -20, y: 0 }, // Custom offset for India
+        "Japan": { x: -15, y: 0 }, // Custom offset for Japan
+    };
     svg.selectAll("text")
         .data(geojsonData.features)
         .join("text")
         .attr("transform", d => {
             const centroid = path.centroid(d);
-            //console.log('Centroid is', centroid)
-            return `translate(${centroid})`
+            // Get the country name
+            const countryName = d.properties.name;
+
+            // Default offsets
+            let offsetX = 0;
+            let offsetY = 0;
+
+            // Check if there are specific offsets for the country
+            if (countryOffsets[countryName]) {
+                offsetX = countryOffsets[countryName].x;
+                offsetY = countryOffsets[countryName].y;
+            }
+
+            // Apply the offsets
+            return `translate(${centroid[0] + offsetX}, ${centroid[1] + offsetY})`;
         })
         .attr("dy", ".25em")
-        .attr("text-anchor", "middle")
-        .attr("font-size", "12.5px")
-        .attr("font-weight", "600")
+        .attr("text-anchor", "start")
+        .attr("font-size", "14px")
+        .attr("font-weight", "450")
         .text(d => {
             const iso = d.id;
             const countryName = d.properties.name; // Get country name
@@ -93,8 +116,8 @@ function colorHostCountry(svg, hostCountry) {
     console.log('Coloring host country', hostCountry)
     svg.selectAll("path")
         .attr("fill", d => (hostCountry.includes(d.properties.name)) ? mapStyle.borderHost : mapStyle.defaultFill)
-        .attr("stroke", d => (hostCountry.includes(d.properties.name)) ? mapStyle.borderHost : mapStyle.defaultBorder)
-        .attr("stroke-width", d => (hostCountry.includes(d.properties.name)) ? mapStyle.borderWidthHost : mapStyle.defaultBorderWidth) // Thicker stroke for host countries
+        //.attr("stroke", d => (hostCountry.includes(d.properties.name)) ? mapStyle.borderHost : mapStyle.defaultBorder)
+        //.attr("stroke-width", d => (hostCountry.includes(d.properties.name)) ? mapStyle.borderWidthHost : mapStyle.defaultBorderWidth) // Thicker stroke for host countries
         .style("cursor", d => (hostCountry.includes(d.properties.name)) ? "pointer" : "default") // Change cursor for host countries
         .transition()
         .duration(500)

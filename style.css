@@ -37,12 +37,12 @@ body {
 }
 
 .up-arrow {
-    top: 450px;  /* Position at the top */
+    top: 485px;  /* Position at the top */
     /* right: 0px; */
 }
 
 .down-arrow {
-    bottom: 0px;  /* Position at the bottom */
+    bottom: -10px;  /* Position at the bottom */
 }
 .down-arrow.disabled {
     opacity: 0.25;         /* Make the element appear faded */
@@ -55,29 +55,50 @@ body {
 }
 
 .img-fluid.country-flag {
-    width: 50px;
+    width: 35px;
 }
 
 .col-lg-3.pb-3.col-summits-info {
-    height: 575px;
+    height: 500px;
     overflow-y: auto;
 }
 #lupa {
-    width: 35px;     
-    height: 35px;
+    width: 20px;     
+    height: 20px;
     cursor: none;
 }
 
 .same-font-size,
-text.country,
-.text.year,
 #summitList,
 .summitNospan {
     font-size: 18px;
 }
+.font-size-instr {
+    font-size: 14px;
+}
+.same-font-color {
+    color: #000;
+}
 
 .column-with-border {
     border-right: #808080c2 1px solid;
-    height: 450px; 
+    height: 515px; 
     padding-left: 10px;
+}
+
+#apri-logo {
+    width: 160px
+}
+
+.mobile-navigation-icon {
+    width: 24px;
+    height: 25px;
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+    margin-left: 30px;
+}
+.header-search-form-two a {
+    line-height: 0;
+    font-size: 18px;
 }

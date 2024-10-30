@@ -20,24 +20,24 @@ export function displaySummitsCountry(country, summitsCountry) {
     console.log('Summit list container', summitListContainer);
     const hostCountry = document.getElementById('summitCountry');
     country = country;
-    hostCountry.innerHTML = `<img src="/src/img/country-flags-main/png100px/${flagCountry}" class="img-fluid country-flag border border-dark border-2 rounded" alt="Flag"> ${country}`;
+    hostCountry.innerHTML = `<img src="/src/img/country-flags-main/png100px/${flagCountry}" class="img-fluid country-flag border border-dark border-1 rounded me-2" alt="Flag"> ${country}`;
     const totalSummits = document.getElementById('total-summit');
     totalSummits.innerHTML = `Total summits hosted: ${noSummits}`
     totalSummits.classList.add('fw-bolder')
     const listSummit = document.getElementById('intro-list-summit');
-    listSummit.innerHTML = 'List of summits';
+    listSummit.innerHTML = 'List of summits:';
     listSummit.classList.add('fw-bolder', 'mb-0')
     const listOrder = document.getElementById('list-order');
-    listOrder.innerHTML = '(from most to least recent)'
+    listOrder.innerHTML = `<i>(from most to least recent)</i>`
     summitListContainer.innerHTML = '';
     summitListContainer.append
     summitsCountry.reverse().forEach(summit => {
         const listItem = document.createElement('li');
         let titleContent = summit.title ? `${summit.title}` : `${summit.summitNo} Summit <sup>*</sup> <spr>`;
-        let dateContent = summit.date ? `<strong class="mb-0"><img src="src/img/calendar.svg" class="img-fluid calendar"> </strong> ${summit.date}<br>` : '';
-        let placeContent = summit.place ? `<strong class="mb-0"><img src="src/img/map-pin.svg" class="img-fluid location"> </strong> ${summit.place}<br>` : '';
+        let dateContent = summit.date ? `<p class="same-font-color mb-0"><img src="src/img/calendar.svg" class="img-fluid calendar"> ${summit.date}</p>` : '';
+        let placeContent = summit.place ? `<p class="same-font-color"><img src="src/img/map-pin.svg" class="img-fluid location"> ${summit.place}</p>` : '';
         listItem.innerHTML = `
-            <h5 class="mb-0 mt-4 fw-normal"><span class="badge bg-dark summitNospan">${summit.summitNo}</span>  ${titleContent}</h5>
+            <p class="mb-0 mt-4 same-font-size same-font-color"><span class="badge bg-dark summitNospan">${summit.summitNo}</span>  ${titleContent}</p>
             ${dateContent}
             ${placeContent}
         `;
