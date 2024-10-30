@@ -1,4 +1,4 @@
-import { updateMap, borderClickedCountry } from "./mapUtils.js";
+import { updateMap, borderClickedCountry, updateMapByYear } from "./mapUtils.js";
 import { maxYearsToShow, timelineStyle } from './globals.js';
 
 export function initDesktopTimelineSVG() {
@@ -9,8 +9,8 @@ export function initDesktopTimelineSVG() {
     return svg;
 }
 
-export function generateTimeline(svg, summitData, displayedYears) {
-    drawTimeline(svg, summitData, displayedYears);
+export function generateTimeline(svg, summitData, displayedYears, countriesWithSummits, geojsonData, cumulativeSummits) {
+    drawTimeline(svg, summitData, displayedYears, countriesWithSummits, geojsonData, cumulativeSummits);
 }
 
 export function appendUpArrow() {
@@ -19,11 +19,8 @@ export function appendUpArrow() {
     const upArrowDiv = document.createElement("div");
     upArrowDiv.classList.add("arrow-container", "up-arrow");
     upArrowDiv.innerHTML = '<i class="fas fa-chevron-up"></i>';
-    //upArrowDiv.style.left = `100px`;
     upArrowDiv.style.textAlign = 'center';
     upArrowDiv.style.position = "absolute";
-    //upArrowDiv.style.left = `${(containerWidth / 2)}px`; // Center above the timeline
-    // upArrowDiv.style.top = "20px";
     document.getElementById("desktop-timeline").appendChild(upArrowDiv);
 }
 
@@ -34,10 +31,6 @@ export function appendDownArrow(svg, summitData, currentYearIndex) {
     downArrowDiv.classList.add("arrow-container", "down-arrow");
     downArrowDiv.innerHTML = '<i class="fas fa-chevron-down"></i>';
     downArrowDiv.style.position = "absolute";
-    //downArrowDiv.style.left = `${(containerWidth / 2) - 20}px`; // Center below the timeline
-    //downArrowDiv.style.left = `100px`; // Center below the timeline
-    //downArrowDiv.style.top = `${containerHeight - 40}px`;
-    //downArrowDiv.style.top = `900px`;
     downArrowDiv.style.textAlign = 'center';
     document.getElementById("desktop-timeline").appendChild(downArrowDiv);
 }
@@ -61,8 +54,9 @@ export function updateTimelineDown(direction, svg, summitData, currentYearIndex)
     return { currentYearIndex, /*displayedYears,*/ currentYearIndexMax }
 }
 
-export function drawTimeline(svg, summitData, displayedYears, countriesWithSummits) {
+export function drawTimeline(svg, summitData, displayedYears, countriesWithSummits, geojsonData, cumulativeSummits) {
     console.log('Set countries with summits in drawtimeline function', countriesWithSummits)
+    console.log('Passing parameter cummulativeSummits in drawtimeline function', cumulativeSummits)
     //console.log('Current year index input Timeline UP', currentYearIndex)
     const containerHeight = document.getElementById("desktop-timeline").offsetHeight;
     const containerWidth = document.getElementById("desktop-timeline").offsetWidth;
@@ -85,7 +79,9 @@ export function drawTimeline(svg, summitData, displayedYears, countriesWithSummi
             const hostCountries = yearData.summits.map(summit => summit.country);
             console.log('Host country clicked', hostCountries)
             highlightClickedItem(svg, d);
-            borderClickedCountry(svg, hostCountrie, countriesWithSummits);
+            //borderClickedCountry(svg, hostCountries, countriesWithSummits);
+            updateMapByYear(geojsonData, yearData, cumulativeSummits);
+
         });
 
     circleGroup.exit().remove();  // Remove any excess circles
@@ -104,12 +100,14 @@ export function drawTimeline(svg, summitData, displayedYears, countriesWithSummi
         .style("cursor", "pointer")
         .style("font-size", `${timelineStyle.fontItem}`)
         .on("click", function (event, d) {
+            console.log('Summit data in timeline util', summitData)
             const yearData = summitData.find(summit => summit.year === d.year);  // Get data for clicked year
             console.log('Data for the clicked year', yearData);
             const hostCountries = yearData.summits.map(summit => summit.country);
             console.log('Host country clicked', hostCountries)
             highlightClickedItem(svg, d);
-            borderClickedCountry(svg, hostCountries, countriesWithSummits);
+            //borderClickedCountry(svg, hostCountries, countriesWithSummits);
+            updateMapByYear(geojsonData, yearData, cumulativeSummits);
         });
     yearTextGroup.exit().remove();  // Remove any excess year labels
 
@@ -131,7 +129,9 @@ export function drawTimeline(svg, summitData, displayedYears, countriesWithSummi
             const hostCountries = yearData.summits.map(summit => summit.country);
             console.log('Host country clicked', hostCountries)
             highlightClickedItem(svg, d);
-            borderClickedCountry(svg, hostCountries, countriesWithSummits);
+            //borderClickedCountry(svg, hostCountries, countriesWithSummits);
+            updateMapByYear(geojsonData, yearData, cumulativeSummits);
+
         })
         .each(function (d, i) {
             const textElement = d3.select(this);

@@ -10,7 +10,7 @@ let timelineEnded = false;
 let summitCounter = new Map();
 let generalCounter = 0; // saves a counter for each loop. We'll use it for the map
 
-function playTimeline(svg, summitData, geojsonData, summitMap, summitsByCountryMap, countriesWithSummits) {
+function playTimeline(svg, summitData, geojsonData, summitMap, summitsByCountryMap, countriesWithSummits, cumulativeSummits) {
     console.log('Countries with summits in playtimeline', countriesWithSummits)
     generalCounter = 0
     //console.log('Function PLAYTIMELINE ACTIVATED')
@@ -27,9 +27,9 @@ function playTimeline(svg, summitData, geojsonData, summitMap, summitsByCountryM
             console.log('Host country is', hostCountry);
             let displayedYears = summitData.slice(currentYearIndex, currentYearIndex + maxYearsToShow)
             //console.log('Current year', currentYear)
-            drawTimeline(svg, summitData, displayedYears, countriesWithSummits);
+            drawTimeline(svg, summitData, displayedYears, countriesWithSummits, cumulativeSummits);
             highlightItem(svg, summitData, highlightIndex, currentYearIndex);  // Highlight the current year
-            updateMap(geojsonData, summitMap, currentYear, summitsByCountryMap, hostCountry, summitCounter)
+            updateMap(geojsonData, summitMap, currentYear, summitsByCountryMap, hostCountry /*, summitCounter*/)
             highlightIndex += 1;
             generalCounter += 1;
             console.log('General counter is', generalCounter)
@@ -144,7 +144,7 @@ function arrowsClickListener(svg, summitData, currentYearIndex, countriesWithSum
             currentYearafterUpdate = currentYearIndex + maxYearsToShow;
             displayedYears = summitData.slice(currentYearIndex, currentYearafterUpdate);   
         }
-        drawTimeline(svg, summitData, displayedYears, countriesWithSummits);
+        drawTimeline(svg, summitData, displayedYears, countriesWithSummits, cumulativeSummits);
     }
 
     // Define named event handler functions to add/remove listeners
@@ -182,18 +182,21 @@ function resetSummitCounter() {
     console.log('Summit counter after clearing:', summitCounter);
 }
 
-export function initDesktopTimeline(geojsonData, summitData, summitMap, summitCounter, summitsByCountryMap, countriesWithSummits) {
+export function initDesktopTimeline(geojsonData, summitData, summitMap /*, summitCounter,*/, summitsByCountryMap, countriesWithSummits, cumulativeSummits) {
+    console.log('Passing countries with summits in initialize function', countriesWithSummits)
+    console.log('Passing cumulative summits in initialize function', cumulativeSummits)
     const svg = initDesktopTimelineSVG();  // Initialize the timeline SVG
     // Initially display the first 5 years
     let displayedYears = summitData.slice(currentYearIndex, currentYearIndex + maxYearsToShow)
     console.log('Displaying years by default', displayedYears)
-    generateTimeline(svg, summitData, displayedYears);
+    generateTimeline(svg, geojsonData, summitData, displayedYears, countriesWithSummits, cumulativeSummits);
     drawMap(geojsonData);
     // Attach arrows to timeline
     appendUpArrow();
     appendDownArrow();
     addTimelineItemClickListeners(svg);
     arrowsClickListener(svg, summitData, currentYearIndex, countriesWithSummits);
+    //updateMapByYear(geojsonData, )
     // Initialize play/pause functionality
-    playTimeline(svg, summitData, geojsonData, summitMap, summitCounter, summitsByCountryMap, countriesWithSummits);
+    playTimeline(svg, summitData, geojsonData, summitMap, /*summitCounter,*/ summitsByCountryMap, countriesWithSummits, cumulativeSummits);
 }
