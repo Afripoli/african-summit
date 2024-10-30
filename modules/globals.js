@@ -96,7 +96,7 @@ const flagSrc = [
     {
         country: "England",
         img: {
-            "img-src": "gb-eng"
+            "img-src": "gb-eng.png"
         }
     },
     {
