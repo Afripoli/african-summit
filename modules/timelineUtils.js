@@ -1,4 +1,4 @@
-import { updateMap, borderHostCountry } from "./mapUtils.js";
+import { updateMap, borderClickedCountry } from "./mapUtils.js";
 import { maxYearsToShow, timelineStyle } from './globals.js';
 
 export function initDesktopTimelineSVG() {
@@ -85,7 +85,7 @@ export function drawTimeline(svg, summitData, displayedYears, countriesWithSummi
             const hostCountries = yearData.summits.map(summit => summit.country);
             console.log('Host country clicked', hostCountries)
             highlightClickedItem(svg, d);
-            borderHostCountry(svg, hostCountrie, countriesWithSummits);
+            borderClickedCountry(svg, hostCountrie, countriesWithSummits);
         });
 
     circleGroup.exit().remove();  // Remove any excess circles
@@ -109,7 +109,7 @@ export function drawTimeline(svg, summitData, displayedYears, countriesWithSummi
             const hostCountries = yearData.summits.map(summit => summit.country);
             console.log('Host country clicked', hostCountries)
             highlightClickedItem(svg, d);
-            borderHostCountry(svg, hostCountries, countriesWithSummits);
+            borderClickedCountry(svg, hostCountries, countriesWithSummits);
         });
     yearTextGroup.exit().remove();  // Remove any excess year labels
 
@@ -131,7 +131,7 @@ export function drawTimeline(svg, summitData, displayedYears, countriesWithSummi
             const hostCountries = yearData.summits.map(summit => summit.country);
             console.log('Host country clicked', hostCountries)
             highlightClickedItem(svg, d);
-            borderHostCountry(svg, hostCountries, countriesWithSummits);
+            borderClickedCountry(svg, hostCountries, countriesWithSummits);
         })
         .each(function (d, i) {
             const textElement = d3.select(this);
@@ -233,7 +233,7 @@ export function mobileTimeline(svg, summitData, currentYearIndex) {
             const hostCountries = yearData.summits.length > 0
                 ? yearData.summits.map(summit => summit.country)
                 : [];
-            borderHostCountry(svg, hostCountries);
+                borderClickedCountry(svg, hostCountries);
         })
     yearTextGroup
         .attr("x", (d, i) => circleSpacing * (i + 1))
@@ -272,7 +272,7 @@ export function mobileTimeline(svg, summitData, currentYearIndex) {
             const hostCountries = yearData.summits.length > 0
                 ? yearData.summits.map(summit => summit.country)
                 : [];
-            borderHostCountry(svg, hostCountries);
+                borderClickedCountry(svg, hostCountries);
         });
     countryTextGroup
         .attr("x", (d, i) => circleSpacing * (i + 1))

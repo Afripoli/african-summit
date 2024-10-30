@@ -23,7 +23,7 @@ export function drawMap(geojson) {
 function updateSummitCounter(summitMap, currentYear, summitCounter) {
     //console.log('Summit map has current year', summitMap)
     summitMap[currentYear].forEach(country => {
-        //console.log('Country in summit map', country);
+        console.log('Country in summit map', country);
         summitCounter.set(country, (summitCounter.get(country) || 0) + 1);
     });
 }
@@ -123,7 +123,7 @@ function colorHostCountry(svg, hostCountry) {
         .duration(500)
 }
 
-export function borderHostCountry(svg, hostCountries, countriesWithSummits) {
+export function borderClickedCountry(svg, hostCountries, countriesWithSummits) {
     console.log('Set countries with summits in borderHostCountry', countriesWithSummits)
     console.log('Bordering host countries', hostCountries)
     d3.selectAll("path")
@@ -143,3 +143,5 @@ export function borderHostCountry(svg, hostCountries, countriesWithSummits) {
             }
         });
 }
+
+

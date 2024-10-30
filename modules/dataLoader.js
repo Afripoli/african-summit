@@ -10,6 +10,8 @@ export async function loadAndMergeData(geojsonUrl, jsonFilePath) {
         const countriesWithSummits = new Set();
         const summitCounter = new Map();
         const summitsByCountryMap = new Map();
+        const cumulative = new Map();
+        const cumulativeSummits = new Map();
 
         jsonData.forEach(entry => {
             const { year, summits } = entry;
@@ -65,13 +67,42 @@ export async function loadAndMergeData(geojsonUrl, jsonFilePath) {
             }
         });
 
+        jsonData.forEach(entry => {
+            const year = entry.year;
+            const newCountries = new Map();
+    
+            entry.summits.forEach(summit => {
+                const country = summit.country;
+    
+                // Update new countries map
+                if (!newCountries.has(country)) {
+                    newCountries.set(country, 1);
+                } else {
+                    newCountries.set(country, newCountries.get(country) + 1);
+                }
+    
+                // Update cumulative map
+                if (!cumulative.has(country)) {
+                    cumulative.set(country, 1);
+                } else {
+                    cumulative.set(country, cumulative.get(country) + 1);
+                }
+            });
+    
+            // Store the cumulative and new countries data for the current year
+            cumulativeSummits.set(year, {
+                cumulative: new Map(cumulative),
+                new: new Map(newCountries)
+            });
+        });
 
         return {
             geojsonData,
             jsonData,
             summitMap,
             countriesWithSummits,
-            summitsByCountryMap
+            summitsByCountryMap,
+            cumulativeSummits
         };
     } catch (error) {
         console.error("Error loading or merging data:", error);
