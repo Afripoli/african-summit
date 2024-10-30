@@ -37,12 +37,12 @@ body {
 }
 
 .up-arrow {
-    top: 485px;  /* Position at the top */
+    top: 665px;  /* Position at the top */
     /* right: 0px; */
 }
 
 .down-arrow {
-    bottom: -250px;  /* Position at the bottom */
+    bottom: -350px;  /* Position at the bottom */
 }
 .down-arrow.disabled {
     opacity: 0.25;         /* Make the element appear faded */
