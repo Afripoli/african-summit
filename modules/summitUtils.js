@@ -43,11 +43,11 @@ export function displaySummitsCountry(country, summitsCountry) {
         `;
         summitListContainer.appendChild(listItem);
         // Add a footnote if title is empty and it's not already added
-        if (!summit.title) {
-            const footnote = document.createElement('p');
-            footnote.innerHTML = `<sup>*</sup> Summit number only, no title found.`;
-            footnote.classList.add('fs-6', 'mt-3');  // Optionally, add a class for styling
-            summitListContainer.appendChild(footnote);
-        }
+        // if (!summit.title) {
+        //     const footnote = document.createElement('p');
+        //     footnote.innerHTML = `<sup>*</sup> Summit number only, no title found.`;
+        //     footnote.classList.add('fs-6', 'mt-3');  // Optionally, add a class for styling
+        //     summitListContainer.appendChild(footnote);
+        // }
     })
 }
