@@ -52,7 +52,7 @@ function playTimeline(svg, summitData, geojsonData, summitMap, summitsByCountryM
                 isPlaying = false;
             }
             console.log('Checking if values save correctly', currentYearIndex, highlightIndex)
-        }, 500);
+        }, 100);
     }
     // Play/Pause button logic
     const playPauseBtn = document.getElementById('playButtonDesktop');
@@ -189,6 +189,11 @@ export function initDesktopTimeline(geojsonData, summitData, summitMap, summitCo
     console.log('Displaying years by default', displayedYears)
     generateTimeline(svg, summitData, displayedYears);
     drawMap(geojsonData);
+    // Attach arrows to timeline
+    appendUpArrow();
+    appendDownArrow();
+    addTimelineItemClickListeners(svg);
+    arrowsClickListener(svg, summitData, currentYearIndex, countriesWithSummits);
     // Initialize play/pause functionality
     playTimeline(svg, summitData, geojsonData, summitMap, summitCounter, summitsByCountryMap, countriesWithSummits);
 }
