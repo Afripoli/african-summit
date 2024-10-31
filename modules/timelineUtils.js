@@ -148,7 +148,7 @@ export function drawTimeline(
     .attr("y", (d, i) => circleSpacing * (i + 1) + 25 - circleSpacing / 3) // Align with the year label
     .attr("text-anchor", "start")
     .style("font-size", `${timelineStyle.fontItem}`)
-    .style("fill", `${timelineStyle.defaultItem}`)
+    .style("fill", `${timelineStyle.defaultItem}`)  
     .on("click", function (event, d) {
       const yearData = summitData.find((summit) => summit.year === d.year); // Get data for clicked year
       console.log("Data for the clicked year", yearData);
@@ -161,6 +161,7 @@ export function drawTimeline(
     .each(function (d, i) {
         console.log('Country text group', d)
       const textElement = d3.select(this);
+      console.log('Summits in country text group', d.summits)
       if (d.summits.length > 0) {
         textElement.selectAll("tspan").remove(); // Clear old tspans
         d.summits.forEach((summit, index) => {
