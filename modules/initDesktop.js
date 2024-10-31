@@ -3,8 +3,8 @@ import {
     generateTimeline,
     drawTimeline,
     highlightItem,
-    appendUpArrow,
-    appendDownArrow,
+    //appendUpArrow,
+    //appendDownArrow,
     highlightClickedItem,
 } from "./timelineUtils.js";
 import { maxYearsToShow } from "./globals.js";
@@ -21,9 +21,9 @@ let generalCounter = 0; // saves a counter for each loop. We'll use it for the m
 // Function to initialize default page 
 function initializePage(svg, geojsonData, summitData, displayedYears, countriesWithSummits, cumulativeSummits) {
     drawMap(geojsonData);
-    drawTimeline(svg, geojsonData, summitData, displayedYears, countriesWithSummits, cumulativeSummits);
-    appendUpArrow();
-    appendDownArrow();
+    drawTimeline(svg, geojsonData, summitData, currentYearIndex, displayedYears, countriesWithSummits, cumulativeSummits);
+    //appendUpArrow();
+    //appendDownArrow();
     addTimelineItemClickListeners(svg);
     arrowsClickListener(svg,
         geojsonData,
@@ -33,10 +33,6 @@ function initializePage(svg, geojsonData, summitData, displayedYears, countriesW
         cumulativeSummits);
 }
 
-// Function to start the timeline animation
-function startAnimation(svg, summitData, geojsonData, summitMap, summitsByCountryMap, countriesWithSummits, cumulativeSummits) {
-    playTimeline(svg, summitData, geojsonData, summitMap, summitsByCountryMap, countriesWithSummits, cumulativeSummits);
-}
 
 export function initDesktopTimeline(geojsonData, summitData, summitMap, summitsByCountryMap, countriesWithSummits, cumulativeSummits) {
     const svg = initDesktopTimelineSVG();
@@ -50,10 +46,18 @@ export function initDesktopTimeline(geojsonData, summitData, summitMap, summitsB
     animateButton.addEventListener("click", function () {
         startAnimation(svg, summitData, geojsonData, summitMap, summitsByCountryMap, countriesWithSummits, cumulativeSummits);
     });
+    // Ensure arrow event listeners are attached
+    arrowsClickListener(svg,
+        geojsonData,
+        summitData,
+        currentYearIndex,
+        countriesWithSummits,
+        cumulativeSummits);
 }
-
-
-
+// Function to start the timeline animation
+function startAnimation(svg, summitData, geojsonData, summitMap, summitsByCountryMap, countriesWithSummits, cumulativeSummits) {
+    playTimeline(svg, summitData, geojsonData, summitMap, summitsByCountryMap, countriesWithSummits, cumulativeSummits);
+}
 function playTimeline(
     svg,
     summitData,
@@ -65,7 +69,6 @@ function playTimeline(
 ) {
     console.log("Countries with summits in playtimeline", countriesWithSummits);
     generalCounter = 0;
-    //console.log('Function PLAYTIMELINE ACTIVATED')
     function startPlaying(currentYearIndex, highlightIndex) {
         clearInterval(intervalId);
         intervalId = setInterval(() => {
@@ -93,6 +96,7 @@ function playTimeline(
                 svg,
                 geojsonData,
                 summitData,
+                currentYearIndex,
                 displayedYears,
                 countriesWithSummits,
                 cumulativeSummits
@@ -195,6 +199,13 @@ function playTimeline(
             isPlaying = true;
             //startPlaying(currentYearIndex, highlightIndex);
         }
+        // Ensure arrow event listeners are attached after animation
+        arrowsClickListener(svg,
+            geojsonData,
+            summitData,
+            currentYearIndex,
+            countriesWithSummits,
+            cumulativeSummits);
     });
     // Restart button
     const restartBtn = document.getElementById("restartButtonDesktop");
@@ -222,7 +233,7 @@ function addTimelineItemClickListeners(svg) {
             highlightHostCountries(clickedYearData); // Highlight corresponding host countries
         });
 }
-function arrowsClickListener(
+export function arrowsClickListener(
     svg,
     geojsonData,
     summitData,
@@ -235,22 +246,16 @@ function arrowsClickListener(
     let currentYearafterUpdate = currentYearIndex;
     let displayedYears;
 
-    const upArrowDiv = document.querySelector(".up-arrow");
-    const downArrowDiv = document.querySelector(".down-arrow");
-
-    // Check if the elements exist
-    if (!upArrowDiv || !downArrowDiv) {
-        console.error("Arrow elements not found in the DOM");
-        return;
+    // Define named event handler functions to add/remove listeners
+    function handleUpArrowClick() {
+        console.log("Up arrow clicked");
+        handleArrowClick(-maxYearsToShow);
     }
 
-    // Remove any existing listeners to prevent duplicate events
-    upArrowDiv.removeEventListener("click", handleUpArrowClick);
-    downArrowDiv.removeEventListener("click", handleDownArrowClick);
-
-    console.log("Attaching arrow event listeners");
-    attachArrowEventListeners();
-
+    function handleDownArrowClick() {
+        console.log("Down arrow clicked");
+        handleArrowClick(maxYearsToShow);
+    }
     function handleArrowClick(maxYearsToShow) {
         console.log(
             "On click | Current year index",
@@ -284,27 +289,41 @@ function arrowsClickListener(
             svg,
             geojsonData,
             summitData,
+            currentYearIndex,
             displayedYears,
             countriesWithSummits,
             cumulativeSummits
         );
     }
+   // Attach event listeners to the arrows
+   svg.selectAll(".up-arrow").on("click", handleUpArrowClick);
+   svg.selectAll(".down-arrow").on("click", handleDownArrowClick);
 
+    //const upArrowDiv = document.querySelector(".up-arrow");
+    //const downArrowDiv = document.querySelector(".down-arrow");
+
+    // Check if the elements exist
+    /*if (!upArrowDiv || !downArrowDiv) {
+        console.error("Arrow elements not found in the DOM");
+        return;
+    }*/
+
+    // Remove any existing listeners to prevent duplicate events
+    //upArrowDiv.removeEventListener("click", handleUpArrowClick);
+    //downArrowDiv.removeEventListener("click", handleDownArrowClick);
+
+    //console.log("Attaching arrow event listeners");
+
+    //attachArrowEventListeners();
+    // Attach event listeners
+    //upArrowDiv.addEventListener("click", handleUpArrowClick);
+    //downArrowDiv.addEventListener("click", handleDownArrowClick);
     // Define named event handler functions to add/remove listeners
-    function handleUpArrowClick() {
-        console.log("Up arrow clicked");
-        handleArrowClick(-maxYearsToShow);
-    }
 
-    function handleDownArrowClick() {
-        console.log("Down arrow clicked");
-        handleArrowClick(maxYearsToShow);
-    }
-
-    function attachArrowEventListeners() {
-        upArrowDiv.addEventListener("click", handleUpArrowClick);
-        downArrowDiv.addEventListener("click", handleDownArrowClick);
-    }
+    // function attachArrowEventListeners() {
+    //     upArrowDiv.addEventListener("click", handleUpArrowClick);
+    //     downArrowDiv.addEventListener("click", handleDownArrowClick);
+    // }
     // Initial attachment of arrow listeners
     //attachArrowEventListeners();
 }
@@ -339,56 +358,3 @@ function resetSummitCounter() {
     summitCounter.clear();
     console.log("Summit counter after clearing:", summitCounter);
 }
-
-/*
-export function initDesktopTimeline(
-    geojsonData,
-    summitData,
-    summitMap /*, summitCounter,,
-    summitsByCountryMap,
-    countriesWithSummits,
-    cumulativeSummits
-) {
-    console.log(
-        "Passing countries with summits in initialize function",
-        countriesWithSummits
-    );
-    console.log(
-        "Passing cumulative summits in initialize function",
-        cumulativeSummits
-    );
-    console.log("Passing summit data in initialize function", summitData);
-    const svg = initDesktopTimelineSVG(); // Initialize the timeline SVG
-    // Initially display the first 5 years
-    let displayedYears = summitData.slice(
-        currentYearIndex,
-        currentYearIndex + maxYearsToShow
-    );
-    console.log("Displaying years by default", displayedYears);
-    generateTimeline(
-        svg,
-        geojsonData,
-        summitData,
-        displayedYears,
-        countriesWithSummits,
-        cumulativeSummits
-    );
-    drawMap(geojsonData);
-    // Attach arrows to timeline
-    appendUpArrow();
-    appendDownArrow();
-    addTimelineItemClickListeners(svg);
-    arrowsClickListener(svg, summitData, currentYearIndex, countriesWithSummits);
-    //updateMapByYear(geojsonData, )
-    // Initialize play/pause functionality
-    playTimeline(
-        svg,
-        summitData,
-        geojsonData,
-        summitMap,
-    //summitCounter,
-    summitsByCountryMap,
-        countriesWithSummits,
-        cumulativeSummits
-    );
-}*/
