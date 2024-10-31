@@ -33,33 +33,6 @@ export function generateTimeline(
         cumulativeSummits
     );
 }
-
-// export function appendUpArrow() {
-//     const containerHeight =
-//         document.getElementById("desktop-timeline").offsetHeight;
-//     const containerWidth =
-//         document.getElementById("desktop-timeline").offsetWidth;
-//     const upArrowDiv = document.createElement("div");
-//     upArrowDiv.classList.add("arrow-container", "up-arrow");
-//     upArrowDiv.innerHTML = '<i class="fas fa-chevron-up"></i>';
-//     upArrowDiv.style.textAlign = "center";
-//     upArrowDiv.style.position = "absolute";
-//     document.getElementById("desktop-timeline").appendChild(upArrowDiv);
-// }
-
-// export function appendDownArrow() {
-//     const containerHeight =
-//         document.getElementById("desktop-timeline").offsetHeight;
-//     const containerWidth =
-//         document.getElementById("desktop-timeline").offsetWidth;
-//     const downArrowDiv = document.createElement("div");
-//     downArrowDiv.classList.add("arrow-container", "down-arrow");
-//     downArrowDiv.innerHTML = '<i class="fas fa-chevron-down"></i>';
-//     downArrowDiv.style.position = "absolute";
-//     downArrowDiv.style.textAlign = "center";
-//     document.getElementById("desktop-timeline").appendChild(downArrowDiv);
-// }
-
 export function drawTimeline(
     svg,
     geojsonData,

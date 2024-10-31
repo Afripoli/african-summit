@@ -22,8 +22,6 @@ let generalCounter = 0; // saves a counter for each loop. We'll use it for the m
 function initializePage(svg, geojsonData, summitData, displayedYears, countriesWithSummits, cumulativeSummits) {
     drawMap(geojsonData);
     drawTimeline(svg, geojsonData, summitData, currentYearIndex, displayedYears, countriesWithSummits, cumulativeSummits);
-    //appendUpArrow();
-    //appendDownArrow();
     addTimelineItemClickListeners(svg);
     arrowsClickListener(svg,
         geojsonData,
@@ -32,7 +30,6 @@ function initializePage(svg, geojsonData, summitData, displayedYears, countriesW
         countriesWithSummits,
         cumulativeSummits);
 }
-
 
 export function initDesktopTimeline(geojsonData, summitData, summitMap, summitsByCountryMap, countriesWithSummits, cumulativeSummits) {
     const svg = initDesktopTimelineSVG();
@@ -298,34 +295,6 @@ export function arrowsClickListener(
    // Attach event listeners to the arrows
    svg.selectAll(".up-arrow").on("click", handleUpArrowClick);
    svg.selectAll(".down-arrow").on("click", handleDownArrowClick);
-
-    //const upArrowDiv = document.querySelector(".up-arrow");
-    //const downArrowDiv = document.querySelector(".down-arrow");
-
-    // Check if the elements exist
-    /*if (!upArrowDiv || !downArrowDiv) {
-        console.error("Arrow elements not found in the DOM");
-        return;
-    }*/
-
-    // Remove any existing listeners to prevent duplicate events
-    //upArrowDiv.removeEventListener("click", handleUpArrowClick);
-    //downArrowDiv.removeEventListener("click", handleDownArrowClick);
-
-    //console.log("Attaching arrow event listeners");
-
-    //attachArrowEventListeners();
-    // Attach event listeners
-    //upArrowDiv.addEventListener("click", handleUpArrowClick);
-    //downArrowDiv.addEventListener("click", handleDownArrowClick);
-    // Define named event handler functions to add/remove listeners
-
-    // function attachArrowEventListeners() {
-    //     upArrowDiv.addEventListener("click", handleUpArrowClick);
-    //     downArrowDiv.addEventListener("click", handleDownArrowClick);
-    // }
-    // Initial attachment of arrow listeners
-    //attachArrowEventListeners();
 }
 
 function timelineFinished(
