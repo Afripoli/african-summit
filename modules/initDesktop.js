@@ -284,6 +284,7 @@ function timelineFinished(
   timelineEnded = true; // Set the flag to true when the timeline ends
   addTimelineItemClickListeners(svg);
   arrowsClickListener(svg, summitData, currentYearIndex, countriesWithSummits);
+  //updateMapByYear(geojsonData, year, cumulativeSummits)
 }
 function resetSummitCounter() {
   console.log("Clearing summitCounter...");
