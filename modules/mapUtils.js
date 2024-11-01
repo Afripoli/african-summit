@@ -5,6 +5,7 @@ import {
   translation,
   hostCountry,
   mapStyle,
+  countryOffsets
 } from "./globals.js";
 import { getSummitsforCountry, displaySummitsCountry } from "./summitUtils.js";
 
@@ -36,6 +37,38 @@ function updateSummitCounter(summitMap, currentYear, summitCounter) {
   });
 }
 
+function drawCountryISO(svg, geojsonData, summitCounter) {
+  //svg.selectAll(".country-label").remove(); // Remove existing labels
+  svg.selectAll(".country-label")
+    .data(geojsonData.features)
+    .enter()
+    .append("text")
+    .attr("class", "country-label")
+    .attr("x", d => {
+      const countryName = d.properties.name;
+      return (countryOffsets[countryName]?.x || 0) + path.centroid(d)[0];
+    })
+    .attr("y", d => {
+      const countryName = d.properties.name;
+      return (countryOffsets[countryName]?.y || 0) + path.centroid(d)[1];
+    })
+    .text(d => {
+      const countryName = d.properties.name;
+      const count = summitCounter.has(countryName)
+        ? summitCounter.get(countryName)
+        : undefined;
+      if (count !== undefined) {
+        const iso = d.id || ""; // Get ISO abbreviation
+        return `${iso}: ${count}`; // Format text as "ISO: count"
+      } else {
+        return ""; // Return empty string if not in summitCounter
+      }
+    })
+    .attr("text-anchor", "middle")
+    .attr("alignment-baseline", "middle")
+    .style("font-size", "10px")
+    .style("fill", "black");
+}
 export function updateMap(
   geojsonData,
   summitMap,
@@ -44,15 +77,10 @@ export function updateMap(
   hostCountry,
   summitCounter
 ) {
-  //console.log('Summit counter input', summitCounter)
   updateSummitCounter(summitMap, currentYear, summitCounter);
-  //console.log('Host country input', hostCountry)
-  //console.log('Summit map data for that current year', [currentYear], summitMap[currentYear])
   summitMap[currentYear].forEach((country) => {
-    //console.log('COUNTRIES IN SUMMIT MAP', country)
     hostCountry.push(country);
     colorHostCountry(svg, hostCountry);
-    //summitCounter.set(country, (summitCounter.get(country) || 0) + 1);
   });
   svg
     .selectAll("path")
@@ -70,66 +98,9 @@ export function updateMap(
       //console.log('Country on click', d.properties.name)
       const country = d.properties.name;
       const summits = getSummitsforCountry(summitsByCountryMap, country);
-      //console.log('Summit hosted in Country', summits)
       displaySummitsCountry(country, summits); // Call function to display the summits
     });
-  // Add or update summit count text inside countries
-  const countryOffsets = {
-    Italy: { x: -5, y: 15 }, // Custom offset for Italy
-    "South Korea": { x: -10, y: 20 }, // Custom offset for Korea
-    USA: { x: 0, y: 20 }, // Custom offset for USA
-    China: { x: -25, y: 0 }, // Custom offset for Turkey
-    France: { x: -40, y: 0 }, // Custom offset for France
-    "Saudi Arabia": { x: -20, y: 0 }, // Custom offset for Saudi Arabia
-    India: { x: -20, y: 0 }, // Custom offset for India
-    Japan: { x: -15, y: 0 }, // Custom offset for Japan
-  };
-  svg
-    .selectAll("text")
-    .data(geojsonData.features)
-    .join("text")
-    .attr("transform", (d) => {
-      const centroid = path.centroid(d);
-      // Get the country name
-      const countryName = d.properties.name;
-
-      // Default offsets
-      let offsetX = 0;
-      let offsetY = 0;
-
-      // Check if there are specific offsets for the country
-      if (countryOffsets[countryName]) {
-        offsetX = countryOffsets[countryName].x;
-        offsetY = countryOffsets[countryName].y;
-      }
-
-      // Apply the offsets
-      return `translate(${centroid[0] + offsetX}, ${centroid[1] + offsetY})`;
-    })
-    .attr("dy", ".25em")
-    .attr("text-anchor", "start")
-    .attr("font-size", "14px")
-    .attr("font-weight", "450")
-    .text((d) => {
-      const iso = d.id;
-      const countryName = d.properties.name; // Get country name
-      const count = summitCounter.has(countryName)
-        ? summitCounter.get(countryName)
-        : undefined;
-      // Only display if the country is in summitCounter
-      if (count !== undefined) {
-        const iso = d.id || ""; // Get ISO abbreviation
-        return `${iso}: ${count}`; // Format text as "ISO: count"
-      } else {
-        return ""; // Return empty string if not in summitCounter
-      }
-    })
-    .style("cursor", "pointer")
-    .on("click", function (event, d) {
-      const country = d.properties.name;
-      const summits = getSummitsforCountry(summitsByCountryMap, country);
-      displaySummitsCountry(country, summits); // Call function to display the summits
-    });
+  drawCountryISO(svg, geojsonData, summitCounter)
 }
 
 // select host country
@@ -205,31 +176,36 @@ export function updateMapByYear(geojsonData, year, cumulativeSummits) {
     });
   // Add or update summit count text inside countries
   svg.selectAll("text")
-        .data(geojsonData.features)
-        .join("text")
-    .attr("transform", (d) => {
+    .data(geojsonData.features)
+    .join("text")
+    .attr("class", "country-counter")
+    .attr("x", d => {
+      const countryName = d.properties.name;
+      return (countryOffsets[countryName]?.x || 0) + path.centroid(d)[0];
+    })
+    .attr("y", d => {
+      const countryName = d.properties.name;
+      return (countryOffsets[countryName]?.y || 0) + path.centroid(d)[1];
+    })
+    /*.attr("transform", (d) => {
       const centroid = path.centroid(d);
       return `translate(${centroid[0]}, ${centroid[1]})`;
-    })
+    })*/
     .attr("dy", ".25em")
-    .attr("text-anchor", "start")
+    .attr("text-anchor", "middle")
+    .attr("alignment-baseline", "middle")
     .attr("font-size", "14px")
     .attr("font-weight", "450")
     .text((d) => {
+      const iso = d.id;
       const countryName = d.properties.name;
       const count = cumulative.has(countryName)
         ? cumulative.get(countryName)
         : undefined;
       if (count !== undefined) {
-        return `${countryName}: ${count}`; // Format text as "Country: count"
+        return `${iso}: ${count}`; // Format text as "Country: count"
       } else {
         return ""; // Return empty string if not in cumulative
       }
     })
-    .style("cursor", "pointer")
-    .on("click", function (event, d) {
-      const country = d.properties.name;
-      const summits = getSummitsforCountry(summitsByCountryMap, country);
-      displaySummitsCountry(country, summits); // Call function to display the summits
-    });
 }
