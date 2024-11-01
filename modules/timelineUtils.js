@@ -43,6 +43,7 @@ export function drawTimeline(
     cumulativeSummits
 ) {
     console.log("Passing summit data in drawtimeline function", summitData);
+    console.log("Drawing year", displayedYears);
     console.log(
         "Set countries with summits in drawtimeline function",
         countriesWithSummits
@@ -51,12 +52,12 @@ export function drawTimeline(
         "Passing parameter cummulativeSummits in drawtimeline function",
         cumulativeSummits
     );
-    //console.log('Current year index input Timeline UP', currentYearIndex)
+
     const containerHeight = svg.node().getBoundingClientRect().height;
     const containerWidth = svg.node().getBoundingClientRect().width;
-    //const displayedYears = summitData.slice(currentYearIndex, currentYearIndex + maxYearsToShow);  // Get the current set of years
-    //console.log('Drawing years: ', displayedYears)
     const circleSpacing = containerHeight / (maxYearsToShow + 1);
+
+    // Draw the timeline circles
     const circleGroup = svg
         .selectAll("circle")
         .data(displayedYears, (d) => d.year);
@@ -98,7 +99,7 @@ export function drawTimeline(
     // Append down arrow
     svg.append("text")
         .attr("x", containerWidth / 3)  // Center horizontally
-        .attr("y", lastItemPosition + 40)  // Position below the last item
+        .attr("y", lastItemPosition + 50)  // Position below the last item
         .attr("text-anchor", "middle")
         .attr("font-size", "36px")
         .attr("class", "down-arrow")

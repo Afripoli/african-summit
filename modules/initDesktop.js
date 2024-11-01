@@ -26,7 +26,7 @@ function initializePage(svg, geojsonData, summitData, displayedYears, countriesW
     arrowsClickListener(svg,
         geojsonData,
         summitData,
-        currentYearIndex,
+        //currentYearIndex,
         countriesWithSummits,
         cumulativeSummits);
 }
@@ -240,7 +240,13 @@ export function arrowsClickListener(
 ) {
     console.log('Summit Data in arrows click listener', summitData);
     console.log("FIRST Current year index", currentYearIndex);
-    let currentYearafterUpdate = currentYearIndex;
+    //let currentYearIndex = initialYearIndex;
+    // let currentYearafterUpdate = currentYearIndex;
+    // if (currentYearIndex === 0) {
+    //     currentYearafterUpdate = maxYearsToShow;
+    // }
+    let currentYearafterUpdate = currentYearIndex + maxYearsToShow;
+    console.log('Current year after update before handleArrowClick', currentYearafterUpdate);
     let displayedYears;
 
     // Define named event handler functions to add/remove listeners
@@ -262,26 +268,29 @@ export function arrowsClickListener(
         ); //
         if (maxYearsToShow < 0) {
             // Click Arrow up
-            // Timeline clicking reached the beginning
-            if (currentYearIndex === 0) currentYearIndex = summitData.length;
-            currentYearafterUpdate = currentYearIndex;
-            currentYearIndex = currentYearIndex + maxYearsToShow;
-            displayedYears = summitData.slice(
-                currentYearIndex,
-                currentYearafterUpdate
-            );
+            if (currentYearIndex === 0) {
+                // If at the start, wrap around to the end
+                currentYearIndex = summitData.length + maxYearsToShow; // max years to show is negative - 40
+                currentYearafterUpdate = summitData.length; // 40
+            } else {
+                currentYearafterUpdate = currentYearIndex;
+                currentYearIndex = Math.max(0, currentYearIndex + maxYearsToShow);
+            }
         } else {
-            // Click arrow down
-            // Timeline clicking reached the end
-            if (currentYearafterUpdate >= summitData.length)
-                currentYearafterUpdate = 0;
+            if (currentYearafterUpdate >= summitData.length) {
+                // If at the end, wrap around to the start
+                currentYearIndex = 0;
+                currentYearafterUpdate = currentYearIndex + maxYearsToShow;
+            } else {
             currentYearIndex = currentYearafterUpdate;
-            currentYearafterUpdate = currentYearIndex + maxYearsToShow;
-            displayedYears = summitData.slice(
-                currentYearIndex,
-                currentYearafterUpdate
-            );
+            currentYearafterUpdate = Math.min(summitData.length, currentYearIndex + maxYearsToShow);
+            }
         }
+        displayedYears = summitData.slice(
+            currentYearIndex,
+            currentYearafterUpdate
+        );
+
         drawTimeline(
             svg,
             geojsonData,
