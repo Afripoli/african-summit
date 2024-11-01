@@ -19,6 +19,7 @@ export function generateTimeline(
     svg,
     geojsonData,
     summitData,
+    currentYearIndex,
     displayedYears,
     countriesWithSummits,
     cumulativeSummits
@@ -28,6 +29,7 @@ export function generateTimeline(
         svg,
         geojsonData,
         summitData,
+        currentYearIndex,
         displayedYears,
         countriesWithSummits,
         cumulativeSummits
@@ -105,6 +107,15 @@ export function drawTimeline(
         .attr("class", "down-arrow")
         .style("cursor", "pointer")
         .text("▼");
+    // Append line between arrows and circles
+    svg.append("line")
+        .attr("x1", containerWidth / 3)
+        .attr("y1", firstItemPosition - 50)  // Position just below the up arrow
+        .attr("x2", containerWidth / 3)
+        .attr("y2", lastItemPosition + 100)  // Position just above the down arrow
+        .attr("stroke", "black")
+        .attr("stroke-width", 2);
+
 
     arrowsClickListener(svg, geojsonData, summitData, currentYearIndex, countriesWithSummits, cumulativeSummits);
 
@@ -188,9 +199,36 @@ export function drawTimeline(
         .attr("stroke", "gray")
         .attr("stroke-width", 2);
     lineGroup.exit().remove(); // Remove any excess lines
-    // Update button visibility based on the current index
-    //d3.select(".up-button").style("visibility", currentYearIndex === 0 ? "hidden" : "visible");
-    //d3.select(".down-button").style("visibility", currentYearIndex + maxYearsToShow >= summitData.length ? "hidden" : "visible");
+
+    // Append line between arrows and circles
+    const upArrowLineGroup = svg.selectAll(".up-arrow-line").data([null]);
+    upArrowLineGroup
+        .enter()
+        .append("line")
+        .attr("class", "up-arrow-line")
+        .merge(upArrowLineGroup)
+        .attr("x1", containerWidth / 3)
+        .attr("y1", firstItemPosition - 20)  // Position just below the up arrow
+        .attr("x2", containerWidth / 3)
+        .attr("y2", firstItemPosition - 10)  // Position just above the first circle
+        .attr("stroke", "gray")
+        .attr("stroke-width", 2);
+    upArrowLineGroup.exit().remove(); // Remove any excess lines
+
+    // Append line between last circle and down arrow
+    const downArrowLineGroup = svg.selectAll(".down-arrow-line").data([null]);
+    downArrowLineGroup
+        .enter()
+        .append("line")
+        .attr("class", "down-arrow-line")
+        .merge(downArrowLineGroup)
+        .attr("x1", containerWidth / 3)
+        .attr("y1", lastItemPosition + 10)  // Position just below the last circle
+        .attr("x2", containerWidth / 3)
+        .attr("y2", lastItemPosition + 21)  // Position just above the down arrow
+        .attr("stroke", "gray")
+        .attr("stroke-width", 2);
+    downArrowLineGroup.exit().remove(); // Remove any excess lines
 }
 
 export function highlightItem(

@@ -131,6 +131,7 @@ function playTimeline(
                         svg,
                         geojsonData,
                         summitData,
+                        currentYearIndex,
                         displayedYears,
                         countriesWithSummits,
                         cumulativeSummits
@@ -319,8 +320,8 @@ function timelineFinished(
         "Timeline finished - input - current year index",
         currentYearIndex
     );
-    appendUpArrow();
-    appendDownArrow();
+    //appendUpArrow();
+    //appendDownArrow();
     timelineEnded = true; // Set the flag to true when the timeline ends
     addTimelineItemClickListeners(svg);
     arrowsClickListener(svg,
