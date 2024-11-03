@@ -51,3 +51,32 @@ export function displaySummitsCountry(country, summitsCountry) {
         }
     })
 }
+
+export function displaySummitsYear(yearData) {
+    console.log('Year data in displaySummitYear', yearData);
+    const hostYear = document.getElementById('summitCountry');
+    hostYear.innerHTML = `Summits hosted in ${yearData.year}`;
+
+    const summitListContainer = document.getElementById('summitList');
+    summitListContainer.innerHTML = '';
+
+    yearData.summits.forEach(summit => {
+        console.log('Summit in displaySummitYear', summit);
+        let country = summit.country;
+        let filterFlag = flagSrc.filter(item => item.country === country);
+        let flagCountry = filterFlag[0].img["img-src"];
+
+        const listItem = document.createElement('li');
+        let countryListed = country ? `<p class="same-font-color mt-4 mb-0"><img src="/src/img/country-flags-main/png100px/${flagCountry}" class="img-fluid country-flag border border-dark border-1 rounded me-2" alt="Flag"> ${country}</p>`: '';
+        let titleContent = summit.title ? `${summit.title}` : `${summit.summitNo} Summit`;
+        let dateContent = summit.date ? `<p class="same-font-color mb-0"><img src="src/img/calendar.svg" class="img-fluid calendar"> ${summit.date}</p>` : '';
+        let placeContent = summit.place ? `<p class="same-font-color mb-0"><img src="src/img/map-pin.svg" class="img-fluid location"> ${summit.place}</p>` : '';
+        listItem.innerHTML = `
+            ${countryListed} 
+            <p class="mb-0 same-font-size same-font-color"><span class="badge bg-dark summitNospan">${summit.summitNo}</span>  ${titleContent}</p>
+            ${dateContent}
+            ${placeContent}
+        `;
+        summitListContainer.appendChild(listItem);
+    })
+}

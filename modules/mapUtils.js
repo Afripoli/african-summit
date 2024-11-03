@@ -141,7 +141,7 @@ export function borderClickedCountry(svg, hostCountries, countriesWithSummits) {
   });
 }
 
-export function updateMapByYear(geojsonData, year, cumulativeSummits) {
+export function updateMapByYear(geojsonData, year, cumulativeSummits, summitsByCountryMap) {
   console.log("Year in updateMapByYear", year);
   console.log(
     "Passing cumulative summits in updateMapByYear",

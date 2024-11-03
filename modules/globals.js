@@ -22,14 +22,14 @@ const mapStyle = {
 };
 
 const countryOffsets = {
-    Italy: { x: -5, y: 15 }, // Custom offset for Italy
-    "South Korea": { x: -10, y: 20 }, // Custom offset for Korea
-    USA: { x: 20, y: 20 }, // Custom offset for USA
-    China: { x: -10, y: 0 }, // Custom offset for Turkey
-    France: { x: -20, y: 0 }, // Custom offset for France
-    "Saudi Arabia": { x: -20, y: 0 }, // Custom offset for Saudi Arabia
-    India: { x: 0, y: 0 }, // Custom offset for India
-    Japan: { x: 0, y: 0 }, // Custom offset for Japan
+    Italy: { x: -5, y: 15 }, 
+    "South Korea": { x: -10, y: 20 }, 
+    USA: { x: 20, y: 20 }, 
+    China: { x: -10, y: 0 }, 
+    France: { x: -20, y: 0 },
+    "Saudi Arabia": { x: -20, y: 0 }, 
+    India: { x: 0, y: 0 }, 
+    Japan: { x: 0, y: 0 }, 
 };
 // Timeline 
 const timelineStyle = {

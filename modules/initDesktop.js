@@ -19,16 +19,17 @@ let summitCounter = new Map();
 let generalCounter = 0; // saves a counter for each loop. We'll use it for the map
 
 // Function to initialize default page 
-function initializePage(svg, geojsonData, summitData, displayedYears, countriesWithSummits, cumulativeSummits) {
+function initializePage(svg, geojsonData, summitData, displayedYears, countriesWithSummits, cumulativeSummits, summitsByCountryMap) {
     drawMap(geojsonData);
-    drawTimeline(svg, geojsonData, summitData, currentYearIndex, displayedYears, countriesWithSummits, cumulativeSummits);
+    drawTimeline(svg, geojsonData, summitData, currentYearIndex, displayedYears, countriesWithSummits, cumulativeSummits, summitsByCountryMap);
     addTimelineItemClickListeners(svg);
     arrowsClickListener(svg,
         geojsonData,
         summitData,
         //currentYearIndex,
         countriesWithSummits,
-        cumulativeSummits);
+        cumulativeSummits,
+        summitsByCountryMap);
 }
 
 export function initDesktopTimeline(geojsonData, summitData, summitMap, summitsByCountryMap, countriesWithSummits, cumulativeSummits) {
@@ -36,7 +37,7 @@ export function initDesktopTimeline(geojsonData, summitData, summitMap, summitsB
     const displayedYears = summitData.slice(currentYearIndex, currentYearIndex + maxYearsToShow);
 
     // Initialize the default page
-    initializePage(svg, geojsonData, summitData, displayedYears, countriesWithSummits, cumulativeSummits);
+    initializePage(svg, geojsonData, summitData, displayedYears, countriesWithSummits, cumulativeSummits, summitsByCountryMap);
 
     // Add event listener to the "Animate" button
     const animateButton = document.getElementById("playButtonDesktop");
@@ -49,7 +50,8 @@ export function initDesktopTimeline(geojsonData, summitData, summitMap, summitsB
         summitData,
         currentYearIndex,
         countriesWithSummits,
-        cumulativeSummits);
+        cumulativeSummits,
+        summitsByCountryMap);
 }
 // Function to start the timeline animation
 function startAnimation(svg, summitData, geojsonData, summitMap, summitsByCountryMap, countriesWithSummits, cumulativeSummits) {
@@ -96,7 +98,8 @@ function playTimeline(
                 currentYearIndex,
                 displayedYears,
                 countriesWithSummits,
-                cumulativeSummits
+                cumulativeSummits,
+                summitsByCountryMap
             );
             highlightItem(svg, summitData, highlightIndex, currentYearIndex); // Highlight the current year
             updateMap(
@@ -134,7 +137,8 @@ function playTimeline(
                         currentYearIndex,
                         displayedYears,
                         countriesWithSummits,
-                        cumulativeSummits
+                        cumulativeSummits,
+                        summitsByCountryMap
                     );
                 }
             }
@@ -203,7 +207,8 @@ function playTimeline(
             summitData,
             currentYearIndex,
             countriesWithSummits,
-            cumulativeSummits);
+            cumulativeSummits,
+            summitsByCountryMap);
     });
     // Restart button
     const restartBtn = document.getElementById("restartButtonDesktop");
@@ -237,7 +242,8 @@ export function arrowsClickListener(
     summitData,
     currentYearIndex,
     countriesWithSummits,
-    cumulativeSummits
+    cumulativeSummits,
+    summitsByCountryMap
 ) {
     console.log('Summit Data in arrows click listener', summitData);
     console.log("FIRST Current year index", currentYearIndex);
@@ -299,7 +305,8 @@ export function arrowsClickListener(
             currentYearIndex,
             displayedYears,
             countriesWithSummits,
-            cumulativeSummits
+            cumulativeSummits,
+            summitsByCountryMap
         );
     }
    // Attach event listeners to the arrows
@@ -313,7 +320,8 @@ function timelineFinished(
     summitData,
     currentYearIndex,
     countriesWithSummits,
-    cumulativeSummits
+    cumulativeSummits,
+    summitsByCountryMap
 ) {
     clearInterval(intervalId); // Clear the interval when the timeline finishes
     console.log(
@@ -329,7 +337,8 @@ function timelineFinished(
         summitData,
         currentYearIndex,
         countriesWithSummits,
-        cumulativeSummits);
+        cumulativeSummits,
+        summitsByCountryMap);
     //updateMapByYear(geojsonData, year, cumulativeSummits)
 }
 function resetSummitCounter() {
