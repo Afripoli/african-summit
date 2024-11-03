@@ -81,7 +81,7 @@ export function drawTimeline(
             console.log("Data for the clicked year", yearData);
             const hostCountries = yearData.summits.map((summit) => summit.country);
             console.log("Host country clicked", hostCountries);
-            highlightClickedItem(svg, d);
+            highlightClickedItem(svg, geojsonData, d, cumulativeSummits, summitsByCountryMap);
             //borderClickedCountry(svg, hostCountries, countriesWithSummits);
             updateMapByYear(geojsonData, yearData, cumulativeSummits, summitsByCountryMap);
         });
@@ -120,7 +120,6 @@ export function drawTimeline(
         .attr("stroke", "black")
         .attr("stroke-width", 2);
 
-
     arrowsClickListener(svg, geojsonData, summitData, currentYearIndex, countriesWithSummits, cumulativeSummits);
 
     // Bind the year label data and render year labels next to the circles
@@ -144,7 +143,7 @@ export function drawTimeline(
             console.log("Data for the clicked year", yearData);
             const hostCountries = yearData.summits.map((summit) => summit.country);
             console.log("Host country clicked", hostCountries);
-            highlightClickedItem(svg, d);
+            highlightClickedItem(svg, geojsonData, d, cumulativeSummits, summitsByCountryMap);
             //borderClickedCountry(svg, hostCountries, countriesWithSummits);
             (geojsonData, yearData, cumulativeSummits);
         });
@@ -169,7 +168,7 @@ export function drawTimeline(
             console.log("Data for the clicked year", yearData);
             const hostCountries = yearData.summits.map((summit) => summit.country);
             console.log("Host country clicked", hostCountries);
-            highlightClickedItem(svg, d);
+            highlightClickedItem(svg, geojsonData, d, cumulativeSummits, summitsByCountryMap);
             //borderClickedCountry(svg, hostCountries, countriesWithSummits);
             updateMapByYear(geojsonData, yearData, cumulativeSummits, summitsByCountryMap);
         })
@@ -276,7 +275,7 @@ export function highlightItem(
     }
 }
 
-export function highlightClickedItem(svg, clickedData) {
+export function highlightClickedItem(svg, geojsonData, clickedData, cumulativeSummits, summitsByCountryMap) {
     console.log('Clicked data in highlightClickedItem function', clickedData)
     svg.selectAll("circle").attr("fill", timelineStyle.defaultItem).attr("r", 5); // Reset all circles
     svg
@@ -310,6 +309,7 @@ export function highlightClickedItem(svg, clickedData) {
         .style("font-weight", "bold")
         .style("fill", timelineStyle.clickedYearCountry); // Highlight country text
 
+    updateMapByYear(geojsonData, clickedData, cumulativeSummits, summitsByCountryMap);
     displaySummitsYear(clickedData);
 }
 
