@@ -65,9 +65,10 @@ function drawCountryISO(svg, geojsonData, summitCounter) {
         return ""; // Return empty string if not in summitCounter
       }
     })
-    .attr("text-anchor", "middle")
-    .attr("alignment-baseline", "middle")
-    .style("font-size", "10px")
+    .attr("text-anchor", `${mapStyle.textAnchor}`)
+    .attr("alignment-baseline", `${mapStyle.alignmentBaseline}`)
+    .attr("font-size", `${mapStyle.fontSize}`)
+    .attr("font-weight", `${mapStyle.fontWeight}`)
     .style("fill", "black");
 }
 export function updateMap(
@@ -203,10 +204,10 @@ export function updateMapByYear(geojsonData, year, cumulativeSummits, summitsByC
       return `translate(${centroid[0]}, ${centroid[1]})`;
     })*/
     .attr("dy", ".25em")
-    .attr("text-anchor", "middle")
-    .attr("alignment-baseline", "middle")
-    .attr("font-size", "14px")
-    .attr("font-weight", "450")
+    .attr("text-anchor", `${mapStyle.textAnchor}`)
+    .attr("alignment-baseline", `${mapStyle.alignmentBaseline}`)
+    .attr("font-size", `${mapStyle.fontSize}`)
+    .attr("font-weight", `${mapStyle.fontWeight}`)
     .text((d) => {
       const iso = d.id;
       const countryName = d.properties.name;

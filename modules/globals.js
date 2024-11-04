@@ -18,7 +18,11 @@ const mapStyle = {
     "borderHost": "#000000",
     "fillHost": "#ffbf3b",
     "borderWidthHost": 1,
-    "clickedYearCountry": "#d87b00"
+    "clickedYearCountry": "#d87b00",
+    "fontSize": "14px",
+    "fontWeight": "450",
+    "textAnchor": "middle",
+    "alignmentBaseline": "middle"
 };
 
 const countryOffsets = {
