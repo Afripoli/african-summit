@@ -5,7 +5,7 @@ import {
     highlightItem,
     //appendUpArrow,
     //appendDownArrow,
-    highlightClickedItem,
+    //highlightClickedItem,
 } from "./timelineUtils.js";
 import { maxYearsToShow } from "./globals.js";
 import { drawMap, updateMap } from "./mapUtils.js";
@@ -35,7 +35,7 @@ function initializePage(svg, geojsonData, summitData, displayedYears, countriesW
 export function initDesktopTimeline(geojsonData, summitData, summitMap, summitsByCountryMap, countriesWithSummits, cumulativeSummits) {
     const svg = initDesktopTimelineSVG();
     const displayedYears = summitData.slice(currentYearIndex, currentYearIndex + maxYearsToShow);
-
+    console.log('Summits by country map data in initDesktopTimeline', summitsByCountryMap);
     // Initialize the default page
     initializePage(svg, geojsonData, summitData, displayedYears, countriesWithSummits, cumulativeSummits, summitsByCountryMap);
 
@@ -247,6 +247,7 @@ export function arrowsClickListener(
 ) {
     console.log('Summit Data in arrows click listener', summitData);
     console.log("FIRST Current year index", currentYearIndex);
+    console.log('Summits by country map data in arrowClickListener', summitsByCountryMap);
     //let currentYearIndex = initialYearIndex;
     // let currentYearafterUpdate = currentYearIndex;
     // if (currentYearIndex === 0) {

@@ -7,7 +7,7 @@ async function main() {
     try {
         // Load and merge data
         const { geojsonData, summitMap, jsonData, summitsByCountryMap, countriesWithSummits, cumulativeSummits } = await loadAndMergeData(geojsonUrl, jsonPath);
-        console.log('Cumulative summits', cumulativeSummits);
+        //console.log('Cumulative summits', cumulativeSummits);
         //let summitCounter = new Map();
         // Detect screen size and initialize appropriate timeline
         if (window.innerWidth >= 768) {

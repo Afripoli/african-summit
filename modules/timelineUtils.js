@@ -58,6 +58,7 @@ export function drawTimeline(
         "Passing parameter cummulativeSummits in drawtimeline function",
         cumulativeSummits
     );
+    console.log('Summits by country map in drawtimeline function', summitsByCountryMap)
 
     const containerHeight = svg.node().getBoundingClientRect().height;
     const containerWidth = svg.node().getBoundingClientRect().width;
@@ -120,7 +121,7 @@ export function drawTimeline(
         .attr("stroke", "black")
         .attr("stroke-width", 2);
 
-    arrowsClickListener(svg, geojsonData, summitData, currentYearIndex, countriesWithSummits, cumulativeSummits);
+    arrowsClickListener(svg, geojsonData, summitData, currentYearIndex, countriesWithSummits, cumulativeSummits, summitsByCountryMap);
 
     // Bind the year label data and render year labels next to the circles
     const yearTextGroup = svg
@@ -173,9 +174,9 @@ export function drawTimeline(
             updateMapByYear(geojsonData, yearData, cumulativeSummits, summitsByCountryMap);
         })
         .each(function (d, i) {
-            console.log('Country text group', d)
+            //console.log('Country text group', d)
             const textElement = d3.select(this);
-            console.log('Summits in country text group', d.summits)
+            //console.log('Summits in country text group', d.summits)
             if (d.summits.length > 0) {
                 textElement.selectAll("tspan").remove(); // Clear old tspans
                 d.summits.forEach((summit, index) => {

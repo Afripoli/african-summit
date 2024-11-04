@@ -1,6 +1,7 @@
 import { flagSrc } from './globals.js';
 
 export function getSummitsforCountry(summitsByCountryMap, country) {
+    console.log('Country in getsummit function', country)
     console.log('JSON data in getsummit function', summitsByCountryMap)
     let summitsCountry;
     if (summitsByCountryMap.has(country)) {

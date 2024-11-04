@@ -82,6 +82,7 @@ export function updateMap(
     hostCountry.push(country);
     colorHostCountry(svg, hostCountry);
   });
+  console.log('Summits by country map', summitsByCountryMap)
   svg
     .selectAll("path")
     .data(geojsonData.features)
@@ -149,6 +150,7 @@ export function updateMapByYear(geojsonData, year, cumulativeSummits, summitsByC
   );
   const yearData = cumulativeSummits.get(year.year);
   console.log("Year data in updateMapByYear", yearData);
+  console.log("Summits by country map in updateMapByYear", summitsByCountryMap);
   const cumulative = yearData.cumulative;
   const newCountries = yearData.new;
 
