@@ -48,9 +48,9 @@ export function drawTimeline(
     cumulativeSummits,
     summitsByCountryMap
 ) {
-    console.log("Passing summit data in drawtimeline function", summitData);
-    console.log("Drawing year", displayedYears);
-    console.log(
+    //console.log("Passing summit data in drawtimeline function", summitData);
+    //console.log("Drawing year", displayedYears);
+    /*console.log(
         "Set countries with summits in drawtimeline function",
         countriesWithSummits
     );
@@ -58,7 +58,7 @@ export function drawTimeline(
         "Passing parameter cummulativeSummits in drawtimeline function",
         cumulativeSummits
     );
-    console.log('Summits by country map in drawtimeline function', summitsByCountryMap)
+    console.log('Summits by country map in drawtimeline function', summitsByCountryMap)*/
 
     const containerHeight = svg.node().getBoundingClientRect().height;
     const containerWidth = svg.node().getBoundingClientRect().width;

@@ -38,7 +38,8 @@ function updateSummitCounter(summitMap, currentYear, summitCounter) {
 }
 
 function drawCountryISO(svg, geojsonData, summitCounter) {
-  //svg.selectAll(".country-label").remove(); // Remove existing labels
+  console.log('Summit counter in drawCountryISO', summitCounter)
+  svg.selectAll(".country-label").remove(); // Remove existing labels
   svg.selectAll(".country-label")
     .data(geojsonData.features)
     .enter()
@@ -77,6 +78,7 @@ export function updateMap(
   hostCountry,
   summitCounter
 ) {
+  clearCountryLabels();
   updateSummitCounter(summitMap, currentYear, summitCounter);
   summitMap[currentYear].forEach((country) => {
     hostCountry.push(country);
@@ -142,12 +144,19 @@ export function borderClickedCountry(svg, hostCountries, countriesWithSummits) {
   });
 }
 
+// Function to clear existing labels
+export function clearCountryLabels() {
+  svg.selectAll(".country-label").remove();
+  svg.selectAll(".country-counter").remove();
+}
+
 export function updateMapByYear(geojsonData, year, cumulativeSummits, summitsByCountryMap) {
   console.log("Year in updateMapByYear", year);
   console.log(
     "Passing cumulative summits in updateMapByYear",
     cumulativeSummits
   );
+  clearCountryLabels();
   const yearData = cumulativeSummits.get(year.year);
   console.log("Year data in updateMapByYear", yearData);
   console.log("Summits by country map in updateMapByYear", summitsByCountryMap);
