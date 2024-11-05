@@ -16,6 +16,19 @@ let projection = d3
   .translate(translation);
 let path = d3.geoPath().projection(projection);
 
+
+// Define zoom behavior
+const zoom = d3.zoom()
+  .scaleExtent([1, 8]) // Set the scale extent for zooming
+  .on("zoom", zoomed);
+
+// Apply zoom behavior to the SVG
+svg.call(zoom);
+
+function zoomed(event) {
+  svg.selectAll("path").attr("transform", event.transform);
+}
+
 export function drawMap(geojson) {
   //console.log('geojson', geojson)
   const paths = svg
@@ -27,6 +40,57 @@ export function drawMap(geojson) {
     .attr("fill", mapStyle.defaultFill)
     .attr("stroke", mapStyle.defaultBorder)
     .attr("stroke-width", mapStyle.defaultBorderWidth);
+
+  // Create and append buttons
+  const buttonContainer = svg.append("g").attr("class", "button-container");
+
+  const buttons = [
+    { id: "zoomInButton", text: "+", x: 10, y: 10 },
+    { id: "zoomOutButton", text: "-", x: 10, y: 40 },
+  ];
+  buttons.forEach(button => {
+    buttonContainer
+      .append("rect")
+      .attr("id", button.id)
+      .attr("x", button.x)
+      .attr("y", button.y)
+      .attr("width", 80)
+      .attr("height", 30)
+      .attr("fill", "#ccc")
+      .attr("stroke", "#000")
+      .attr("stroke-width", 1)
+      .style("cursor", "pointer")
+      .on("click", () => handleButtonClick(svg, button.id));
+
+    buttonContainer
+      .append("text")
+      .attr("x", button.x + 40)
+      .attr("y", button.y + 20)
+      .attr("text-anchor", "middle")
+      .attr("alignment-baseline", "middle")
+      .style("font-size", "14px")
+      .style("fill", "#000")
+      .text(button.text)
+      .style("pointer-events", "none");
+  });
+}
+
+function handleButtonClick(svg, buttonId) {
+  console.log(`Button ${buttonId} clicked`);
+  
+  // Add your button click handling logic here
+  switch (buttonId) {
+    case 'zoomInButton':
+      // Logic for Zoom In
+      svg.transition().call(zoom.scaleBy, 2); // Zoom in by a factor of 1.2
+      break;
+    case 'zoomOutButton':
+      // Logic for Zoom Out
+      svg.transition().call(zoom.scaleBy, 0.5); // Zoom out by a factor of 0.8
+      break;
+    default:
+      console.log(`No handler for button ${buttonId}`);
+  }
 }
 
 function updateSummitCounter(summitMap, currentYear, summitCounter) {
