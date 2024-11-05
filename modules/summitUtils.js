@@ -31,8 +31,10 @@ export function displaySummitsCountry(country, summitsCountry) {
     const listOrder = document.getElementById('list-order');
     listOrder.innerHTML = `<i>(from most to least recent)</i>`
     summitListContainer.innerHTML = '';
-    summitListContainer.append
-    summitsCountry.reverse().forEach(summit => {
+
+    // Create a copy of summitsCountry and reverse the copy
+    const reversedSummitsCountry = summitsCountry.slice().reverse();
+    reversedSummitsCountry.forEach(summit => {
         const listItem = document.createElement('li');
         let titleContent = summit.title ? `${summit.title}` : `${summit.summitNo} Summit <sup>*</sup> <spr>`;
         let dateContent = summit.date ? `<p class="same-font-color mb-0"><img src="src/img/calendar.svg" class="img-fluid calendar"> ${summit.date}</p>` : '';
@@ -43,13 +45,6 @@ export function displaySummitsCountry(country, summitsCountry) {
             ${placeContent}
         `;
         summitListContainer.appendChild(listItem);
-        // Add a footnote if title is empty and it's not already added
-        if (!summit.title) {
-            const footnote = document.createElement('p');
-            footnote.innerHTML = `<sup>*</sup> Summit number only, no title found.`;
-            footnote.classList.add('fs-6', 'mt-3');  // Optionally, add a class for styling
-            summitListContainer.appendChild(footnote);
-        }
     })
 }
 
@@ -68,7 +63,7 @@ export function displaySummitsYear(yearData) {
         let flagCountry = filterFlag[0].img["img-src"];
 
         const listItem = document.createElement('li');
-        let countryListed = country ? `<p class="same-font-color mt-4 mb-0"><img src="/src/img/country-flags-main/png100px/${flagCountry}" class="img-fluid country-flag border border-dark border-1 rounded me-2" alt="Flag"> ${country}</p>`: '';
+        let countryListed = country ? `<p class="same-font-color mt-4 mb-0"><img src="/src/img/country-flags-main/png100px/${flagCountry}" class="img-fluid country-flag border border-dark border-1 rounded me-2" alt="Flag"> ${country}</p>` : '';
         let titleContent = summit.title ? `${summit.title}` : `${summit.summitNo} Summit`;
         let dateContent = summit.date ? `<p class="same-font-color mb-0"><img src="src/img/calendar.svg" class="img-fluid calendar"> ${summit.date}</p>` : '';
         let placeContent = summit.place ? `<p class="same-font-color mb-0"><img src="src/img/map-pin.svg" class="img-fluid location"> ${summit.place}</p>` : '';
