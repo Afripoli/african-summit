@@ -17,6 +17,7 @@ let projection = d3
 let path = d3.geoPath().projection(projection);
 
 
+
 // Define zoom behavior
 const zoom = d3.zoom()
   .scaleExtent([1, 8]) // Set the scale extent for zooming
@@ -27,6 +28,7 @@ svg.call(zoom);
 
 function zoomed(event) {
   svg.selectAll("path").attr("transform", event.transform);
+  svg.selectAll(".country-label").attr("transform", event.transform);
 }
 
 export function drawMap(geojson) {
@@ -254,7 +256,7 @@ export function updateMapByYear(geojsonData, year, cumulativeSummits, summitsByC
   svg.selectAll("text")
     .data(geojsonData.features)
     .join("text")
-    .attr("class", "country-counter")
+    .attr("class", "country-counter country-label")
     .attr("x", d => {
       const countryName = d.properties.name;
       return (countryOffsets[countryName]?.x || 0) + path.centroid(d)[0];
