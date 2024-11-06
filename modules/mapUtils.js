@@ -16,19 +16,26 @@ let projection = d3
   .translate(translation);
 let path = d3.geoPath().projection(projection);
 
-
-
+// Define a global variable for the current zoom scale
+let currentZoomScale = 1;
 // Define zoom behavior
 const zoom = d3.zoom()
   .scaleExtent([1, 8]) // Set the scale extent for zooming
   .on("zoom", zoomed);
 
 // Apply zoom behavior to the SVG
-svg.call(zoom);
+//svg.call(zoom);
 
 function zoomed(event) {
+  currentZoomScale = event.transform.k; // Update the global zoom scale
   svg.selectAll("path").attr("transform", event.transform);
-  svg.selectAll(".country-label").attr("transform", event.transform);
+  svg.selectAll(".country-label")
+    .attr("transform", event.transform)
+    .style("font-size", function () {
+      //let scale = event.transform.k;
+      console.log('Scale in zoomed', currentZoomScale)
+      return `${mapStyle.fontSize / currentZoomScale}px`; // Adjust font size based on zoom scale
+    });
 }
 
 export function drawMap(geojson) {
@@ -43,12 +50,12 @@ export function drawMap(geojson) {
     .attr("stroke", mapStyle.defaultBorder)
     .attr("stroke-width", mapStyle.defaultBorderWidth);
 
-  // Create and append buttons
+  // Create and append buttons in a separate container
   const buttonContainer = svg.append("g").attr("class", "button-container");
 
   const buttons = [
-    { id: "zoomInButton", text: "+", x: 10, y: 10 },
-    { id: "zoomOutButton", text: "-", x: 10, y: 40 },
+    { id: "zoomInButton", text: "+", x: 20, y: 20 },
+    { id: "zoomOutButton", text: "-", x: 20, y: 40 },
   ];
   buttons.forEach(button => {
     buttonContainer
@@ -56,9 +63,11 @@ export function drawMap(geojson) {
       .attr("id", button.id)
       .attr("x", button.x)
       .attr("y", button.y)
-      .attr("width", 80)
-      .attr("height", 30)
-      .attr("fill", "#ccc")
+      .attr("width", 20)
+      .attr("height", 20)
+      .attr("rx", 7) // Rounded corners
+      .attr("ry", 7) // Rounded corners
+      .attr("fill", "#f0f0f0")
       .attr("stroke", "#000")
       .attr("stroke-width", 1)
       .style("cursor", "pointer")
@@ -66,20 +75,25 @@ export function drawMap(geojson) {
 
     buttonContainer
       .append("text")
-      .attr("x", button.x + 40)
-      .attr("y", button.y + 20)
+      .attr("class", "button-text")
+      .attr("x", button.x + 10)
+      .attr("y", button.y + 10)
       .attr("text-anchor", "middle")
       .attr("alignment-baseline", "middle")
-      .style("font-size", "14px")
+      .style("font-size", "16px")
       .style("fill", "#000")
       .text(button.text)
       .style("pointer-events", "none");
+
+    console.log('Button text is', button.text);
   });
+  // Apply zoom behavior to the SVG
+  svg.call(zoom);
 }
 
 function handleButtonClick(svg, buttonId) {
   console.log(`Button ${buttonId} clicked`);
-  
+
   // Add your button click handling logic here
   switch (buttonId) {
     case 'zoomInButton':
@@ -265,10 +279,6 @@ export function updateMapByYear(geojsonData, year, cumulativeSummits, summitsByC
       const countryName = d.properties.name;
       return (countryOffsets[countryName]?.y || 0) + path.centroid(d)[1];
     })
-    /*.attr("transform", (d) => {
-      const centroid = path.centroid(d);
-      return `translate(${centroid[0]}, ${centroid[1]})`;
-    })*/
     .attr("dy", ".25em")
     .attr("text-anchor", `${mapStyle.textAnchor}`)
     .attr("alignment-baseline", `${mapStyle.alignmentBaseline}`)
@@ -285,5 +295,18 @@ export function updateMapByYear(geojsonData, year, cumulativeSummits, summitsByC
       } else {
         return ""; // Return empty string if not in cumulative
       }
-    })
+    });
+  // Apply zoom transformation to newly added labels
+  //const currentTransform = d3.zoomTransform(svg.node());
+  console.log('Current zoom scale in updateMapByYear', currentZoomScale)
+  svg.selectAll(".country-label")
+  .attr("transform", d3.zoomTransform(svg.node()))
+  .style("font-size", function() {
+    return `${mapStyle.fontSize / currentZoomScale}px`; // Adjust font size based on zoom scale
+  });
+  // Ensure button text is not removed
+  svg.selectAll(".button-text").raise();
+
+  svg.call(zoom);
+
 }
