@@ -12,6 +12,9 @@ export function getSummitsforCountry(summitsByCountryMap, country) {
 }
 
 export function displaySummitsCountry(country, summitsCountry) {
+    if (country === "England") {
+        country = "United Kingdom";
+    }
     const filterFlag = flagSrc.filter(item => item.country === country);
     const flagCountry = filterFlag[0].img["img-src"];
     console.log('summits country reversed', summitsCountry.reverse);
@@ -36,7 +39,7 @@ export function displaySummitsCountry(country, summitsCountry) {
     const reversedSummitsCountry = summitsCountry.slice().reverse();
     reversedSummitsCountry.forEach(summit => {
         const listItem = document.createElement('li');
-        let titleContent = summit.title ? `${summit.title}` : `${summit.summitNo} Summit <sup>*</sup> <spr>`;
+        let titleContent = summit.title ? `${summit.title}` : `${summit.summitNo} Summit`;
         let dateContent = summit.date ? `<p class="same-font-color mb-0"><img src="src/img/calendar.svg" class="img-fluid calendar"> ${summit.date}</p>` : '';
         let placeContent = summit.place ? `<p class="same-font-color"><img src="src/img/map-pin.svg" class="img-fluid location"> ${summit.place}</p>` : '';
         listItem.innerHTML = `

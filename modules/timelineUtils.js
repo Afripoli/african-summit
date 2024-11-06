@@ -138,6 +138,7 @@ export function drawTimeline(
         .text((d) => d.year)
         .style("cursor", "pointer")
         .style("font-size", `${timelineStyle.fontItem}`)
+        .style("font-weight", `${timelineStyle.fontWeightHighlight}`)
         .on("click", function (event, d) {
             console.log("Summit data in timeline util", summitData);
             const yearData = summitData.find((summit) => summit.year === d.year); // Get data for clicked year
@@ -185,6 +186,15 @@ export function drawTimeline(
                         .attr("x", containerWidth / 3 + 10) // Align tspans with country text
                         .attr("dy", index === 0 ? 0 : "1.2em") // Adjust vertical spacing
                         .text(summit.country);
+                    let countryName = summit.country;
+                    console.log('country name in draw timeline', countryName)
+                    if (countryName === "England") {
+                        countryName = "United Kingdom";
+                    }
+                    textElement.append("tspan")
+                        .attr("x", (containerWidth / 3) + 10)  // Align tspans with country text
+                        .attr("dy", index === 0 ? 0 : "1.2em")  // Adjust vertical spacing
+                        .text(countryName);
                 });
             }
         });
