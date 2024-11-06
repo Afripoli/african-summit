@@ -55,7 +55,8 @@ body {
 }
 
 .img-fluid.country-flag {
-    width: 35px;
+    width: 45px;
+    height: 27.5px;
 }
 
 .col-lg-3.pb-3.col-summits-info {
@@ -73,6 +74,14 @@ body {
 .summitNospan {
     font-size: 18px;
 }
+/*.summitNospan {
+    width: 40px;
+    height: 22px;
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center; 
+    text-align: center;
+}*/
 .font-size-instr {
     font-size: 14px;
 }

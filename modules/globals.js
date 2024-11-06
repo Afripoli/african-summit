@@ -11,14 +11,29 @@ const translation = [width / 2, height / 2];
 let hostCountry = [];
 const maxYearsToShow = 4;
 
-const mapStyle = { 
+const mapStyle = {
     "defaultFill": "#f2f2f2",
     "defaultBorder": "#cccccc",
     "defaultBorderWidth": 0.15,
     "borderHost": "#000000",
     "fillHost": "#ffbf3b",
     "borderWidthHost": 1,
-    "clickedYearCountry": "#d87b00"
+    "clickedYearCountry": "#d87b00",
+    "fontSize": "14px",
+    "fontWeight": "450",
+    "textAnchor": "middle",
+    "alignmentBaseline": "middle"
+};
+
+const countryOffsets = {
+    Italy: { x: -5, y: 15 }, 
+    "South Korea": { x: -10, y: 20 }, 
+    USA: { x: 20, y: 20 }, 
+    China: { x: -10, y: 0 }, 
+    France: { x: -20, y: 0 },
+    "Saudi Arabia": { x: -20, y: 0 }, 
+    India: { x: 0, y: 0 }, 
+    Japan: { x: 0, y: 0 }, 
 };
 // Timeline 
 const timelineStyle = {
@@ -57,7 +72,7 @@ const flagSrc = [
         img: {
             "img-src": "ru.png"
         }
-    }, 
+    },
     {
         country: "South Korea",
         img: {
@@ -65,19 +80,19 @@ const flagSrc = [
         }
     },
     {
-        country: "Italy", 
+        country: "Italy",
         img: {
             "img-src": "it.png"
         }
     },
     {
-        country: "Saudi Arabia", 
+        country: "Saudi Arabia",
         img: {
             "img-src": "sa.png"
         }
     },
     {
-        country: "USA", 
+        country: "USA",
         img: {
             "img-src": "us.png"
         }
@@ -106,7 +121,7 @@ const flagSrc = [
             "img-src": "cn.png"
         }
     }
-    
+
 ]
 
 
@@ -115,4 +130,4 @@ let svg = d3.select("#map")
     .attr("viewBox", `0 0 ${width} ${height}`)
     .attr("preserveAspectRatio", "xMidYMid meet");
 
-export { jsonPath, geojsonUrl, width, height, svg, scale, center, translation, maxYearsToShow, hostCountry, flagSrc, mapStyle, timelineStyle }
+export { jsonPath, geojsonUrl, width, height, svg, scale, center, translation, maxYearsToShow, hostCountry, flagSrc, mapStyle, timelineStyle, countryOffsets }
