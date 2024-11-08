@@ -6,7 +6,7 @@ import {
   hostCountry,
   mapStyle,
   countryOffsets
-} from "./globals.js";
+} from "../common/globals.js";
 import { getSummitsforCountry, displaySummitsCountry } from "./summitUtils.js";
 
 let projection = d3

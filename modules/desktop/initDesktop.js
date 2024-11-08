@@ -4,7 +4,7 @@ import {
     drawTimeline,
     highlightItem,
 } from "./timelineUtils.js";
-import { maxYearsToShow } from "./globals.js";
+import { maxYearsToShow } from "../common/globals.js";
 import { drawMap, updateMap, clearCountryLabels } from "./mapUtils.js";
 
 let isPlaying = false;

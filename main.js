@@ -1,7 +1,7 @@
-import { loadAndMergeData } from "./modules/dataLoader.js";
-import { jsonPath, geojsonUrl } from "./modules/globals.js";
-import { initMobileTimeline } from "./modules/initMobile.js";
-import { initDesktopTimeline } from "./modules/initDesktop.js";
+import { loadAndMergeData } from "./modules/common/dataLoader.js";
+import { jsonPath, geojsonUrl } from "./modules/common/globals.js";
+import { initMobileTimeline } from "./modules/mobile/initMobile.js";
+import { initDesktopTimeline } from "./modules/desktop/initDesktop.js";
 
 async function main() {
     try {

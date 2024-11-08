@@ -1,4 +1,4 @@
-import { flagSrc } from './globals.js';
+import { flagSrc } from '../common/globals.js';
 
 export function getSummitsforCountry(summitsByCountryMap, country) {
     console.log('Country in getsummit function', country)
