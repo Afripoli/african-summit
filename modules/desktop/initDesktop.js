@@ -149,7 +149,7 @@ function playTimeline(
             currentYearIndex,
             highlightIndex
         );
-    }, 100);
+    }, 500);
     //}
     // Play/Pause button logic
     const playPauseBtn = document.getElementById("playButtonDesktop");
