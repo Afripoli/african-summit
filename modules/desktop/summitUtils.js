@@ -52,6 +52,7 @@ export function displaySummitsCountry(country, summitsCountry) {
 }
 
 export function displaySummitsYear(yearData) {
+    console.log('flag', flagSrc);
     console.log('Year data in displaySummitYear', yearData);
     const hostYear = document.getElementById('summitCountry');
     hostYear.innerHTML = `Summits hosted in ${yearData.year}`;

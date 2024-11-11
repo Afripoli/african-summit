@@ -15,7 +15,7 @@ async function main() {
             initDesktopTimeline(geojsonData, jsonData, summitMap, summitsByCountryMap, countriesWithSummits, cumulativeSummits /*, jsonData, summitCounter*/);
         } else {
             // Mobile version
-            initMobileTimeline(geojsonData, jsonData /*,  summitMap, jsonData, summitsByCountryMap, summitCounter*/);
+            initMobileTimeline(/*geojsonData,*/ jsonData /*,  summitMap, jsonData, summitsByCountryMap, summitCounter*/);
         }
     } catch (error) {
         console.error("Error initializing app:", error);

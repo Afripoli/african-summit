@@ -1,27 +1,33 @@
 // import { initMobileTimelineSVG /*, mobileTimeline*/ } from '../mobile/timelineUtilsMobile.js';
 // import { drawMap } from "../desktop/mapUtils.js";
 
-export function initMobileTimeline(geojsonData, summitMap, jsonData, summitsByCountryMap, summitCounter) {
-    //const svg = initMobileTimelineSVG();
+import { displaySummitsYear } from "../desktop/summitUtils.js";
 
+export function initMobileTimeline(/*geojsonData, summitMap, */ jsonData /*summitsByCountryMap, summitCounter*/) {
+    //const svg = initMobileTimelineSVG();
+    console.log('JSON data in mobile timeline', jsonData);
     //let currentYearIndex = 0;
     //let highlightIndex = 0;
     //drawMap(geojsonData);
-    const instance = mobiscroll.select('#button-picker', {
-        inputElement: document.getElementById('button-picker'),
+    const instance = mobiscroll.select('#select-year', {
+        inputElement: document.getElementById('select-year'),
         controls: ['year'],
         touchUi: true,
-        showOnClick: false,
-        showOnFocus: false,
-        onSet: function (event, inst) {
-            const selectedYear = event.valueText;
+        showOnClick: true,
+        //showOnFocus: false,
+        onChange: function (event, inst) {
+            console.log('Instance', inst.getVal())
+            console.log('Event', event)
+            const selectedYear = inst.getVal();
             console.log('Selected year:', selectedYear);
             // Update the input field with the selected year
             document.getElementById('button-picker').value = selectedYear;
             // Update the visualization based on the selected year
-            //const yearData = jsonData.find((summit) => summit.year === parseInt(selectedYear));
+            const yearData = jsonData.find((summit) => summit.year === parseInt(selectedYear));
             //updateMapByYear(geojsonData, yearData, summitMap, summitsByCountryMap, currentZoomScale);
-        }
+            if (yearData) {
+                displaySummitsYear(yearData);
+            }        }
     });
     mobiscroll.getJson('/db/summits-by-year.json', function (data) {
         let summitYears = [];
@@ -32,8 +38,9 @@ export function initMobileTimeline(geojsonData, summitMap, jsonData, summitsByCo
         instance.setOptions({ data: summitYears })
         console.log('Summit years:', summitYears);
     });
-    document.getElementById('select-year').addEventListener('click', function () {
-        instance.open();
-        return false;
-    })
+    // document.getElementById('select-year').addEventListener('click', function () {
+    //     console.log('Select year button clicked'); // Add this line to log the button click event
+    //     instance.open();
+    //     return false;
+    // })
 }
