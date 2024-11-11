@@ -181,11 +181,6 @@ export function drawTimeline(
             if (d.summits.length > 0) {
                 textElement.selectAll("tspan").remove(); // Clear old tspans
                 d.summits.forEach((summit, index) => {
-                    textElement
-                        .append("tspan")
-                        .attr("x", containerWidth / 3 + 10) // Align tspans with country text
-                        .attr("dy", index === 0 ? 0 : "1.2em") // Adjust vertical spacing
-                        .text(summit.country);
                     let countryName = summit.country;
                     console.log('country name in draw timeline', countryName)
                     if (countryName === "England") {
