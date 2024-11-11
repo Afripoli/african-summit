@@ -15,7 +15,9 @@ async function main() {
             initDesktopTimeline(geojsonData, jsonData, summitMap, summitsByCountryMap, countriesWithSummits, cumulativeSummits /*, jsonData, summitCounter*/);
         } else {
             // Mobile version
-            initMobileTimeline(/*geojsonData,*/ jsonData /*,  summitMap, jsonData, summitsByCountryMap, summitCounter*/);
+            console.log('Summits with countrries', countriesWithSummits)
+            console.log('Summits by country map', summitsByCountryMap)
+            initMobileTimeline(/*geojsonData,*/ jsonData,  /*summitMap, jsonData,*/ summitsByCountryMap /*, summitCounter*/);
         }
     } catch (error) {
         console.error("Error initializing app:", error);
