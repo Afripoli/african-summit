@@ -121,12 +121,22 @@
                     </div>
                 </div>
                 <!-- MOBILE: TIMELINE MOBISCROLL -->
-                <div class="year-picker-container d-md-none d-block">
-                    <input id="button-picker" />
-                    <button type="button" id="select-year"
-                        class="btn btn-dark btn-sm me-2">
-                         Select year
-                    </button>
+                <div class="year-picker-container d-flex d-md-none d-block mb-3">
+                    <div class="input-group">
+                        <button type="button" id="select-year" class="btn btn-dark btn-sm">
+                            Select year &nbsp; &nbsp;&nbsp;
+                        </button>
+                        <input id="button-picker" class="form-control" placeholder="Year" />
+                    </div>
+                </div>
+
+                <div class="country-picker-container d-flex d-md-none d-block mb-3">
+                    <div class="input-group">
+                        <button type="button" id="select-country" class="btn btn-dark btn-sm">
+                            Select country
+                        </button>
+                        <input id="button-picker" class="form-control" placeholder="Country" />
+                    </div>
                 </div>
 
                 <div class="col-lg-6 pb-3 col-map column-with-border d-none d-md-block">
