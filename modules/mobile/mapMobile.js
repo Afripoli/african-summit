@@ -124,7 +124,7 @@ import {
     }
   }
   
-  export function updateMapByYear(svg, geojsonData, year, cumulativeSummits, summitsByCountryMap) {
+  export function updateMapByYear(geojsonData, year, cumulativeSummits, summitsByCountryMap) {
     console.log("Year in updateMapByYear", year);
     console.log("Passing cumulative summits in updateMapByYear", cumulativeSummits);
     clearCountryLabels(svg);
@@ -132,8 +132,10 @@ import {
     console.log("Year data in updateMapByYear", yearData);
     console.log("Summits by country map in updateMapByYear", summitsByCountryMap);
     const cumulative = yearData.cumulative;
+    console.log('Cumulative summits in updateMapByYear', yearData.cumulative);
     const newCountries = yearData.new;
   
+    console.log('New countries', newCountries)
     // Color the countries
     svg
       .selectAll("path")
@@ -144,13 +146,13 @@ import {
         const country = d.properties.name;
         if (newCountries.has(country)) {
           return `${mapStyle.clickedYearCountry}`; // Brown color for new countries
-        } else if (cumulative.has(country)) {
-          return `${mapStyle.fillHost}`; // Yellow color for cumulative countries
-        } else {
+        } 
+        else {
           return `${mapStyle.defaultFill}`; // Default color for other countries
         }
       })
     // Add or update summit count text inside countries
+    /*
     svg.selectAll("text")
       .data(geojsonData.features)
       .join("text")
@@ -180,14 +182,15 @@ import {
           return ""; // Return empty string if not in cumulative
         }
       });
+      */
   
     // Apply zoom transformation to newly added labels
     console.log('Current zoom scale in updateMapByYear', currentZoomScale)
-    svg.selectAll(".country-label")
-      .attr("transform", d3.zoomTransform(svg.node()))
-      .style("font-size", function() {
-        return `${mapStyle.fontSize / currentZoomScale}px`; // Adjust font size based on zoom scale
-      });
+    // svg.selectAll(".country-label")
+    //   .attr("transform", d3.zoomTransform(svg.node()))
+    //   .style("font-size", function() {
+    //     return `${mapStyle.fontSize / currentZoomScale}px`; // Adjust font size based on zoom scale
+    //   });
   
     // Ensure button text is not removed
     svg.selectAll(".button-text").raise();
