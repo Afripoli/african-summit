@@ -7,7 +7,7 @@ import {
     countryOffsets
   } from "../common/globals.js";
   import { getSummitsforCountry, displaySummitsCountry } from "../desktop/summitUtils.js";
-  
+
   let projection = d3.geoMercator().center([0, 0]).scale(150).translate([150, 300]);
   let path = d3.geoPath().projection(projection);
   
@@ -31,7 +31,7 @@ import {
       });
   }
   
-  export function initializeMobileMap(geojsonData, year, cumulativeSummits, summitsByCountryMap) {
+  export function initializeMobileMap(geojsonData /*, year, cumulativeSummits, summitsByCountryMap*/) {
     // Create the SVG element for the map
     const width = document.getElementById('map-mobile').clientWidth;
     //const height = document.getElementById('map-mobile').clientHeight;
@@ -48,7 +48,7 @@ import {
     addZoomButtons(svg);
   
     // Update the map based on the selected year
-    updateMapByYear(svg, geojsonData, year, cumulativeSummits, summitsByCountryMap);
+    // updateMapByYear(svg, geojsonData, year, cumulativeSummits, summitsByCountryMap);
 
     // Make the map responsive
     window.addEventListener('resize', () => resizeMap(svg, geojsonData));    
@@ -150,13 +150,6 @@ import {
           return `${mapStyle.defaultFill}`; // Default color for other countries
         }
       })
-    //   .style("cursor", "pointer")
-    //   .on("click", function (event, d) {
-    //     const country = d.properties.name;
-    //     const summits = getSummitsforCountry(summitsByCountryMap, country);
-    //     displaySummitsCountry(country, summits); // Call function to display the summits
-    //   });
-  
     // Add or update summit count text inside countries
     svg.selectAll("text")
       .data(geojsonData.features)
@@ -217,4 +210,29 @@ function resizeMap(svg, geojsonData) {
 
     // Redraw the map with the updated dimensions
     drawMap(svg, geojsonData);
+}
+
+export function updateMapByCountry(svg, geojsonData, selectedCountry) {
+    console.log("Selected country in updateMapByCountry", selectedCountry);
+
+    // Color the selected country
+    svg.selectAll("path")
+        .data(geojsonData.features)
+        .join("path")
+        .attr("d", path)
+        .attr("fill", (d) => {
+            const country = d.properties.name;
+            return country === selectedCountry ? "red" : "lightgray"; // Red color for selected country, default color for others
+        })
+        //.style("cursor", "pointer")
+        // .on("click", function (event, d) {
+        //     const country = d.properties.name;
+        //     const summits = getSummitsforCountry(summitsByCountryMap, country);
+        //     displaySummitsCountry(country, summits); // Call function to display the summits
+        // });
+
+    // Ensure button text is not removed
+    svg.selectAll(".button-text").raise();
+
+    //svg.call(zoom);
 }

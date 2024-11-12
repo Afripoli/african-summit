@@ -2,10 +2,13 @@
 // import { drawMap } from "../desktop/mapUtils.js";
 
 import { getSummitsforCountry, displaySummitsCountry, displaySummitsYear } from "../desktop/summitUtils.js";
-import { initializeMobileMap } from "./mapMobile.js";
+import { initializeMobileMap, updateMapByCountry } from "./mapMobile.js";
 
 export function initMobileTimeline(geojsonData, jsonData, cumulativeSummits, summitsByCountryMap /*, summitCounter*/) {
     console.log('JSON data in mobile timeline', jsonData);
+    console.log('Summits by country map', summitsByCountryMap)
+
+    initializeMobileMap(geojsonData /*, yearData, cumulativeSummits, summitsByCountryMap*/);
 
     // Initialize the year picker
     const yearInstance = mobiscroll.select('#select-year', {
@@ -24,24 +27,27 @@ export function initMobileTimeline(geojsonData, jsonData, cumulativeSummits, sum
             if (yearData) {
                 console.log('Year data:', yearData);
                 displaySummitsYear(yearData);
-                //updateMapByYear(geojsonData, yearData, cumulativeSummits, summitsByCountryMap);
-                initializeMobileMap(geojsonData, yearData, cumulativeSummits, summitsByCountryMap);
+                updateMapByYear(geojsonData, yearData, cumulativeSummits, summitsByCountryMap);
+                //initializeMobileMap(geojsonData, yearData, cumulativeSummits, summitsByCountryMap);
             }
         }
     });
     // Initialize Mobiscroll country picker
     const countryInstance = mobiscroll.select('#select-country', {
         inputElement: document.getElementById('select-country'),
-        //controls: ['select'],
+        controls: ['select'],
         touchUi: true,
         showOnClick: false,
         onChange: function (event, inst) {
             const selectedCountry = inst.getVal(); // Get the selected country
             console.log('Selected country:', selectedCountry); // Log the selected country
             // Update the visualization based on the selected country
-            let summits = getSummitsforCountry(summitsByCountryMap, selectedCountry);
-            displaySummitsCountry(selectedCountry, summits);
-            initializeMobileMap(geojsonData, yearData, cumulativeSummits, summitsByCountryMap);
+            if (selectedCountry) {
+                let summits = getSummitsforCountry(summitsByCountryMap, selectedCountry);
+                displaySummitsCountry(selectedCountry, summits);
+                // Update the map based on the selected country
+                updateMapByCountry(d3.select("#map-mobile svg"), geojsonData, selectedCountry);
+            }
         }
     });
 
@@ -58,6 +64,7 @@ export function initMobileTimeline(geojsonData, jsonData, cumulativeSummits, sum
     // Fetch countries data and populate Mobiscroll
     let countries = [];
     summitsByCountryMap.forEach((value, key) => {
+        console.log('Key is ', key, 'value is ', value);
         countries.push({ text: key, value: key });
     });
     countryInstance.setOptions({ data: countries });
