@@ -115,3 +115,42 @@ body {
 .apri-separator-vis {
     border-bottom: 3px solid #ffc03c;;
 }
+ /* separator after summit info container item */
+ /* Add a gray line after each list item */
+#summitList li {
+    position: relative;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+#summitList li::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 1px;
+    background-color: lightgray;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+/* -------------- */
+/* Mobile styling */
+/* -------------- */
+
+@media (max-width: 767.98px) {
+    .mobile-bold {
+        font-size: 1.5em; /* Slightly larger font size */
+        font-weight: bold; /* Bolder font type */
+        text-justify: left;
+    }
+}
+
+.mbsc-list-item {
+    font-family: 'Raleway', sans-serif; /* Change to your desired font family */
+    /*
+    font-size: 16px;
+    font-weight: bold; 
+    color: #333; 
+    */
+}

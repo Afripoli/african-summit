@@ -2,7 +2,7 @@
 // import { drawMap } from "../desktop/mapUtils.js";
 
 import { getSummitsforCountry, displaySummitsCountry, displaySummitsYear } from "../desktop/summitUtils.js";
-import { initializeMobileMap, updateMapByCountry } from "./mapMobile.js";
+import { initializeMobileMap, updateMapByCountry, updateMapByYear } from "./mapMobile.js";
 
 export function initMobileTimeline(geojsonData, jsonData, cumulativeSummits, summitsByCountryMap /*, summitCounter*/) {
     console.log('JSON data in mobile timeline', jsonData);
@@ -16,6 +16,7 @@ export function initMobileTimeline(geojsonData, jsonData, cumulativeSummits, sum
         controls: ['year'],
         touchUi: true,
         showOnClick: true,
+        themeVariant: 'light',
         //showOnFocus: false,
         onChange: function (event, inst) {
             const selectedYear = inst.getVal();

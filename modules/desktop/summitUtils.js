@@ -56,6 +56,12 @@ export function displaySummitsYear(yearData) {
     console.log('Year data in displaySummitYear', yearData);
     const hostYear = document.getElementById('summitCountry');
     hostYear.innerHTML = `Summits hosted in ${yearData.year}`;
+    hostYear.classList.add('mobile-bold');
+
+    // Create and insert the separator element for mobile devices
+    const separator = document.createElement('div');
+    separator.className = 'apri-separator-vis d-md-none mb-2';
+    hostYear.insertAdjacentElement('afterend', separator);
 
     const summitListContainer = document.getElementById('summitList');
     summitListContainer.innerHTML = '';

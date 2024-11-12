@@ -8,7 +8,7 @@ import {
   } from "../common/globals.js";
   import { getSummitsforCountry, displaySummitsCountry } from "../desktop/summitUtils.js";
 
-  let projection = d3.geoMercator().center([0, 0]).scale(150).translate([150, 300]);
+  let projection = d3.geoMercator().center([0, 0]).scale(125).translate([50, 300]);
   let path = d3.geoPath().projection(projection);
   
   // Define a global variable for the current zoom scale
@@ -196,7 +196,7 @@ import {
   }
   
   // Function to clear existing labels
-  function clearCountryLabels(svg) {
+  function clearCountryLabels() {
     svg.selectAll(".country-label").remove();
     svg.selectAll(".country-counter").remove();
   }
@@ -222,7 +222,7 @@ export function updateMapByCountry(svg, geojsonData, selectedCountry) {
         .attr("d", path)
         .attr("fill", (d) => {
             const country = d.properties.name;
-            return country === selectedCountry ? "red" : "lightgray"; // Red color for selected country, default color for others
+            return country === selectedCountry ? `${mapStyle.clickedYearCountry}` : `${mapStyle.defaultFill}`; // Red color for selected country, default color for others
         })
         //.style("cursor", "pointer")
         // .on("click", function (event, d) {
