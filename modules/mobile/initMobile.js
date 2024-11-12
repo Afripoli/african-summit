@@ -2,8 +2,9 @@
 // import { drawMap } from "../desktop/mapUtils.js";
 
 import { getSummitsforCountry, displaySummitsCountry, displaySummitsYear } from "../desktop/summitUtils.js";
+import { initializeMobileMap } from "./mapMobile.js";
 
-export function initMobileTimeline(/*geojsonData, summitMap, */ jsonData, summitsByCountryMap /*, summitCounter*/) {
+export function initMobileTimeline(geojsonData, jsonData, cumulativeSummits, summitsByCountryMap /*, summitCounter*/) {
     console.log('JSON data in mobile timeline', jsonData);
 
     // Initialize the year picker
@@ -20,9 +21,11 @@ export function initMobileTimeline(/*geojsonData, summitMap, */ jsonData, summit
             document.getElementById('button-picker').value = selectedYear;
             // Update the visualization based on the selected year
             const yearData = jsonData.find((summit) => summit.year === parseInt(selectedYear));
-            //updateMapByYear(geojsonData, yearData, summitMap, summitsByCountryMap, currentZoomScale);
             if (yearData) {
+                console.log('Year data:', yearData);
                 displaySummitsYear(yearData);
+                //updateMapByYear(geojsonData, yearData, cumulativeSummits, summitsByCountryMap);
+                initializeMobileMap(geojsonData, yearData, cumulativeSummits, summitsByCountryMap);
             }
         }
     });
@@ -38,6 +41,7 @@ export function initMobileTimeline(/*geojsonData, summitMap, */ jsonData, summit
             // Update the visualization based on the selected country
             let summits = getSummitsforCountry(summitsByCountryMap, selectedCountry);
             displaySummitsCountry(selectedCountry, summits);
+            initializeMobileMap(geojsonData, yearData, cumulativeSummits, summitsByCountryMap);
         }
     });
 

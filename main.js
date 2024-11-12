@@ -17,7 +17,7 @@ async function main() {
             // Mobile version
             console.log('Summits with countrries', countriesWithSummits)
             console.log('Summits by country map', summitsByCountryMap)
-            initMobileTimeline(/*geojsonData,*/ jsonData,  /*summitMap, jsonData,*/ summitsByCountryMap /*, summitCounter*/);
+            initMobileTimeline(geojsonData, jsonData, cumulativeSummits, jsonData, summitsByCountryMap /*, summitCounter*/);
         }
     } catch (error) {
         console.error("Error initializing app:", error);
