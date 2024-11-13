@@ -8,7 +8,7 @@ import {
   } from "../common/globals.js";
   import { getSummitsforCountry, displaySummitsCountry } from "../desktop/summitUtils.js";
 
-  let projection = d3.geoMercator().center([0, 0]).scale(125).translate([50, 300]);
+  let projection = d3.geoMercator().center([0, 0]).scale(100).translate([125, 175]); // do not move coord unless svg size is changed!
   let path = d3.geoPath().projection(projection);
   
   // Define a global variable for the current zoom scale
@@ -35,7 +35,7 @@ import {
     // Create the SVG element for the map
     const width = document.getElementById('map-mobile').clientWidth;
     //const height = document.getElementById('map-mobile').clientHeight;
-    const height = 400;
+    const height = 300;
 
     const svg = d3.select("#map-mobile").append("svg")
       .attr("width", width)

@@ -12,7 +12,7 @@ let hostCountry = [];
 const maxYearsToShow = 4;
 
 const mapStyle = {
-    "defaultFill": "#f2f2f2",
+    "defaultFill": "#e6e6e6",
     "defaultBorder": "#cccccc",
     "defaultBorderWidth": 0.15,
     "borderHost": "#000000",

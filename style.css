@@ -9,14 +9,14 @@ body {
     height: auto;
     color: black;
 }
-#vis-title {
-    /* font-size: 50pt; */
+/*vis-title {
+    font-size: 50pt; 
     font-weight: 600;
     /* line-height: 100pt;
     justify-content: left;
     text-align: left;
-    letter-spacing: -1px; */
-}
+    letter-spacing: -1px;
+}*/
 
 .container-xl.main-container {
     overflow: hidden; /* Prevent scrolling */
@@ -82,12 +82,9 @@ body {
     justify-content: center; 
     text-align: center;
 }*/
-.font-size-instr {
-    font-size: 14px;
-}
-.same-font-color {
+/* .same-font-color {
     color: #000;
-}
+} */
 
 .column-with-border {
     border-right: #808080c2 1px solid;
@@ -134,6 +131,10 @@ body {
     left: 0;
 }
 
+.header-vis {
+    background-color: #f2f2f2;
+}
+
 /* -------------- */
 /* Mobile styling */
 /* -------------- */
@@ -153,4 +154,24 @@ body {
     font-weight: bold; 
     color: #333; 
     */
+}
+@media (max-width: 767.98px) {
+    .mobile-font-size {
+        font-size: 14px; /* Change to your desired font size */
+    }
+}
+
+#select-year,
+#select-country {
+    border-radius: 0 !important;
+}
+.no-border-radius {
+    border-radius: 0 !important;
+}
+.rounded-container {
+    border-radius: 0.5rem; /* Adjust the value as needed */
+    overflow: hidden; /* Ensure child elements do not overflow the rounded corners */
+}
+.custom-input-height {
+    height: 2rem; /* Adjust the value as needed */
 }
