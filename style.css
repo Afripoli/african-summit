@@ -3,11 +3,11 @@
 
 body {
     font-family: 'Raleway', sans-serif !important;
-    font-size: 12px;
-    font-weight: 400;
+    /* font-size: 12px; */
+    /* font-weight: 400; */
     /* width: 1350px; */
-    height: auto;
-    color: black;
+    /* height: auto; */
+    /* color: black; */
 }
 /*vis-title {
     font-size: 50pt; 
@@ -56,8 +56,18 @@ body {
 
 .img-fluid.country-flag {
     width: 45px;
-    height: 27.5px;
+    height: 22px;
+    border: black 1px solid !important;
 }
+.img-fluid.calendar {
+    width: auto;
+    height: 22px;
+}
+.img-fluid.location {
+    width: auto;
+    height: 22px;
+}
+
 
 .col-lg-3.pb-3.col-summits-info {
     height: 500px;
@@ -134,7 +144,12 @@ body {
 .header-vis {
     background-color: #f2f2f2;
 }
-
+.badge-normal {
+    font-weight: normal !important;
+}
+.summit-title {
+    line-height: 1.5; /* Adjust the line-height as needed */
+}
 /* -------------- */
 /* Mobile styling */
 /* -------------- */
@@ -158,6 +173,30 @@ body {
 @media (max-width: 767.98px) {
     .mobile-font-size {
         font-size: 14px; /* Change to your desired font size */
+    }
+}
+
+@media (max-width: 767.98px) {
+    .badge-mobile {
+        width: 38px; /* Change to your desired font size */
+        text-align: center;
+        padding-left: 0rem;
+    }
+}
+
+
+@media (max-width: 767.98px) {
+    .img-fluid.country-flag {
+        width: 38px; /* Adjust the width as needed */
+        height: 26px; /* Adjust the height as needed */
+    }
+    .img-fluid.calendar {
+        width: 30px; /* Adjust the width as needed */
+        height: 18.33px; /* Adjust the height as needed */
+    }
+    .img-fluid.location {
+        width: 30px; /* Adjust the width as needed */
+        height: 18.33px; /* Adjust the height as needed */
     }
 }
 
