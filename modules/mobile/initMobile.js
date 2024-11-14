@@ -28,7 +28,7 @@ export function initMobileTimeline(geojsonData, jsonData, cumulativeSummits, sum
             if (yearData) {
                 console.log('Year data:', yearData);
                 displaySummitsYear(yearData);
-                updateMapByYear(geojsonData, yearData, cumulativeSummits, summitsByCountryMap);
+                updateMapByYear(d3.select("#map-mobile svg"), geojsonData, yearData, cumulativeSummits, summitsByCountryMap);
                 //initializeMobileMap(geojsonData, yearData, cumulativeSummits, summitsByCountryMap);
             }
         }

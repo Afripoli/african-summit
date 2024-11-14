@@ -8,7 +8,7 @@ import {
   } from "../common/globals.js";
   import { getSummitsforCountry, displaySummitsCountry } from "../desktop/summitUtils.js";
 
-  let projection = d3.geoMercator().center([0, 0]).scale(100).translate([125, 175]); // do not move coord unless svg size is changed!
+  let projection = d3.geoMercator().center([0, 0]).scale(100).translate([90, 175]); // do not move coord unless svg size is changed!
   let path = d3.geoPath().projection(projection);
   
   // Define a global variable for the current zoom scale
@@ -124,7 +124,7 @@ import {
     }
   }
   
-  export function updateMapByYear(geojsonData, year, cumulativeSummits, summitsByCountryMap) {
+  export function updateMapByYear(svg, geojsonData, year, cumulativeSummits, summitsByCountryMap) {
     console.log("Year in updateMapByYear", year);
     console.log("Passing cumulative summits in updateMapByYear", cumulativeSummits);
     clearCountryLabels(svg);
@@ -142,9 +142,12 @@ import {
       .data(geojsonData.features)
       .join("path")
       .attr("d", path)
-      .attr("fill", (d) => {
+      .attr("fill", d => {
         const country = d.properties.name;
+        console.log(`Country: ${country}, New: ${newCountries.has(country)}`);
         if (newCountries.has(country)) {
+            console.log(`Coloring ${country} as new country`);
+            console.log('Color', mapStyle.clickedYearCountry)
           return `${mapStyle.clickedYearCountry}`; // Brown color for new countries
         } 
         else {
@@ -236,6 +239,5 @@ export function updateMapByCountry(svg, geojsonData, selectedCountry) {
 
     // Ensure button text is not removed
     svg.selectAll(".button-text").raise();
-
     //svg.call(zoom);
 }
