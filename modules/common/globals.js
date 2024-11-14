@@ -12,7 +12,7 @@ let hostCountry = [];
 const maxYearsToShow = 4;
 
 // mobile
-const mapMobileHeight = 300
+let mapMobileHeight = document.getElementById('map-mobile').clientHeight;
 const mapMobileWidth = document.getElementById('map-mobile').clientWidth;
 
 const mapStyle = {

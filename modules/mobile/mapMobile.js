@@ -1,49 +1,31 @@
 import {
-    center,
-    scale,
-    translation,
     mapStyle,
-    countryOffsets,
-    mapMobileHeight,
     mapMobileWidth
 } from "../common/globals.js";
 import { getSummitsforCountry, displaySummitsCountry } from "../desktop/summitUtils.js";
 
-let projection = d3.geoMercator().center([0, 0]).scale(100).translate([90, 175]); // do not move coord unless svg size is changed!
+let mapheightAlt = window.innerHeight - 50 - 400;
+let mapMobileHeight = window.innerHeight - 50 - 400;
+
+console.log('Map height alt', mapheightAlt)
+let projection = d3.geoMercator().center([0, 0]).scale(80).translate([mapMobileWidth / 2.05, mapMobileHeight / 1.5]); // do not move coord unless svg size is changed!
 let path = d3.geoPath().projection(projection);
 
-// Define a global variable for the current zoom scale
-//let currentZoomScale = 1;
-// Define zoom behavior
-// const zoom = d3.zoom()
-//     .scaleExtent([1, 8]) // Set the scale extent for zooming
-//     .on("zoom", zoomed);
+//console.log('Map mobile height', mapMobileHeight)
+const svg = d3.select("#map-mobile")
+    .append("svg")
+    .attr("width", `${mapMobileWidth}`)
+    .attr("height", `${mapMobileHeight}`)
+    //.attr("viewBox", `0 0 ${mapMobileWidth} ${mapheightAlt}`)
+    //.attr("preserveAspectRatio", "xMidYMid meet");
 
-// Apply zoom behavior to the SVG
-//svg.call(zoom);
-const svg = d3.select("#map-mobile").append("svg")
-        .attr("width", mapMobileWidth)
-        .attr("height", mapMobileHeight);
-
-
-
-export function initializeMobileMap(geojsonData /*, year, cumulativeSummits, summitsByCountryMap*/) {
-    // Create the SVG element for the map
-    const mapWidth = document.getElementById('map-mobile').clientWidth;
-    console.log('Width of map svg', mapWidth)
-    //const height = document.getElementById('map-mobile').clientHeight;
-    const mapHeight = 300;
-
-    
+export function initializeMobileMap(geojsonData) {
     // Draw the map
     drawMap(svg, geojsonData);
 
     // Add zoom buttons
     addZoomButtons(svg);
 
-    // Update the map based on the selected year
-    // updateMapByYear(svg, geojsonData, year, cumulativeSummits, summitsByCountryMap);
-    
     // Apply zoom behavior to the SVG
     svg.call(zoom);
 
@@ -55,14 +37,14 @@ const zoom = d3.zoom()
     .scaleExtent([1, 8]) // Set the scale extent for zooming
     .on("zoom", zoomed);
 
-    function zoomed(event) {
-        svg.selectAll("path").attr("transform", event.transform);
-        // svg.selectAll(".country-label")
-        //     .attr("transform", event.transform)
-        //     .style("font-size", function () {
-        //         return `${mapStyle.fontSize / currentZoomScale}px`; // Adjust font size based on zoom scale
-        //     });
-    }
+function zoomed(event) {
+    svg.selectAll("path").attr("transform", event.transform);
+    // svg.selectAll(".country-label")
+    //     .attr("transform", event.transform)
+    //     .style("font-size", function () {
+    //         return `${mapStyle.fontSize / currentZoomScale}px`; // Adjust font size based on zoom scale
+    //     });
+}
 
 function drawMap(svg, geojsonData) {
     const paths = svg

@@ -150,10 +150,35 @@ body {
 .summit-title {
     line-height: 1.5; /* Adjust the line-height as needed */
 }
+/* Default styles for zoom buttons */
+.zoom-button {
+    position: absolute;
+    z-index: 1000;
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
 /* -------------- */
 /* Mobile styling */
 /* -------------- */
 
+/* Position zoom buttons on the bottom right corner for mobile devices */
+@media (max-width: 575.98px) {
+    .zoom-button {
+        bottom: 20px;
+        right: 20px;
+    }
+    .zoom-button.zoom-in {
+        margin-bottom: 60px; /* Adjust the margin as needed */
+    }
+}
 
 .mbsc-list-item {
     font-family: 'Raleway', sans-serif; /* Change to your desired font family */
@@ -163,7 +188,7 @@ body {
     color: #333; 
     */
 }
-@media (max-width: 767.98px) {
+@media (max-width: 575.98px) {
     .mobile-font-size {
         font-size: 14px; /* Change to your desired font size */
     }
@@ -172,7 +197,7 @@ body {
     }
 }
 
-@media (max-width: 767.98px) {
+@media (max-width: 575.98px) {
     .badge-mobile {
         width: 38px; /* Change to your desired font size */
         text-align: center;
@@ -181,7 +206,7 @@ body {
 }
 
 
-@media (max-width: 767.98px) {
+@media (max-width: 575.98px) {
     .img-fluid.country-flag {
         width: 38px; /* Adjust the width as needed */
         height: 26px; /* Adjust the height as needed */
