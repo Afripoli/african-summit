@@ -154,13 +154,6 @@ body {
 /* Mobile styling */
 /* -------------- */
 
-@media (max-width: 767.98px) {
-    .mobile-bold {
-        font-size: 1.5em; /* Slightly larger font size */
-        font-weight: bold; /* Bolder font type */
-        text-justify: left;
-    }
-}
 
 .mbsc-list-item {
     font-family: 'Raleway', sans-serif; /* Change to your desired font family */
@@ -172,6 +165,9 @@ body {
 }
 @media (max-width: 767.98px) {
     .mobile-font-size {
+        font-size: 14px; /* Change to your desired font size */
+    }
+    .form-control.mobile-font-size {
         font-size: 14px; /* Change to your desired font size */
     }
 }
