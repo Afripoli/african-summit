@@ -22,7 +22,8 @@ export function initMobileTimeline(geojsonData, jsonData, cumulativeSummits, sum
             const selectedYear = inst.getVal();
             console.log('Selected year:', selectedYear);
             // Update the input field with the selected year
-            document.getElementById('button-picker').value = selectedYear;
+            document.getElementById('input-year-picker').value = selectedYear;
+            document.getElementById('input-country-picker').value = '';
             // Update the visualization based on the selected year
             const yearData = jsonData.find((summit) => summit.year === parseInt(selectedYear));
             if (yearData) {
@@ -42,6 +43,8 @@ export function initMobileTimeline(geojsonData, jsonData, cumulativeSummits, sum
         onChange: function (event, inst) {
             const selectedCountry = inst.getVal(); // Get the selected country
             console.log('Selected country:', selectedCountry); // Log the selected country
+            document.getElementById('input-country-picker').value = selectedCountry;
+            document.getElementById('input-year-picker').value = '';
             // Update the visualization based on the selected country
             if (selectedCountry) {
                 let summits = getSummitsforCountry(summitsByCountryMap, selectedCountry);
@@ -51,6 +54,8 @@ export function initMobileTimeline(geojsonData, jsonData, cumulativeSummits, sum
             }
         }
     });
+    console.log('Country instance', countryInstance)
+    console.log('Element select country', document.getElementById('select-country'))
 
     // Fetch summit years data and populate Mobiscroll
     mobiscroll.getJson('/db/summits-by-year.json', function (data) {

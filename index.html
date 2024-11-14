@@ -132,24 +132,27 @@
                         </div>
                         <!-- MOBILE: TIMELINE MOBISCROLL -->
                         <div class="row d-sm-none mb-3">
-                            <div class="col-6 col-sm-6 year-picker-container d-flex d-sm-none d-block mb-3">
+                            <div class="col-5 col-sm-5 year-picker-container d-flex d-sm-none d-block mb-3">
                                 <div class="input-group rounded-container">
                                     <button type="button" id="select-year"
                                         class="btn btn-warning btn-sm w-100 mobile-font-size">
                                         Select year
                                     </button>
-                                    <input id="button-picker"
+                                    <input id="input-year-picker"
                                         class="form-control col-6 text-center no-border-radius custom-input-height mobile-font-size"
                                         placeholder="Year" />
                                 </div>
                             </div>
-                            <div class="col-6 col-sm-6 country-picker-container d-flex d-sm-none d-block mb-3">
+                            <div class="col-2 col-sm-2 mx-auto d-flex align-items-center justify-content-center">
+                                <p class="or-text mobile-font-size text-center">or</p>
+                            </div>
+                            <div class="col-5 col-sm-5 country-picker-container d-flex d-sm-none d-block mb-3">
                                 <div class="input-group rounded-container">
                                     <button type="button" id="select-country"
                                         class="btn btn-warning btn-sm w-100 rounded-start mobile-font-size">
                                         Select country
                                     </button>
-                                    <input id="button-picker"
+                                    <input id="input-country-picker"
                                         class="form-control text-center no-border-radius custom-input-height mobile-font-size"
                                         placeholder="Country" />
                                 </div>
@@ -162,7 +165,7 @@
                             </div>
                         </div>
                         <!-- MOBILE: MAP -->
-                        <div class="col-12 pb-1 col-map-mobile d-sm-none d-block h-75">
+                        <div class="col-12 pb-0 col-map-mobile d-sm-none d-block h-75">
                             <div class="mx-auto">
                                 <div id="map-mobile" style="position: relative;" class="map"></div>
                             </div>
@@ -171,7 +174,7 @@
                         <!-- Paragraph for Mobile Devices -->
                         <p class="mt-0 mb-0 text-secondary d-sm-none mobile-font-size">
                             <img src="/src/img/search.svg" id="lupa" class="img-fluid d-inline" alt="Search icon">
-                            <i class="d-inline">Explore the data in two ways: by viewing the summits <b>by time</b>, or
+                            <i class="d-inline">Explore the data in two ways: by viewing the summits <b>by year</b>, or
                                 <b>by host country</b>.</i>
                         </p>
 

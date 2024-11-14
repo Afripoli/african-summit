@@ -13,7 +13,7 @@ const maxYearsToShow = 4;
 
 // mobile
 let mapMobileHeight = document.getElementById('map-mobile').clientHeight;
-const mapMobileWidth = document.getElementById('map-mobile').clientWidth;
+let mapMobileWidth = document.getElementById('map-mobile').clientWidth;
 
 const mapStyle = {
     "defaultFill": "#e6e6e6",

@@ -4,20 +4,18 @@ import {
 } from "../common/globals.js";
 import { getSummitsforCountry, displaySummitsCountry } from "../desktop/summitUtils.js";
 
-let mapheightAlt = window.innerHeight - 50 - 400;
 let mapMobileHeight = window.innerHeight - 50 - 400;
 
-console.log('Map height alt', mapheightAlt)
 let projection = d3.geoMercator().center([0, 0]).scale(80).translate([mapMobileWidth / 2.05, mapMobileHeight / 1.5]); // do not move coord unless svg size is changed!
 let path = d3.geoPath().projection(projection);
 
 //console.log('Map mobile height', mapMobileHeight)
-const svg = d3.select("#map-mobile")
-    .append("svg")
+const svg = d3.select("#map-mobile").append("svg");
+svg
     .attr("width", `${mapMobileWidth}`)
     .attr("height", `${mapMobileHeight}`)
-    //.attr("viewBox", `0 0 ${mapMobileWidth} ${mapheightAlt}`)
-    //.attr("preserveAspectRatio", "xMidYMid meet");
+//.attr("viewBox", `0 0 ${mapMobileWidth} ${mapMobileHeight}`)
+//.attr("preserveAspectRatio", "xMidYMid meet");
 
 export function initializeMobileMap(geojsonData) {
     // Draw the map
@@ -216,9 +214,9 @@ function clearCountryLabels() {
 
 // Function to resize the map
 function resizeMap(svg, geojsonData) {
-    const width = document.getElementById('map-mobile').clientWidth;
-    const height = document.getElementById('map-mobile').clientHeight;
-    console.log('Resizing map to width:', width, 'height:', height);
+    let width = document.getElementById('map-mobile').clientWidth;
+    let height = document.getElementById('map-mobile').clientHeight;
+    console.log('Main container height', heightMain, 'Resizing map to width:', width, 'height:', height);
     svg.attr("width", width).attr("height", height);
 
     // Redraw the map with the updated dimensions
