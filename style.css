@@ -165,6 +165,10 @@ body {
     cursor: pointer;
 }
 
+#map-mobile.svg {
+    max-width: 350px !important
+}
+
 /* -------------- */
 /* Mobile styling */
 /* -------------- */

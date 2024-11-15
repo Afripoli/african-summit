@@ -5,7 +5,7 @@ import {
 } from "./mapUtils.js";
 import { arrowsClickListener } from "./initDesktop.js";
 import { displaySummitsYear } from "./summitUtils.js";
-import { maxYearsToShow, timelineStyle } from "./globals.js";
+import { maxYearsToShow, timelineStyle } from "../common/globals.js";
 
 export function initDesktopTimelineSVG() {
     const svg = d3

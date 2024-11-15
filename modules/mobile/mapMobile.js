@@ -5,12 +5,13 @@ import {
 import { getSummitsforCountry, displaySummitsCountry } from "../desktop/summitUtils.js";
 
 let mapMobileHeight = window.innerHeight - 50 - 400;
+console.log('Map mobile widht', mapMobileWidth)
 
 let projection = d3.geoMercator().center([0, 0]).scale(80).translate([mapMobileWidth / 2.05, mapMobileHeight / 1.5]); // do not move coord unless svg size is changed!
 let path = d3.geoPath().projection(projection);
 
 //console.log('Map mobile height', mapMobileHeight)
-const svg = d3.select("#map-mobile").append("svg");
+let svg = d3.select("#map-mobile").append("svg");
 svg
     .attr("width", `${mapMobileWidth}`)
     .attr("height", `${mapMobileHeight}`)
