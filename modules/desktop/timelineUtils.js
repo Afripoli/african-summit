@@ -5,7 +5,7 @@ import {
 } from "./mapUtils.js";
 import { arrowsClickListener } from "./initDesktop.js";
 import { displaySummitsYear } from "./summitUtils.js";
-import { maxYearsToShow, timelineStyle, downArrowMargin } from "./globals.js";
+import { maxYearsToShow, timelineStyle } from "./globals.js";
 
 export function initDesktopTimelineSVG() {
     const svg = d3
@@ -106,7 +106,7 @@ export function drawTimeline(
     // Append down arrow
     svg.append("text")
         .attr("x", containerWidth / 3)  // Center horizontally
-        .attr("y", lastItemPosition + downArrowMargin)  // Position below the last item
+        .attr("y", lastItemPosition + 50)  // Position below the last item
         .attr("text-anchor", "middle")
         .attr("font-size", "36px")
         .attr("class", "down-arrow")
@@ -181,6 +181,11 @@ export function drawTimeline(
             if (d.summits.length > 0) {
                 textElement.selectAll("tspan").remove(); // Clear old tspans
                 d.summits.forEach((summit, index) => {
+                    textElement
+                        .append("tspan")
+                        .attr("x", containerWidth / 3 + 10) // Align tspans with country text
+                        .attr("dy", index === 0 ? 0 : "1.2em") // Adjust vertical spacing
+                        .text(summit.country);
                     let countryName = summit.country;
                     console.log('country name in draw timeline', countryName)
                     if (countryName === "England") {
@@ -234,7 +239,7 @@ export function drawTimeline(
         .attr("x1", containerWidth / 3)
         .attr("y1", lastItemPosition + 10)  // Position just below the last circle
         .attr("x2", containerWidth / 3)
-        .attr("y2", lastItemPosition + 70)  // Position just above the down arrow
+        .attr("y2", lastItemPosition + 21)  // Position just above the down arrow
         .attr("stroke", "gray")
         .attr("stroke-width", 2);
     downArrowLineGroup.exit().remove(); // Remove any excess lines

@@ -1,7 +1,7 @@
-import { loadAndMergeData } from "./modules/dataLoader.js";
-import { jsonPath, geojsonUrl } from "./modules/globals.js";
-import { initMobileTimeline } from "./modules/initMobile.js";
-import { initDesktopTimeline } from "./modules/initDesktop.js";
+import { loadAndMergeData } from "./modules/common/dataLoader.js";
+import { jsonPath, geojsonUrl } from "./modules/common/globals.js";
+import { initMobileTimeline } from "./modules/mobile/initMobile.js";
+import { initDesktopTimeline } from "./modules/desktop/initDesktop.js";
 
 async function main() {
     try {
@@ -15,7 +15,9 @@ async function main() {
             initDesktopTimeline(geojsonData, jsonData, summitMap, summitsByCountryMap, countriesWithSummits, cumulativeSummits /*, jsonData, summitCounter*/);
         } else {
             // Mobile version
-            initMobileTimeline(geojsonData, jsonData /*,  summitMap, jsonData, summitsByCountryMap, summitCounter*/);
+            console.log('Summits with countrries', countriesWithSummits)
+            console.log('Summits by country map', summitsByCountryMap)
+            initMobileTimeline(geojsonData, jsonData, cumulativeSummits, summitsByCountryMap /*, summitCounter*/);
         }
     } catch (error) {
         console.error("Error initializing app:", error);

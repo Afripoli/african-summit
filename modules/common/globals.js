@@ -46,7 +46,7 @@ const timelineStyle = {
     "fontWeight": "normal",
     "fontWeightHighlight": "bold"
 }
-const downArrowMargin  = 100;
+
 // Country flags
 const flagSrc = [
     {
@@ -130,4 +130,4 @@ let svg = d3.select("#map")
     .attr("viewBox", `0 0 ${width} ${height}`)
     .attr("preserveAspectRatio", "xMidYMid meet");
 
-export { jsonPath, geojsonUrl, width, height, svg, scale, center, translation, maxYearsToShow, hostCountry, flagSrc, mapStyle, timelineStyle, countryOffsets, downArrowMargin }
+export { jsonPath, geojsonUrl, width, height, svg, scale, center, translation, maxYearsToShow, hostCountry, flagSrc, mapStyle, timelineStyle, countryOffsets }
