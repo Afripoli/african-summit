@@ -18,6 +18,26 @@ body {
     letter-spacing: -1px;
 }*/
 
+.header-vis p {
+    font-size: 13px;
+    font-size: 'Raleway light';
+    line-height: 1.74;
+}
+
+.pg-line-height {
+    line-height: 1.74;
+}
+
+.header-vis {
+    padding-right: 140px;
+}
+.user-text {
+    font-weight: light;
+    font-size: 10pt;
+    i {
+        font-size: 10pt;
+    }
+}
 .container-xl.main-container {
     overflow: hidden; /* Prevent scrolling */
 }
@@ -28,6 +48,11 @@ body {
 .btn.btn-sm.btn-play {
     width: 100px;      /* Adjust width if needed */
     height: 40px;  
+}
+
+#playButtonDesktop,
+#restartButtonDesktop {
+    background-color: #fec03c ;
 }
 .arrow-container {
     position: absolute;
@@ -80,9 +105,12 @@ body {
 }
 
 .same-font-size,
-#summitList,
 .summitNospan {
-    font-size: 18px;
+    font-size: 11pt;
+}
+
+#summitList {
+    font-size: 11pt;
 }
 /*.summitNospan {
     width: 40px;
@@ -120,7 +148,8 @@ body {
 }
 
 .apri-separator-vis {
-    border-bottom: 3px solid #ffc03c;;
+    border-bottom: 3px solid #fcc12c;
+    width: 100%;
 }
  /* separator after summit info container item */
  /* Add a gray line after each list item */
@@ -168,6 +197,14 @@ body {
 #map-mobile.svg {
     max-width: 350px !important
 }
+
+/* Desktop+ screens */
+@media (min-width: 992px) {
+    .apri-separator-vis {
+        width: 30%; /* Adjust the width as needed */
+    }
+}
+
 
 /* -------------- */
 /* Mobile styling */
@@ -222,6 +259,13 @@ body {
     .img-fluid.location {
         width: 30px; /* Adjust the width as needed */
         height: 18.33px; /* Adjust the height as needed */
+    }
+}
+
+@media (min-width: 992px) {
+    .img-fluid.country-flag {
+        width: 34.13px; /* Adjust the width as needed */
+        height: 20.69px; /* Adjust the height as needed */
     }
 }
 

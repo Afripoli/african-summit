@@ -107,24 +107,24 @@ export function displaySummitsYear(yearData) {
         const listItem = document.createElement('li');
         let countryListed = country ? `
         <div class="d-flex justify-content-start align-items-center mt-4 mb-2">
-            <img src="/src/img/country-flags-main/png100px/${flagCountry}" class="img-fluid country-flag border-dark rounded me-2 pe-sm-5" alt="Flag">
-            <p class="h5 mb-0">${country}</p>
+            <img src="/src/img/country-flags-main/png100px/${flagCountry}" class="img-fluid country-flag border-dark rounded me-2 pe-lg-2 pe-xl-2" alt="Flag">
+            <p class="mb-0 fw-bold">${country}</p>
         </div>` : '';
     let titleContent = summit.title ? `${summit.title}` : `${summit.summitNo} Summit`;
     let dateContent = summit.date ? `
         <div class="d-flex justify-content-start align-items-center mb-0">
-            <img src="/src/img/calendar.svg" class="img-fluid calendar me-3 pe-sm-3">
+            <img src="/src/img/calendar.svg" class="img-fluid calendar me-3 pe-sm-3 pe-lg-2 pe-xl-2">
             <p class="mobile-font-size mb-0">${summit.date}</p>
         </div>` : '';
     let placeContent = summit.place ? `
         <div class="d-flex justify-content-start align-items-center mb-0">
-            <img src="/src/img/map-pin.svg" class="img-fluid location me-3 pe-sm-5">
+            <img src="/src/img/map-pin.svg" class="img-fluid location me-3 pe-sm-5 pe-lg-2 pe-xl-2">
             <p class="mobile-font-size mb-0">${summit.place}</p>
         </div>` : '';
     listItem.innerHTML = `
         ${countryListed} 
         <div class="d-flex justify-content-start align-items-start mb-0">
-            <span class="badge badge-mobile bg-dark me-2 pe-sm-5 mobile-font-size badge-normal">${summit.summitNo}</span>
+            <span class="badge badge-mobile bg-dark me-2 pe-sm-5 pe-lg-2 pe-xl-2 mobile-font-size badge-normal">${summit.summitNo}</span>
             <p class="mb-0 mobile-font-size summit-title">${titleContent}</p>
         </div>
         ${dateContent}

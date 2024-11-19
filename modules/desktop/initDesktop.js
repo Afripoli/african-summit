@@ -17,7 +17,8 @@ let generalCounter = 0; // saves a counter for each loop. We'll use it for the m
 
 // Function to initialize default page 
 function initializePage(svg, geojsonData, summitData, displayedYears, countriesWithSummits, cumulativeSummits, summitsByCountryMap) {
-    drawMap(geojsonData);
+    console.log('Summit data', countriesWithSummits)
+    drawMap(geojsonData, countriesWithSummits);
     drawTimeline(svg, geojsonData, summitData, currentYearIndex, displayedYears, countriesWithSummits, cumulativeSummits, summitsByCountryMap);
     addTimelineItemClickListeners(svg);
     arrowsClickListener(svg,

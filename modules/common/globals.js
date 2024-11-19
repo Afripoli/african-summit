@@ -14,6 +14,7 @@ const maxYearsToShow = 4;
 let mapMobileWidth = 350;
 //let mapMobileWidth = window.innerWidth;
 const mapStyle = {
+    "onloadFill": "#ffdc94",
     "defaultFill": "#f2f2f2",
     "defaultBorder": "#cccccc",
     "defaultBorderWidth": 0.15,
@@ -44,9 +45,14 @@ const timelineStyle = {
     "borderItem": "#000000",
     "borderWidthItem": 2,
     "clickedYearCountry": "#d87b00",
-    "fontItem": "18px",
+    "fontItem": "11pt",
     "fontWeight": "normal",
     "fontWeightHighlight": "bold"
+}
+
+// Summit container 
+const summitStyle = {
+    "fontItem": "11pt",
 }
 
 // Country flags
@@ -132,4 +138,4 @@ let svg = d3.select("#map")
     .attr("viewBox", `0 0 ${width} ${height}`)
     .attr("preserveAspectRatio", "xMidYMid meet");
 
-export { jsonPath, geojsonUrl, width, height, svg, scale, center, translation, maxYearsToShow, hostCountry, flagSrc, mapStyle, timelineStyle, countryOffsets, mapMobileWidth }
+export { jsonPath, geojsonUrl, width, height, svg, scale, center, translation, maxYearsToShow, hostCountry, flagSrc, mapStyle, timelineStyle, countryOffsets, mapMobileWidth, summitStyle }

@@ -38,7 +38,7 @@ function zoomed(event) {
     });
 }
 
-export function drawMap(geojson) {
+export function drawMap(geojson, countriesWithSummits) {
   //console.log('geojson', geojson)
   const paths = svg
     .selectAll("path")
@@ -46,7 +46,11 @@ export function drawMap(geojson) {
     .enter()
     .append("path")
     .attr("d", path)
-    .attr("fill", mapStyle.defaultFill)
+    .attr("fill", d => {
+      console.log('D in drawMap', d)
+      const country = d.properties.name;
+      return countriesWithSummits.has(country) ? mapStyle.onloadFill : mapStyle.defaultFill;
+    })
     .attr("stroke", mapStyle.defaultBorder)
     .attr("stroke-width", mapStyle.defaultBorderWidth);
 
