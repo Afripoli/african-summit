@@ -19,22 +19,23 @@ const mapStyle = {
     "defaultBorder": "#cccccc",
     "defaultBorderWidth": 0.15,
     "borderHost": "#000000",
-    "fillHost": "#ffbf3b",
+    "fillHost": "#ffdc94",
     "borderWidthHost": 1,
-    "clickedYearCountry": "#d87b00",
-    "fontSize": "14px",
+    "clickedYearCountry": "#fec03c",
+    "fontSize": "6pt",
+    "fontSizeNumber": 6,
     "fontWeight": "450",
     "textAnchor": "middle",
     "alignmentBaseline": "middle"
 };
 
 const countryOffsets = {
-    Italy: { x: -5, y: 15 }, 
-    "South Korea": { x: -10, y: 20 }, 
+    Italy: { x: 0, y: 0 }, 
+    "South Korea": { x: 0, y: 20 }, 
     USA: { x: 20, y: 20 }, 
-    China: { x: -10, y: 0 }, 
-    France: { x: -20, y: 0 },
-    "Saudi Arabia": { x: -20, y: 0 }, 
+    China: { x: 0, y: 0 }, 
+    France: { x: 0, y: -5 },
+    "Saudi Arabia": { x: 0, y: 0 }, 
     India: { x: 0, y: 0 }, 
     Japan: { x: 0, y: 0 }, 
 };
@@ -45,9 +46,15 @@ const timelineStyle = {
     "borderItem": "#000000",
     "borderWidthItem": 2,
     "clickedYearCountry": "#d87b00",
-    "fontItem": "11pt",
+    "fontItem": "15pt",
     "fontWeight": "normal",
-    "fontWeightHighlight": "bold"
+    "fontWeightHighlight": "bold",
+    "arrowActive": "#fec03c",
+    "arrowLineColor": "#d7d7d7",
+    "arrowLineWeight": 1,
+    "notActiveNode": "#d7d7d7",
+    "activeNode": "#fec03c",
+    "marginYearLeft": 20,
 }
 
 // Summit container 

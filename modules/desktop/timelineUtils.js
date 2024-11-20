@@ -48,18 +48,6 @@ export function drawTimeline(
     cumulativeSummits,
     summitsByCountryMap
 ) {
-    //console.log("Passing summit data in drawtimeline function", summitData);
-    //console.log("Drawing year", displayedYears);
-    /*console.log(
-        "Set countries with summits in drawtimeline function",
-        countriesWithSummits
-    );
-    console.log(
-        "Passing parameter cummulativeSummits in drawtimeline function",
-        cumulativeSummits
-    );
-    console.log('Summits by country map in drawtimeline function', summitsByCountryMap)*/
-
     const containerHeight = svg.node().getBoundingClientRect().height;
     const containerWidth = svg.node().getBoundingClientRect().width;
     const circleSpacing = containerHeight / (maxYearsToShow + 1);
@@ -75,7 +63,7 @@ export function drawTimeline(
         .attr("cx", containerWidth / 3) // Keep the circles centered horizontally
         .attr("cy", (d, i) => circleSpacing * (i + 1) - circleSpacing / 3) // Adjust to start first circle at top
         .attr("r", (d, i) => (i === 0 ? 10 : 5)) // Make the first circle bigger
-        .attr("fill", `${timelineStyle.defaultItem}`)
+        .attr("fill", `${timelineStyle.notActiveNode}`)
         .style("cursor", "pointer")
         .on("click", function (event, d) {
             const yearData = summitData.find((summit) => summit.year === d.year); // Get data for clicked year
@@ -98,7 +86,8 @@ export function drawTimeline(
         .attr("x", containerWidth / 3)  // Center horizontally
         .attr("y", firstItemPosition - 20)  // Position above the first item
         .attr("text-anchor", "middle")
-        .attr("font-size", "36px")
+        .attr("font-size", "18px")
+        .attr("fill", `${timelineStyle.arrowActive}`)
         .attr("class", "up-arrow")
         .style("cursor", "pointer")
         .text("▲");
@@ -108,7 +97,8 @@ export function drawTimeline(
         .attr("x", containerWidth / 3)  // Center horizontally
         .attr("y", lastItemPosition + 50)  // Position below the last item
         .attr("text-anchor", "middle")
-        .attr("font-size", "36px")
+        .attr("font-size", "18px")
+        .attr("fill", `${timelineStyle.arrowActive}`)
         .attr("class", "down-arrow")
         .style("cursor", "pointer")
         .text("▼");
@@ -118,10 +108,13 @@ export function drawTimeline(
         .attr("y1", firstItemPosition - 50)  // Position just below the up arrow
         .attr("x2", containerWidth / 3)
         .attr("y2", lastItemPosition + 100)  // Position just above the down arrow
-        .attr("stroke", "black")
-        .attr("stroke-width", 2);
+        .attr("stroke", `${timelineStyle.arrowLineColor}`)
+        .attr("stroke-width", `${timelineStyle.arrowLineWeight}`);
 
     arrowsClickListener(svg, geojsonData, summitData, currentYearIndex, countriesWithSummits, cumulativeSummits, summitsByCountryMap);
+
+    // Define margin bottom after each year
+    const marginBottom = 40;
 
     // Bind the year label data and render year labels next to the circles
     const yearTextGroup = svg
@@ -132,7 +125,7 @@ export function drawTimeline(
         .append("text")
         .attr("class", "year")
         .merge(yearTextGroup)
-        .attr("x", containerWidth / 3 + 10) // Position the label to the right of the circle
+        .attr("x", containerWidth / 3 + timelineStyle.marginYearLeft) // Position the label to the right of the circle
         .attr("y", (d, i) => circleSpacing * (i + 1) + 5 - circleSpacing / 3) // Align with the circle vertically
         .attr("text-anchor", "start")
         .text((d) => d.year)
@@ -160,10 +153,11 @@ export function drawTimeline(
         .append("text")
         .attr("class", "country")
         .merge(countryTextGroup)
-        .attr("x", containerWidth / 3 + 1) // Position the country label to the right of the year label
+        .attr("x", containerWidth / 3) // Position the country label to the right of the year label
         .attr("y", (d, i) => circleSpacing * (i + 1) + 25 - circleSpacing / 3) // Align with the year label
         .attr("text-anchor", "start")
         .style("font-size", `${timelineStyle.fontItem}`)
+        .attr("font-weight", "light")
         .style("fill", `${timelineStyle.defaultItem}`)
         .on("click", function (event, d) {
             const yearData = summitData.find((summit) => summit.year === d.year); // Get data for clicked year
@@ -181,20 +175,32 @@ export function drawTimeline(
             if (d.summits.length > 0) {
                 textElement.selectAll("tspan").remove(); // Clear old tspans
                 d.summits.forEach((summit, index) => {
-                    textElement
-                        .append("tspan")
-                        .attr("x", containerWidth / 3 + 10) // Align tspans with country text
-                        .attr("dy", index === 0 ? 0 : "1.2em") // Adjust vertical spacing
-                        .text(summit.country);
                     let countryName = summit.country;
                     console.log('country name in draw timeline', countryName)
                     if (countryName === "England") {
                         countryName = "United Kingdom";
                     }
-                    textElement.append("tspan")
-                        .attr("x", (containerWidth / 3) + 10)  // Align tspans with country text
-                        .attr("dy", index === 0 ? 0 : "1.2em")  // Adjust vertical spacing
+                    const tspan = textElement
+                        .append("tspan")
+                        .attr("x", containerWidth / 3 + timelineStyle.marginYearLeft) // Align tspans with country text
+                        .attr("dy", index === 0 ? 0 : `1.2em`) // Adjust vertical spacing
                         .text(countryName);
+
+                    // Add margin bottom after the last country
+                    if (index === d.summits.length - 1) {
+                        tspan.classed("last-country", true);
+                    }
+                    // Add margin bottom after the last country
+                    // textElement
+                    //     .append("tspan")
+                    //     .attr("x", containerWidth / 3 + timelineStyle.marginYearLeft) // Align tspans with country text
+                    //     .attr("dy", `${marginBottom}px`) // Add margin bottom
+                    //     .text(""); // Empty text to create the space
+
+                    // textElement.append("tspan")
+                    //     .attr("x", (containerWidth / 3) + 10)  // Align tspans with country text
+                    //     .attr("dy", index === 0 ? 0 : "1.2em")  // Adjust vertical spacing
+                    //     .text(countryName);
                 });
             }
         });
@@ -210,12 +216,12 @@ export function drawTimeline(
         .attr("y1", (d, i) => circleSpacing * (i + 1) + 10 - circleSpacing / 3) // Start from below the previous circle
         .attr("x2", containerWidth / 3)
         .attr("y2", (d, i) => circleSpacing * (i + 2) - 10 - circleSpacing / 3) // End above the next circle
-        .attr("stroke", "gray")
+        .attr("stroke", `${timelineStyle.arrowLineColor}`)
         .attr("stroke-width", 2);
     lineGroup.exit().remove(); // Remove any excess lines
 
     // Append line between arrows and circles
-    const upArrowLineGroup = svg.selectAll(".up-arrow-line").data([null]);
+    /*const upArrowLineGroup = svg.selectAll(".up-arrow-line").data([null]);
     upArrowLineGroup
         .enter()
         .append("line")
@@ -225,12 +231,13 @@ export function drawTimeline(
         .attr("y1", firstItemPosition - 20)  // Position just below the up arrow
         .attr("x2", containerWidth / 3)
         .attr("y2", firstItemPosition - 10)  // Position just above the first circle
-        .attr("stroke", "gray")
+        .attr("stroke", `${timelineStyle.arrowLineColor}`)
         .attr("stroke-width", 2);
     upArrowLineGroup.exit().remove(); // Remove any excess lines
+    */
 
     // Append line between last circle and down arrow
-    const downArrowLineGroup = svg.selectAll(".down-arrow-line").data([null]);
+    /*const downArrowLineGroup = svg.selectAll(".down-arrow-line").data([null]);
     downArrowLineGroup
         .enter()
         .append("line")
@@ -240,9 +247,9 @@ export function drawTimeline(
         .attr("y1", lastItemPosition + 10)  // Position just below the last circle
         .attr("x2", containerWidth / 3)
         .attr("y2", lastItemPosition + 21)  // Position just above the down arrow
-        .attr("stroke", "gray")
+        .attr("stroke", `${timelineStyle.arrowLineColor}`)
         .attr("stroke-width", 2);
-    downArrowLineGroup.exit().remove(); // Remove any excess lines
+    downArrowLineGroup.exit().remove(); // Remove any excess lines */
 }
 
 export function highlightItem(
@@ -288,14 +295,14 @@ export function highlightItem(
 
 export function highlightClickedItem(svg, geojsonData, clickedData, cumulativeSummits, summitsByCountryMap) {
     console.log('Clicked data in highlightClickedItem function', clickedData)
-    svg.selectAll("circle").attr("fill", timelineStyle.defaultItem).attr("r", 5); // Reset all circles
+    svg.selectAll("circle").attr("fill", `${timelineStyle.notActiveNode}`).attr("r", 5); // Reset all circles
     svg
         .selectAll("text.year")
-        .style("fill", timelineStyle.defaultItem)
+        .style("fill", `${timelineStyle.notActiveNode}`)
         .style("font-weight", "normal"); // Reset year text
     svg
         .selectAll("text.country")
-        .style("fill", timelineStyle.defaultItem)
+        .style("fill", `${timelineStyle.notActiveNode}`)
         .style("font-weight", "normal"); // Reset country text
     // Highlight the clicked item
     const circles = svg
@@ -310,15 +317,15 @@ export function highlightClickedItem(svg, geojsonData, clickedData, cumulativeSu
 
     circles
         .attr("r", 10)
-        .attr("fill", timelineStyle.clickedYearCountry)
-        .attr("stroke", timelineStyle.borderItem) // Set stroke color
-        .attr("stroke-width", timelineStyle.borderWidthItem);
+        .attr("fill", `${timelineStyle.activeNode}`)
+    //.attr("stroke", timelineStyle.borderItem) // Set stroke color
+    //.attr("stroke-width", timelineStyle.borderWidthItem);
     textYear
         .style("font-weight", "bold")
-        .style("fill", timelineStyle.clickedYearCountry); // Highlight year text
+        .style("fill", `${timelineStyle.activeNode}`); // Highlight year text
     countries
-        .style("font-weight", "bold")
-        .style("fill", timelineStyle.clickedYearCountry); // Highlight country text
+        //.style("font-weight", "bold")
+        .style("fill", `${timelineStyle.activeNode}`); // Highlight country text
 
     updateMapByYear(geojsonData, clickedData, cumulativeSummits, summitsByCountryMap);
     displaySummitsYear(clickedData);

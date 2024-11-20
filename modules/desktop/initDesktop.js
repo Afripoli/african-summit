@@ -21,6 +21,18 @@ function initializePage(svg, geojsonData, summitData, displayedYears, countriesW
     drawMap(geojsonData, countriesWithSummits);
     drawTimeline(svg, geojsonData, summitData, currentYearIndex, displayedYears, countriesWithSummits, cumulativeSummits, summitsByCountryMap);
     addTimelineItemClickListeners(svg);
+    const firstArrow = document.querySelector(".up-arrow");
+    const firstArrowLine = document.querySelector(".up-arrow-line");
+
+    console.log('First arrow', firstArrow);
+    if (currentYearIndex === 0) {
+        firstArrow.style.display = "none";
+        firstArrowLine.style.display = "none";
+    } else {
+        firstArrow.style.display = "block";
+        firstArrowLine.style.display = "block";
+    }
+
     arrowsClickListener(svg,
         geojsonData,
         summitData,

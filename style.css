@@ -54,6 +54,33 @@ body {
 #restartButtonDesktop {
     background-color: #fec03c ;
 }
+.btnZoom {
+    /* top: 10px;  Ajusta la posición según tus necesidades */
+    /* right: 10px; Ajusta la posición según tus necesidades */
+    /* display: flex; */
+    /* flex-direction: column; */
+  }
+  
+  /* Estilos comunes para los botones */
+  .btnZoom button {
+    /* display: flex; */
+    /* align-items: center; */
+    /* justify-content: center; */
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: transparent;
+    padding: 0px; /* Elimina el padding para que el botón no tenga espacio extra */
+    border: none; /* Borde negro */
+    margin:0px;
+  
+  }
+  
+  /* Estilos para los iconos SVG dentro de los botones */
+  .btnZoom button img {
+    width: 30px; /* Ajusta el tamaño del icono */
+    height: 30px;
+  
+  }
 .arrow-container {
     position: absolute;
     width: 215px;
@@ -63,11 +90,15 @@ body {
 
 .up-arrow {
     top: 675px;  /* Position at the top */
+    color: #fec03c;
+    background-color: #fec03c;
     /* right: 0px; */
 }
 
 .down-arrow {
     bottom: -550px;  /* Position at the bottom */
+    color: #fec03c;
+    background-color: #fec03c;
 }
 .down-arrow.disabled {
     opacity: 0.25;         /* Make the element appear faded */
@@ -123,7 +154,9 @@ body {
 /* .same-font-color {
     color: #000;
 } */
-
+.last-country {
+    margin-bottom: 40px; /* Adjust this value as needed */
+}
 .column-with-border {
     border-right: #808080c2 1px solid;
     height: 515px; 
