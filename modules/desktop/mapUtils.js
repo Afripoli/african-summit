@@ -22,79 +22,57 @@ let currentZoomScale = 1;
 const zoom = d3.zoom()
   .scaleExtent([1, 8]) // Set the scale extent for zooming
   .on("zoom", zoomed);
-
+// Create a group element to contain the map paths and labels
+const g = svg.append("g");
 // Apply zoom behavior to the SVG
-//svg.call(zoom);
+svg.call(zoom);
 
 function zoomed(event) {
   currentZoomScale = event.transform.k; // Update the global zoom scale
   console.log('Current zoom scale in zoomed', currentZoomScale);
   console.log('Zoomed event', event)
-  svg.selectAll("path").attr("transform", event.transform);
-  svg.selectAll(".country-label")
-    .attr("transform", event.transform)
+  //g.selectAll("path").attr("transform", event.transform);
+  g.attr("transform", event.transform);
+  g.selectAll(".country-label")
+    //.attr("transform", event.transform)
     .style("font-size", function () {
       //let scale = event.transform.k;
       console.log('Scale in zoomed', currentZoomScale)
       return `${mapStyle.fontSizeNumber / currentZoomScale}pt`; // Adjust font size based on zoom scale
       //return `${mapStyle.fontSize}`; // Adjust font size based on zoom scale
     });
+  // Enable drag functionality only when zoomed in
+  if (currentZoomScale > 1) {
+    svg.call(d3.drag().on("drag", dragged));
+  } else {
+    svg.on(".drag", null); // Disable drag functionality
+  }
 }
+
+function dragged(event) {
+  console.log('Event in dragged', event)
+  const { dx, dy } = event;
+  const { x, y, k } = d3.zoomTransform(svg.node());
+  g.attr("transform", `translate(${x + dx}, ${y + dy}) scale(${k})`);
+}
+
 
 export function drawMap(geojson, countriesWithSummits) {
   //console.log('geojson', geojson)
-  const paths = svg
+  g
     .selectAll("path")
     .data(geojson.features)
     .enter()
     .append("path")
     .attr("d", path)
     .attr("fill", d => {
-      console.log('D in drawMap', d)
+      //console.log('D in drawMap', d)
       const country = d.properties.name;
       return countriesWithSummits.has(country) ? mapStyle.onloadFill : mapStyle.defaultFill;
     })
     .attr("stroke", mapStyle.defaultBorder)
     .attr("stroke-width", mapStyle.defaultBorderWidth);
 
-  // Create and append buttons in a separate container
-  /*
-  const buttonContainer = svg.append("g").attr("class", "button-container");
-  const buttons = [
-    { id: "zoomInButton", text: "+", x: 20, y: 20 },
-    { id: "zoomOutButton", text: "-", x: 20, y: 40 },
-  ];
-  buttons.forEach(button => {
-    buttonContainer
-      .append("rect")
-      .attr("id", button.id)
-      .attr("x", button.x)
-      .attr("y", button.y)
-      .attr("width", 20)
-      .attr("height", 20)
-      .attr("rx", 7) // Rounded corners
-      .attr("ry", 7) // Rounded corners
-      .attr("fill", "#f0f0f0")
-      .attr("stroke", "#000")
-      .attr("stroke-width", 1)
-      .style("cursor", "pointer")
-      .on("click", () => handleButtonClick(svg, button.id));
-
-    buttonContainer
-      .append("text")
-      .attr("class", "button-text")
-      .attr("x", button.x + 10)
-      .attr("y", button.y + 10)
-      .attr("text-anchor", "middle")
-      .attr("alignment-baseline", "middle")
-      .style("font-size", "16px")
-      .style("fill", "#000")
-      .text(button.text)
-      .style("pointer-events", "none");
-
-    console.log('Button text is', button.text);
-  });
-  */
   // Apply zoom behavior to the SVG
   //svg.call(zoom);
   document.getElementById("zoomIn").addEventListener("click", () => handleButtonClick(svg, "zoomInButton"));
@@ -103,7 +81,6 @@ export function drawMap(geojson, countriesWithSummits) {
 
 function handleButtonClick(svg, buttonId) {
   console.log(`Button ${buttonId} clicked`);
-
   // Add your button click handling logic here
   switch (buttonId) {
     case 'zoomInButton':
@@ -129,8 +106,8 @@ function updateSummitCounter(summitMap, currentYear, summitCounter) {
 
 function drawCountryISO(svg, geojsonData, summitCounter) {
   console.log('Summit counter in drawCountryISO', summitCounter)
-  svg.selectAll(".country-label").remove(); // Remove existing labels
-  svg.selectAll(".country-label")
+  g.selectAll(".country-label").remove(); // Remove existing labels
+  g.selectAll(".country-label")
     .data(geojsonData.features)
     .enter()
     .append("text")
@@ -310,10 +287,10 @@ export function updateMapByYear(geojsonData, year, cumulativeSummits, summitsByC
   //const currentTransform = d3.zoomTransform(svg.node());
   console.log('Current zoom scale in updateMapByYear', currentZoomScale)
   svg.selectAll(".country-label")
-  .attr("transform", d3.zoomTransform(svg.node()))
-  .style("font-size", function() {
-    return `${mapStyle.fontSize / currentZoomScale}px`; // Adjust font size based on zoom scale
-  });
+    .attr("transform", d3.zoomTransform(svg.node()))
+    .style("font-size", function () {
+      return `${mapStyle.fontSize / currentZoomScale}px`; // Adjust font size based on zoom scale
+    });
   // Ensure button text is not removed
   svg.selectAll(".button-text").raise();
 

@@ -206,9 +206,17 @@ body {
 .header-vis {
     background-color: #f2f2f2;
 }
-.badge-normal {
+
+/* span.badge {
+    width: 34.13px;
+} */
+/* .badge-normal {
     font-weight: normal !important;
-}
+    width: 34.13px;
+} */
+ span.summit-number.badge {
+    width: 34.13px !important;
+ }
 .summit-title {
     line-height: 1.5; /* Adjust the line-height as needed */
 }
