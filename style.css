@@ -47,10 +47,17 @@ h1.timeline-title {
 }
 
 .header-vis {
-    padding-right: 140px;
+    width: 100%;
+    background-color: #f2f2f2;
+    padding: 3rem 10rem 3rem 4rem;
+    border-radius: 5px;
+    padding-left: 180px; 
+
+    /* font-family: "RalewayN", sans-serif; */
 }
 .user-text {
     font-size: 13pt;
+    /* padding-left: 60px; */
     i {
         font-size: 13pt;
     }
@@ -61,6 +68,8 @@ h1.timeline-title {
     padding: 20px;
     justify-content: space-between;
     margin: 0 60px 0 60px;
+    /* margin-right: 100px;
+    margin-left: 200px; */
     box-sizing: border-box;
     height: 700px;
 }
@@ -229,9 +238,6 @@ h1.timeline-title {
     left: 0;
 }
 
-.header-vis {
-    background-color: #f2f2f2;
-}
 
 /* span.badge {
     width: 34.13px;
