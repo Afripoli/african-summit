@@ -122,7 +122,8 @@ function playTimeline(
             currentYear,
             summitsByCountryMap,
             hostCountry,
-            summitCounter
+            summitCounter,
+            countriesWithSummits
         );
         highlightIndex += 1;
         generalCounter += 1;

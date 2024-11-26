@@ -156,9 +156,7 @@ function updateSummitCounter(summitMap, currentYear, summitCounter) {
   });
 }
 
-function drawCountryISO(svg, geojsonData, summitCounter) {
-  //console.log('Summit counter in drawCountryISO', summitCounter);
-  
+function drawCountryISO(svg, geojsonData, summitCounter) {  
   g.selectAll(".country-label").remove(); // Remove existing labels
   g.selectAll(".country-label")
     .data(geojsonData.features)
@@ -195,7 +193,8 @@ export function updateMap(
   currentYear,
   summitsByCountryMap,
   hostCountry,
-  summitCounter
+  summitCounter,
+  countriesWithSummits
 ) {
   clearCountryLabels();
   updateSummitCounter(summitMap, currentYear, summitCounter);
@@ -217,11 +216,16 @@ export function updateMap(
     })
     .style("cursor", "pointer")
     .on("click", function (event, d) {
-      //console.log('Country on click', d.properties.name)
       const country = d.properties.name;
-      const summits = getSummitsforCountry(summitsByCountryMap, country);
-      displaySummitsCountry(country, summits); // Call function to display the summits
-    });
+      if (countriesWithSummits.has(country)) {
+        clickedCountry = country; // Update the clicked country
+        const summits = getSummitsforCountry(summitsByCountryMap, country);
+        displaySummitsCountry(country, summits); // Call function to display the summits
+        updateCountryColors(countriesWithSummits);
+      } else {
+        event.stopPropagation(); // Prevent default behavior for non-clickable countries
+      }
+    })
   drawCountryISO(svg, geojsonData, summitCounter);
 }
 
