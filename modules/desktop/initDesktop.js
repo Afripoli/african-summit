@@ -25,13 +25,18 @@ function initializePage(svg, geojsonData, summitData, displayedYears, countriesW
     const firstArrowLine = document.querySelector(".up-arrow-line");
 
     console.log('First arrow', firstArrow);
-    if (currentYearIndex === 0) {
-        firstArrow.style.display = "none";
-        firstArrowLine.style.display = "none";
+    if (firstArrow && firstArrowLine) {
+        if (currentYearIndex === 0) {
+            firstArrow.style.display = "none";
+            firstArrowLine.style.display = "none";
+        } else {
+            firstArrow.style.display = "block";
+            firstArrowLine.style.display = "block";
+        }
     } else {
-        firstArrow.style.display = "block";
-        firstArrowLine.style.display = "block";
+        console.error('First arrow or first arrow line not found in the DOM');
     }
+
 
     arrowsClickListener(svg,
         geojsonData,
@@ -154,7 +159,8 @@ function playTimeline(
         if (currentYearIndex >= summitData.length) {
             clearInterval(intervalId); // Stop at the end of the timeline
             playPauseBtn.innerHTML =
-                '<img src="/src/img/play-white.svg" class="play-med img-fluid" alt="Play button"> Animate'; // Reset button to Play
+                // '<img src="/src/img/play-white.svg" class="play-med img-fluid" alt="Play button"> Play'; // Reset button to Play
+                '<img src="/src/img/play-white.svg" class="play-med" alt="Play button"> Play';
             isPlaying = false;
         }
         console.log(
