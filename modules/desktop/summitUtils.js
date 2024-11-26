@@ -50,17 +50,17 @@ export function displaySummitsCountry(country, summitsCountry) {
     let titleContent = summit.title ? `${summit.title}` : `${summit.summitNo} Summit`;
     let dateContent = summit.date ? `
         <div class="d-flex justify-content-start align-items-center mb-0">
-            <img src="/src/img/calendar.svg" class="img-fluid calendar me-3 pe-sm-3">
-            <p class="mobile-font-size mb-0 ms-lg-1 ms-xl-1">${summit.date}</p>
+            <img src="/src/img/calendar.svg" class="img-fluid calendar me-3 pe-sm-3 pe-lg-2 pe-xl-2">
+            <p class="mobile-font-size mb-0">${summit.date}</p>
         </div>` : '';
     let placeContent = summit.place ? `
         <div class="d-flex justify-content-start align-items-center mb-0">
-            <img src="/src/img/map-pin.svg" class="img-fluid location me-3 pe-sm-5">
+            <img src="/src/img/map-pin.svg" class="img-fluid location me-3 pe-sm-5 pe-lg-2 pe-xl-2">
             <p class="mobile-font-size mb-0">${summit.place}</p>
         </div>` : '';
     listItem.innerHTML = `
         <div class="d-flex justify-content-start align-items-start mb-0">
-            <span class="summit-number badge badge-mobile bg-dark me-3 me-lg-3 me-xl-3 pe-sm-5 mobile-font-size badge-normal">${summit.summitNo}</span>
+            <span class="summit-number badge badge-mobile bg-dark me-2 me-lg-2 me-xl-2 pe-sm-5 pe-lg-3 pe-xl-3 mobile-font-size badge-normal">${summit.summitNo}</span>
             <p class="mb-0 mobile-font-size summit-title">${titleContent}</p>
         </div>
         ${dateContent}

@@ -125,8 +125,8 @@ body {
 }
 
 
-.col-lg-3.pb-3.col-summits-info {
-    height: 500px;
+.col-lg-2.pb-lg-3.col-summits-info {
+    height: 700px;
     overflow-y: auto;
 }
 #lupa {

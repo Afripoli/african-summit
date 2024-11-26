@@ -78,7 +78,7 @@ function dragged(event) {
   console.log('Event in dragged', event)
   const { dx, dy } = event;
   const { x, y, k } = d3.zoomTransform(svg.node());
-  console.log('Coordinates of event', dx, dy, 'Coordinates transformation', x, y, k)
+  //console.log('Coordinates of event', dx, dy, 'Coordinates transformation', x, y, k)
   g.attr("transform", `translate(${x + dx}, ${y + dy}) scale(${k})`);
 }
 
@@ -124,13 +124,13 @@ function handleButtonClick(svg, buttonId) {
 function updateSummitCounter(summitMap, currentYear, summitCounter) {
   //console.log('Summit map has current year', summitMap)
   summitMap[currentYear].forEach((country) => {
-    console.log("Country in summit map", country);
+    //console.log("Country in summit map", country);
     summitCounter.set(country, (summitCounter.get(country) || 0) + 1);
   });
 }
 
 function drawCountryISO(svg, geojsonData, summitCounter) {
-  console.log('Summit counter in drawCountryISO', summitCounter);
+  //console.log('Summit counter in drawCountryISO', summitCounter);
   
   g.selectAll(".country-label").remove(); // Remove existing labels
   g.selectAll(".country-label")
@@ -140,7 +140,7 @@ function drawCountryISO(svg, geojsonData, summitCounter) {
     .attr("class", "country-label")
     .attr("x", d => {
       const centroid = path.centroid(d);
-      console.log(`Country: ${d.properties.name}, Centroid: ${centroid}`);
+      //console.log(`Country: ${d.properties.name}, Centroid: ${centroid}`);
       return centroid[0];
       // const countryName = d.properties.name;
       // return (countryOffsets[countryName]?.x || 0) + path.centroid(d)[0];
@@ -291,7 +291,7 @@ export function updateMapByYear(geojsonData, year, cumulativeSummits, summitsByC
     .attr("transform", d => {  // SOMEWHERE HERE IS THE PROBLEM
       const offset = countryOffsets[d.properties.name] || { x: 0, y: 0 };
       const transform = `translate(${path.centroid(d)[0] + offset.x}, ${path.centroid(d)[1] + offset.y})`;
-      console.log(`Country: ${d.properties.name}, Transform: ${transform}, Country centroid: ${path.centroid(d)}`);
+      //console.log(`Country: ${d.properties.name}, Transform: ${transform}, Country centroid: ${path.centroid(d)}`);
       return transform;
     })
     /*.attr("x", d => {
