@@ -18,6 +18,8 @@ let path = d3.geoPath().projection(projection);
 
 // Define a global variable for the current zoom scale
 let currentZoomScale = 1;
+// Define a global variable to store the clicked country
+let clickedCountry = null;
 // Define zoom behavior
 const zoom = d3.zoom()
   .scaleExtent([1, 8]) // Set the scale extent for zooming
@@ -83,7 +85,7 @@ function dragged(event) {
 }
 
 
-export function drawMap(geojson, countriesWithSummits) {
+export function drawMap(geojson, countriesWithSummits, summitsByCountryMap) {
   //console.log('geojson', geojson)
   g.selectAll("path")
     .data(geojson.features)
@@ -96,12 +98,39 @@ export function drawMap(geojson, countriesWithSummits) {
       return countriesWithSummits.has(country) ? mapStyle.onloadFill : mapStyle.defaultFill;
     })
     .attr("stroke", mapStyle.defaultBorder)
-    .attr("stroke-width", mapStyle.defaultBorderWidth);
+    .attr("stroke-width", mapStyle.defaultBorderWidth)
+    .style("cursor", d => countriesWithSummits.has(d.properties.name) ? "pointer" : "default") // Set cursor style
+    .on("click", function (event, d) {
+      const country = d.properties.name;
+      if (countriesWithSummits.has(country)) {
+        clickedCountry = country; // Update the clicked country
+        const summits = getSummitsforCountry(summitsByCountryMap, country);
+        displaySummitsCountry(country, summits); // Call function to display the summits
+        updateCountryColors(countriesWithSummits);
+      } else {
+        event.stopPropagation(); // Prevent default behavior for non-clickable countries
+      }
+    })
+
 
   // Apply zoom behavior to the SVG
   //svg.call(zoom);
   document.getElementById("zoomIn").addEventListener("click", () => handleButtonClick(svg, "zoomInButton"));
   document.getElementById("zoomOut").addEventListener("click", () => handleButtonClick(svg, "zoomOutButton"));
+}
+
+function updateCountryColors(countriesWithSummits) {
+  g.selectAll("path")
+    .attr("fill", d => {
+      const country = d.properties.name;
+      if (country === clickedCountry) {
+        return mapStyle.clickedYearCountry; // Color for clicked country
+      } else if (countriesWithSummits.has(country)) {
+        return mapStyle.onloadFill; // Color for countries with summits
+      } else {
+        return mapStyle.defaultFill; // Default color for other countries
+      }
+    });
 }
 
 function handleButtonClick(svg, buttonId) {

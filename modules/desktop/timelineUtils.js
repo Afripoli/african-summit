@@ -61,7 +61,7 @@ export function drawTimeline(
         .append("circle")
         .merge(circleGroup)
         .attr("cx", containerWidth / 3) // Keep the circles centered horizontally
-        .attr("cy", (d, i) => circleSpacing * (i + 1) - circleSpacing / 3) // Adjust to start first circle at top
+        .attr("cy", (d, i) => circleSpacing * (i + 1) - circleSpacing / 4) // Adjust to start first circle at top
         .attr("r", (d, i) => (i === 0 ? 10 : 5)) // Make the first circle bigger
         .attr("fill", `${timelineStyle.notActiveNode}`)
         .style("cursor", "pointer")
@@ -95,7 +95,7 @@ export function drawTimeline(
     // Append down arrow
     svg.append("text")
         .attr("x", containerWidth / 3)  // Center horizontally
-        .attr("y", lastItemPosition + 50)  // Position below the last item
+        .attr("y", lastItemPosition + 100)  // Position below the last item
         .attr("text-anchor", "middle")
         .attr("font-size", "18px")
         .attr("fill", `${timelineStyle.arrowActive}`)
@@ -190,17 +190,6 @@ export function drawTimeline(
                     if (index === d.summits.length - 1) {
                         tspan.classed("last-country", true);
                     }
-                    // Add margin bottom after the last country
-                    // textElement
-                    //     .append("tspan")
-                    //     .attr("x", containerWidth / 3 + timelineStyle.marginYearLeft) // Align tspans with country text
-                    //     .attr("dy", `${marginBottom}px`) // Add margin bottom
-                    //     .text(""); // Empty text to create the space
-
-                    // textElement.append("tspan")
-                    //     .attr("x", (containerWidth / 3) + 10)  // Align tspans with country text
-                    //     .attr("dy", index === 0 ? 0 : "1.2em")  // Adjust vertical spacing
-                    //     .text(countryName);
                 });
             }
         });
@@ -219,37 +208,6 @@ export function drawTimeline(
         .attr("stroke", `${timelineStyle.arrowLineColor}`)
         .attr("stroke-width", 2);
     lineGroup.exit().remove(); // Remove any excess lines
-
-    // Append line between arrows and circles
-    /*const upArrowLineGroup = svg.selectAll(".up-arrow-line").data([null]);
-    upArrowLineGroup
-        .enter()
-        .append("line")
-        .attr("class", "up-arrow-line")
-        .merge(upArrowLineGroup)
-        .attr("x1", containerWidth / 3)
-        .attr("y1", firstItemPosition - 20)  // Position just below the up arrow
-        .attr("x2", containerWidth / 3)
-        .attr("y2", firstItemPosition - 10)  // Position just above the first circle
-        .attr("stroke", `${timelineStyle.arrowLineColor}`)
-        .attr("stroke-width", 2);
-    upArrowLineGroup.exit().remove(); // Remove any excess lines
-    */
-
-    // Append line between last circle and down arrow
-    /*const downArrowLineGroup = svg.selectAll(".down-arrow-line").data([null]);
-    downArrowLineGroup
-        .enter()
-        .append("line")
-        .attr("class", "down-arrow-line")
-        .merge(downArrowLineGroup)
-        .attr("x1", containerWidth / 3)
-        .attr("y1", lastItemPosition + 10)  // Position just below the last circle
-        .attr("x2", containerWidth / 3)
-        .attr("y2", lastItemPosition + 21)  // Position just above the down arrow
-        .attr("stroke", `${timelineStyle.arrowLineColor}`)
-        .attr("stroke-width", 2);
-    downArrowLineGroup.exit().remove(); // Remove any excess lines */
 }
 
 export function highlightItem(

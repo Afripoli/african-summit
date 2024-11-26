@@ -17,9 +17,23 @@ body {
     text-align: left;
     letter-spacing: -1px;
 }*/
+.timeline-summit {
+    width: 100%
 
+}
+
+h1.timeline-title {
+    font-size: 24pt;
+    color: #000;
+    margin-bottom: 20px;
+    border-bottom: 2pt solid #fcc12c;
+    padding-bottom: 15px;
+    display: inline-block;
+    font-weight: bold;
+    width: 815px; /* Adjust the width as needed */
+}
 .header-vis p {
-    font-size: 13px;
+    font-size: 13pt;
     font-size: 'Raleway light';
     line-height: 1.74;
 }
@@ -28,22 +42,34 @@ body {
     line-height: 1.74;
 }
 
+.subtitle-summit-info {
+    line-height: 1.2;
+}
+
 .header-vis {
     padding-right: 140px;
 }
 .user-text {
-    font-weight: light;
-    font-size: 10pt;
+    font-size: 13pt;
     i {
-        font-size: 10pt;
+        font-size: 13pt;
     }
+}
+.container-vis-platform {
+    border: 0.5px solid #d7d7d7;
+    border-radius: 10px;
+    padding: 20px;
+    justify-content: space-between;
+    margin: 0 60px 0 60px;
+    box-sizing: border-box;
+    height: 700px;
 }
 .container-xl.main-container {
     overflow: hidden; /* Prevent scrolling */
 }
 .play-med {
-    height: 20px;
-    width: auto;
+    height: 18px;
+    width: 18px;
 }
 .btn.btn-sm.btn-play {
     width: 100px;      /* Adjust width if needed */
@@ -126,12 +152,12 @@ body {
 
 
 .col-lg-2.pb-lg-3.col-summits-info {
-    height: 700px;
+    height: 650px;
     overflow-y: auto;
 }
 #lupa {
-    width: 20px;     
-    height: 20px;
+    width: 18px;     
+    height: 18px;
     cursor: none;
 }
 
@@ -157,11 +183,11 @@ body {
 .last-country {
     margin-bottom: 40px; /* Adjust this value as needed */
 }
-.column-with-border {
+/* .column-with-border {
     border-right: #808080c2 1px solid;
     height: 515px; 
     padding-left: 10px;
-}
+} */
 
 #apri-logo {
     width: 160px

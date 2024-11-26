@@ -39,7 +39,7 @@ export function displaySummitsCountry(country, summitsCountry) {
     totalSummits.classList.add('fw-bolder', 'h5');
     const listOrder = document.getElementById('list-order');
     listOrder.innerHTML = `<i>(from most to least recent)</i>`;
-    listOrder.classList.add('mobile-font-size');
+    listOrder.classList.add('mobile-font-size', 'subtitle-summit-info');
     summitListContainer.innerHTML = '';
 
     // Create a copy of summitsCountry and reverse the copy
