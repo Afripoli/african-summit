@@ -111,8 +111,6 @@ export function drawMap(geojson, countriesWithSummits, summitsByCountryMap) {
         event.stopPropagation(); // Prevent default behavior for non-clickable countries
       }
     })
-
-
   // Apply zoom behavior to the SVG
   //svg.call(zoom);
   document.getElementById("zoomIn").addEventListener("click", () => handleButtonClick(svg, "zoomInButton"));
@@ -167,18 +165,11 @@ function drawCountryISO(svg, geojsonData, summitCounter) {
     .enter()
     .append("text")
     .attr("class", "country-label")
-    .attr("x", d => {
-      const centroid = path.centroid(d);
-      //console.log(`Country: ${d.properties.name}, Centroid: ${centroid}`);
-      return centroid[0];
-      // const countryName = d.properties.name;
-      // return (countryOffsets[countryName]?.x || 0) + path.centroid(d)[0];
-    })
-    .attr("y", d => {
-      const centroid = path.centroid(d);
-      return centroid[1];
-      //const countryName = d.properties.name;
-      //return (countryOffsets[countryName]?.y || 0) + path.centroid(d)[1];
+    .attr("transform", d => {  // SOMEWHERE HERE IS THE PROBLEM
+      const offset = countryOffsets[d.properties.name] || { x: 0, y: 0 };
+      const transform = `translate(${path.centroid(d)[0] + offset.x}, ${path.centroid(d)[1] + offset.y})`;
+      //console.log(`Country: ${d.properties.name}, Transform: ${transform}, Country centroid: ${path.centroid(d)}`);
+      return transform;
     })
     .text(d => {
       const countryName = d.properties.name;
