@@ -5,7 +5,7 @@ import {
 } from "./mapUtils.js";
 import { arrowsClickListener } from "./initDesktop.js";
 import { displaySummitsYear } from "./summitUtils.js";
-import { maxYearsToShow, timelineStyle } from "../common/globals.js";
+import { maxYearsToShow, timelineStyle, timelineHorizontalAlign } from "../common/globals.js";
 
 export function initDesktopTimelineSVG() {
     const svg = d3
@@ -60,7 +60,7 @@ export function drawTimeline(
         .enter()
         .append("circle")
         .merge(circleGroup)
-        .attr("cx", containerWidth / 3) // Keep the circles centered horizontally
+        .attr("cx", containerWidth / timelineHorizontalAlign) // Keep the circles centered horizontally
         .attr("cy", (d, i) => circleSpacing * (i + 1) - circleSpacing / 4) // Adjust to start first circle at top
         .attr("r", (d, i) => (i === 0 ? 10 : 5)) // Make the first circle bigger
         .attr("fill", `${timelineStyle.notActiveNode}`)
@@ -83,7 +83,7 @@ export function drawTimeline(
 
     // Append up arrow
     svg.append("text")
-        .attr("x", containerWidth / 3)  // Center horizontally
+        .attr("x", containerWidth / timelineHorizontalAlign)  // Center horizontally
         .attr("y", firstItemPosition - 20)  // Position above the first item
         .attr("text-anchor", "middle")
         .attr("font-size", "18px")
@@ -94,7 +94,7 @@ export function drawTimeline(
 
     // Append down arrow
     svg.append("text")
-        .attr("x", containerWidth / 3)  // Center horizontally
+        .attr("x", containerWidth / timelineHorizontalAlign)  // Center horizontally
         .attr("y", lastItemPosition + 100)  // Position below the last item
         .attr("text-anchor", "middle")
         .attr("font-size", "18px")
@@ -104,9 +104,9 @@ export function drawTimeline(
         .text("▼");
     // Append line between arrows and circles
     svg.append("line")
-        .attr("x1", containerWidth / 3)
+        .attr("x1", containerWidth / timelineHorizontalAlign)
         .attr("y1", firstItemPosition - 50)  // Position just below the up arrow
-        .attr("x2", containerWidth / 3)
+        .attr("x2", containerWidth / timelineHorizontalAlign)
         .attr("y2", lastItemPosition + 100)  // Position just above the down arrow
         .attr("stroke", `${timelineStyle.arrowLineColor}`)
         .attr("stroke-width", `${timelineStyle.arrowLineWeight}`);
@@ -125,7 +125,7 @@ export function drawTimeline(
         .append("text")
         .attr("class", "year")
         .merge(yearTextGroup)
-        .attr("x", containerWidth / 3 + timelineStyle.marginYearLeft) // Position the label to the right of the circle
+        .attr("x", containerWidth / timelineHorizontalAlign + timelineStyle.marginYearLeft) // Position the label to the right of the circle
         .attr("y", (d, i) => circleSpacing * (i + 1) + 5 - circleSpacing / 3) // Align with the circle vertically
         .attr("text-anchor", "start")
         .text((d) => d.year)
@@ -153,7 +153,7 @@ export function drawTimeline(
         .append("text")
         .attr("class", "country")
         .merge(countryTextGroup)
-        .attr("x", containerWidth / 3) // Position the country label to the right of the year label
+        .attr("x", containerWidth / timelineHorizontalAlign) // Position the country label to the right of the year label
         .attr("y", (d, i) => circleSpacing * (i + 1) + 25 - circleSpacing / 3) // Align with the year label
         .attr("text-anchor", "start")
         .style("font-size", `${timelineStyle.fontItem}`)
@@ -182,7 +182,7 @@ export function drawTimeline(
                     }
                     const tspan = textElement
                         .append("tspan")
-                        .attr("x", containerWidth / 3 + timelineStyle.marginYearLeft) // Align tspans with country text
+                        .attr("x", containerWidth / timelineHorizontalAlign + timelineStyle.marginYearLeft) // Align tspans with country text
                         .attr("dy", index === 0 ? 0 : `1.2em`) // Adjust vertical spacing
                         .text(countryName);
 
@@ -201,9 +201,9 @@ export function drawTimeline(
         .enter()
         .append("line")
         .merge(lineGroup)
-        .attr("x1", containerWidth / 3)
+        .attr("x1", containerWidth / timelineHorizontalAlign)
         .attr("y1", (d, i) => circleSpacing * (i + 1) + 10 - circleSpacing / 3) // Start from below the previous circle
-        .attr("x2", containerWidth / 3)
+        .attr("x2", containerWidth / timelineHorizontalAlign)
         .attr("y2", (d, i) => circleSpacing * (i + 2) - 10 - circleSpacing / 3) // End above the next circle
         .attr("stroke", `${timelineStyle.arrowLineColor}`)
         .attr("stroke-width", 2);

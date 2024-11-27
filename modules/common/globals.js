@@ -56,6 +56,7 @@ const timelineStyle = {
     "activeNode": "#fec03c",
     "marginYearLeft": 20,
 }
+const timelineHorizontalAlign = 7.5;
 
 // Summit container 
 const summitStyle = {
@@ -145,4 +146,4 @@ let svg = d3.select("#map")
     .attr("viewBox", `0 0 ${width} ${height}`)
     .attr("preserveAspectRatio", "xMidYMid meet");
 
-export { jsonPath, geojsonUrl, width, height, svg, scale, center, translation, maxYearsToShow, hostCountry, flagSrc, mapStyle, timelineStyle, countryOffsets, mapMobileWidth, summitStyle }
+export { jsonPath, geojsonUrl, width, height, svg, scale, center, translation, maxYearsToShow, hostCountry, flagSrc, mapStyle, timelineStyle, countryOffsets, mapMobileWidth, summitStyle, timelineHorizontalAlign }

@@ -22,16 +22,17 @@ function initializePage(svg, geojsonData, summitData, displayedYears, countriesW
     drawTimeline(svg, geojsonData, summitData, currentYearIndex, displayedYears, countriesWithSummits, cumulativeSummits, summitsByCountryMap);
     addTimelineItemClickListeners(svg);
     const firstArrow = document.querySelector(".up-arrow");
-    const firstArrowLine = document.querySelector(".up-arrow-line");
+    //const firstArrowLine = document.querySelector(".up-arrow-line");
 
     console.log('First arrow', firstArrow);
-    if (firstArrow && firstArrowLine) {
+    //console.log('First arrow line', firstArrowLine);
+    if (firstArrow) {
         if (currentYearIndex === 0) {
             firstArrow.style.display = "none";
-            firstArrowLine.style.display = "none";
+            //firstArrowLine.style.display = "none";
         } else {
             firstArrow.style.display = "block";
-            firstArrowLine.style.display = "block";
+            //firstArrowLine.style.display = "block";
         }
     } else {
         console.error('First arrow or first arrow line not found in the DOM');
@@ -50,16 +51,25 @@ function initializePage(svg, geojsonData, summitData, displayedYears, countriesW
 export function initDesktopTimeline(geojsonData, summitData, summitMap, summitsByCountryMap, countriesWithSummits, cumulativeSummits) {
     const svg = initDesktopTimelineSVG();
     const displayedYears = summitData.slice(currentYearIndex, currentYearIndex + maxYearsToShow);
-    //console.log('Summits by country map data in initDesktopTimeline', summitsByCountryMap);
     // Initialize the default page
     initializePage(svg, geojsonData, summitData, displayedYears, countriesWithSummits, cumulativeSummits, summitsByCountryMap);
 
     // Add event listener to the "Animate" button
     const animateButton = document.getElementById("playButtonDesktop");
+    const pauseButton = document.getElementById("pauseButtonDesktop");
     animateButton.addEventListener("click", function () {
-        playTimeline(svg, summitData, geojsonData, summitMap, summitsByCountryMap, countriesWithSummits, cumulativeSummits, currentYearIndex,
-            highlightIndex);
+        if (!isPlaying) {
+            playTimeline(svg, summitData, geojsonData, summitMap, summitsByCountryMap, countriesWithSummits, cumulativeSummits, currentYearIndex,
+                highlightIndex);
+        }
     });
+    pauseButton.addEventListener("click", () => {
+        if (isPlaying) {
+            stopTimeline();
+        }
+    });
+
+
     // Ensure arrow event listeners are attached
     arrowsClickListener(svg,
         geojsonData,
@@ -69,17 +79,7 @@ export function initDesktopTimeline(geojsonData, summitData, summitMap, summitsB
         cumulativeSummits,
         summitsByCountryMap);
 }
-function playTimeline(
-    svg,
-    summitData,
-    geojsonData,
-    summitMap,
-    summitsByCountryMap,
-    countriesWithSummits,
-    cumulativeSummits,
-    currentYearIndex,
-    highlightIndex
-) {
+function playTimeline(svg, summitData, geojsonData, summitMap, summitsByCountryMap, countriesWithSummits, cumulativeSummits, currentYearIndex, highlightIndex) {
     console.log("Countries with summits in playtimeline", countriesWithSummits);
     generalCounter = 0;
     //function startPlaying(currentYearIndex, highlightIndex) {
@@ -100,20 +100,9 @@ function playTimeline(
         );
         const currentYear = currentYearData.year;
         console.log("Host country is", hostCountry);
-        let displayedYears = summitData.slice(
-            currentYearIndex,
-            currentYearIndex + maxYearsToShow
-        );
+        let displayedYears = summitData.slice(currentYearIndex,currentYearIndex + maxYearsToShow);
         //console.log('Current year', currentYear)
-        drawTimeline(
-            svg,
-            geojsonData,
-            summitData,
-            currentYearIndex,
-            displayedYears,
-            countriesWithSummits,
-            cumulativeSummits,
-            summitsByCountryMap
+        drawTimeline(svg, geojsonData, summitData, currentYearIndex, displayedYears, countriesWithSummits, cumulativeSummits, summitsByCountryMap
         );
         highlightItem(svg, summitData, highlightIndex, currentYearIndex); // Highlight the current year
         updateMap(
@@ -161,7 +150,7 @@ function playTimeline(
             clearInterval(intervalId); // Stop at the end of the timeline
             playPauseBtn.innerHTML =
                 // '<img src="/src/img/play-white.svg" class="play-med img-fluid" alt="Play button"> Play'; // Reset button to Play
-                '<img src="/src/img/play-white.svg" class="play-med" alt="Play button"> Play';
+                '<img src="/src/img/play-white.svg" class="play-med" alt="Play button">';
             isPlaying = false;
         }
         console.log(
@@ -245,6 +234,13 @@ function playTimeline(
         startPlaying(currentYearIndex, highlightIndex); // This function should handle the timeline progression
     });
 }
+
+function stopTimeline() {
+    isPlaying = false;
+    clearInterval(intervalId);
+}
+
+
 function addTimelineItemClickListeners(svg) {
     svg.selectAll("circle.year-item") // or whatever selector you use for your timeline items
         .on("click", function (event, d) {
