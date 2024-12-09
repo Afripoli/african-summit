@@ -86,6 +86,7 @@ h1.timeline-title {
 }
 
 #playButtonDesktop,
+#pauseButtonDesktop,
 #restartButtonDesktop {
     background-color: #fec03c ;
 }

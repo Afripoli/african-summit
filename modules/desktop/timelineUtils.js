@@ -176,7 +176,7 @@ export function drawTimeline(
                 textElement.selectAll("tspan").remove(); // Clear old tspans
                 d.summits.forEach((summit, index) => {
                     let countryName = summit.country;
-                    console.log('country name in draw timeline', countryName)
+                    //console.log('country name in draw timeline', countryName)
                     if (countryName === "England") {
                         countryName = "United Kingdom";
                     }

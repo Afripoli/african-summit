@@ -213,7 +213,7 @@ export function updateMap(
     hostCountry.push(country);
     colorHostCountry(svg, hostCountry);
   });
-  console.log('Summits by country map', summitsByCountryMap)
+  //console.log('Summits by country map', summitsByCountryMap)
   svg
     .selectAll("path")
     .data(geojsonData.features)
@@ -240,9 +240,10 @@ export function updateMap(
   drawCountryISO(svg, geojsonData, summitCounter, countriesWithSummits, summitsByCountryMap);
 }
 
+
 // select host country
 function colorHostCountry(svg, hostCountry) {
-  console.log("Coloring host country", hostCountry);
+  //console.log("Coloring host country", hostCountry);
   svg
     .selectAll("path")
     .attr("fill", (d) =>
@@ -370,3 +371,7 @@ export function updateMapByYear(geojsonData, year, cumulativeSummits, summitsByC
   //svg.call(zoom);
 
 }
+
+
+// ISSUE ON MAP WITH DRAG:
+// - INSERT COUNTER IN THE FUNCTION THAT DRAWS THE MAP 
