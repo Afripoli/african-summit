@@ -190,8 +190,8 @@ function playTimeline(svg, geojsonData, summitData, displayedYears, summitMap, c
         }
         if (currentYearIndex >= summitData.length) {
             clearInterval(intervalId); // Stop at the end of the timeline
-            playPauseBtn.innerHTML =
-                '<img src="/src/img/play-white.svg" class="play-med" alt="Play button">';
+            /*playPauseBtn.innerHTML =
+                '<img src="/src/img/play-white.svg" class="play-med" alt="Play button">';*/
             isPlaying = false;
         }
         console.log("Checking if values save correctly", currentYearIndex, highlightIndex);
