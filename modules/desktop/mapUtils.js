@@ -27,7 +27,7 @@ const zoom = d3.zoom()
 // Create a group element to contain the map paths and labels
 const g = svg.append("g");
 // Apply zoom behavior to the SVG
-svg.call(zoom);
+//svg.call(zoom);
 
 function zoomed(event) {
   currentZoomScale = event.transform.k; // Update the global zoom scale
@@ -35,39 +35,16 @@ function zoomed(event) {
   console.log('Zoomed event', event)
   //g.selectAll("path").attr("transform", event.transform);
   g.attr("transform", event.transform);
-  /*g.selectAll(".country-label, .country-counter")
-  .attr("transform", function (d) {
-    const offset = countryOffsets[d.properties.name] || { x: 0, y: 0 };
-    const x = path.centroid(d)[0] + offset.x;
-    const y = path.centroid(d)[1] + offset.y;
-    return `translate(${x}, ${y}) scale(${1 / currentZoomScale})`;
-  });*/
-
   g.selectAll(".country-label, .country-counter")
   .attr("x", function(d) {
     const offset = countryOffsets[d.properties.name] || { x: 0, y: 0 };
-    return path.centroid(d)[0] + offset.x;
+    return `translate(${path.centroid(d)[0] + offset.x})`;
   })
   .attr("y", function(d) {
     const offset = countryOffsets[d.properties.name] || { x: 0, y: 0 };
-    return path.centroid(d)[1] + offset.y;
+    return `translate(${path.centroid(d)[1] + offset.y})`;
   })
   .style("font-size", `${mapStyle.fontSizeNumber / currentZoomScale}px`); 
-    //.attr("transform", event.transform)
-    // .attr("transform", function(d) {
-    //   const offset = countryOffsets[d.properties.name] || { x: 0, y: 0 };
-    //   const x = path.centroid(d)[0] + offset.x;
-    //   const y = path.centroid(d)[1] + offset.y;
-    //   console.log(`Country: ${d.properties.name}, Centroid: ${path.centroid(d)}, Label Coordinates: (${x}, ${y})`);
-    //   return `translate(${x}, ${y}) scale(${1 / currentZoomScale})`;
-    // });
-    // .style("font-size", function () {
-    //   //let scale = event.transform.k;
-    //   console.log('Scale in zoomed', currentZoomScale)
-    //   return `${mapStyle.fontSizeNumber / currentZoomScale}pt`; // Adjust font size based on zoom scale
-    //   //return `${mapStyle.fontSize}`; // Adjust font size based on zoom scale
-    // });
-  
   // Enable drag functionality only when zoomed in
   if (currentZoomScale > 1) {
     svg.call(d3.drag().on("drag", dragged));
@@ -112,7 +89,7 @@ export function drawMap(geojson, countriesWithSummits, summitsByCountryMap) {
       }
     })
   // Apply zoom behavior to the SVG
-  //svg.call(zoom);
+  svg.call(zoom);
   document.getElementById("zoomIn").addEventListener("click", () => handleButtonClick(svg, "zoomInButton"));
   document.getElementById("zoomOut").addEventListener("click", () => handleButtonClick(svg, "zoomOutButton"));
 }
@@ -156,7 +133,7 @@ function updateSummitCounter(summitMap, currentYear, summitCounter) {
   });
 }
 
-function drawCountryISO(svg, geojsonData, summitCounter, countriesWithSummits, summitsByCountryMap) {  
+function drawCountryISO(geojsonData, summitCounter, countriesWithSummits, summitsByCountryMap) {  
   g.selectAll(".country-label").remove(); // Remove existing labels
   g.selectAll(".country-label")
     .data(geojsonData.features)

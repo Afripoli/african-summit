@@ -248,6 +248,8 @@ export function highlightItem(
         circles.attr("r", 10).attr("fill", timelineStyle.highlightItem); // Highlighted circle
         textYear.style("fill", timelineStyle.highlightItem);
         countries.style("fill", timelineStyle.highlightItem);
+
+        circles.raise();
     }
 }
 
@@ -285,6 +287,7 @@ export function highlightClickedItem(svg, geojsonData, clickedData, cumulativeSu
         //.style("font-weight", "bold")
         .style("fill", `${timelineStyle.activeNode}`); // Highlight country text
 
+    circles.raise(); // Bring the clicked circle to the front
     updateMapByYear(geojsonData, clickedData, cumulativeSummits, summitsByCountryMap);
     displaySummitsYear(clickedData);
 }
