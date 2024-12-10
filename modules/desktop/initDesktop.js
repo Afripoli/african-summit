@@ -14,7 +14,7 @@ let intervalId;
 let timelineEnded = false;
 let summitCounter = new Map();
 let generalCounter = 0; // saves a counter for each loop. We'll use it for the map
-let delay = 750;
+let delay = 500;
 
 // Function to initialize default page 
 function initializePage(svg, geojsonData, summitData, displayedYears, countriesWithSummits, cumulativeSummits, summitsByCountryMap) {
