@@ -281,7 +281,7 @@ export function updateMap(
         event.stopPropagation(); // Prevent default behavior for non-clickable countries
       }
     })
-  //drawCountryISO(svg, geojsonData, summitCounter, countriesWithSummits, summitsByCountryMap);
+  drawCountryISO(geojsonData, summitCounter, countriesWithSummits, summitsByCountryMap);
 }
 
 
