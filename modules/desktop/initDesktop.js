@@ -141,6 +141,7 @@ function restartTimeline(svg, geojsonData, summitData, displayedYears, summitMap
     highlightIndex = 0;
     generalCounter = 0;
     resetSummitCounter();
+    delay = 500;
     if (isPlaying) {
         console.log("Interval ID PAUSE", intervalId);
         clearInterval(intervalId); // Pause the timeline if already playing
