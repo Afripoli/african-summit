@@ -238,7 +238,10 @@ h1.timeline-title {
     bottom: 0;
     left: 0;
 }
-
+#restartButtonDesktop {
+    opacity: 0.5; /* Make the button appear disabled */
+    cursor: not-allowed;
+}
 
 /* span.badge {
     width: 34.13px;
