@@ -147,35 +147,35 @@
                                         <img src="/src/img/refresh-cw-white.svg" class="play-med" alt="Restart button">
                                     </button>
                                 </div>
-                                <div id="desktop-timeline" class="mt-0 pt-0"></div>
+                            </div>
+                            <div id="desktop-timeline" class="mt-0 pt-0"></div>
+                        </div>
+                    </div>
+                    <!-- MOBILE: TIMELINE MOBISCROLL -->
+                    <div class="row d-sm-none mb-3">
+                        <div class="col-5 col-sm-5 year-picker-container d-flex d-sm-none d-block mb-3">
+                            <div class="input-group rounded-container">
+                                <button type="button" id="select-year"
+                                    class="btn btn-warning btn-sm w-100 mobile-font-size">
+                                    Select year
+                                </button>
+                                <input id="input-year-picker"
+                                    class="form-control col-6 text-center no-border-radius custom-input-height mobile-font-size"
+                                    placeholder="Year" readonly />
                             </div>
                         </div>
-                        <!-- MOBILE: TIMELINE MOBISCROLL -->
-                        <div class="row d-sm-none mb-3">
-                            <div class="col-5 col-sm-5 year-picker-container d-flex d-sm-none d-block mb-3">
-                                <div class="input-group rounded-container">
-                                    <button type="button" id="select-year"
-                                        class="btn btn-warning btn-sm w-100 mobile-font-size">
-                                        Select year
-                                    </button>
-                                    <input id="input-year-picker"
-                                        class="form-control col-6 text-center no-border-radius custom-input-height mobile-font-size"
-                                        placeholder="Year" readonly />
-                                </div>
-                            </div>
-                            <div class="col-2 col-sm-2 mx-auto d-flex align-items-center justify-content-center">
-                                <p class="or-text mobile-font-size text-center">or</p>
-                            </div>
-                            <div class="col-5 col-sm-5 country-picker-container d-flex d-sm-none d-block mb-3">
-                                <div class="input-group rounded-container">
-                                    <button type="button" id="select-country"
-                                        class="btn btn-warning btn-sm w-100 rounded-start mobile-font-size">
-                                        Select country
-                                    </button>
-                                    <input id="input-country-picker"
-                                        class="form-control text-center no-border-radius custom-input-height mobile-font-size"
-                                        placeholder="Country" readonly />
-                                </div>
+                        <div class="col-2 col-sm-2 mx-auto d-flex align-items-center justify-content-center">
+                            <p class="or-text mobile-font-size text-center">or</p>
+                        </div>
+                        <div class="col-5 col-sm-5 country-picker-container d-flex d-sm-none d-block mb-3">
+                            <div class="input-group rounded-container">
+                                <button type="button" id="select-country"
+                                    class="btn btn-warning btn-sm w-100 rounded-start mobile-font-size">
+                                    Select country
+                                </button>
+                                <input id="input-country-picker"
+                                    class="form-control text-center no-border-radius custom-input-height mobile-font-size"
+                                    placeholder="Country" readonly />
                             </div>
                         </div>
                         <div class="col-lg-8 pb-3 col-map column-with-border d-none d-sm-block">
@@ -191,42 +191,51 @@
                                             <img src="/src/img/zoom-out-off.svg" alt="Zoom Out" />
                                         </button>
                                     </div>
-
+                                <!-- Add zoom in and zoom buttons -->
+                                <div class="btnZoom d-flex flex-column align-items-end position-absolute m-2">
+                                    <button id="zoomIn" class="btnplus">
+                                        <img src="src/img/zoom-off.svg" alt="Zoom In" />
+                                    </button>
+                                    <button id="zoomOut" class="btnminus">
+                                        <img src="/src/img/zoom-out-off.svg" alt="Zoom Out" />
+                                    </button>
                                 </div>
+
                             </div>
                         </div>
-                        <!-- MOBILE: MAP -->
-                        <div class="col-12 pb-0 col-map-mobile d-sm-none d-block h-75">
-                            <div class="mx-auto d-sm-none d-block">
-                                <div id="map-mobile" style="position: relative;" class="map"></div>
-                            </div>
+                    </div>
+                    <!-- MOBILE: MAP -->
+                    <div class="col-12 pb-0 col-map-mobile d-sm-none d-block h-75">
+                        <div class="mx-auto d-sm-none d-block">
+                            <div id="map-mobile" style="position: relative;" class="map"></div>
                         </div>
-                        <!-- Shown only for mobile -->
-                        <!-- Paragraph for Mobile Devices -->
-                        <p class="mt-0 mb-0 text-secondary d-sm-none mobile-font-size">
-                            <img src="/src/img/search.svg" id="lupa" class="img-fluid d-inline" alt="Search icon">
-                            <i class="d-inline">Explore the data in two ways: by viewing the summits <b>by year</b>, or
-                                <b>by host country</b>.</i>
-                        </p>
+                    </div>
+                    <!-- Shown only for mobile -->
+                    <!-- Paragraph for Mobile Devices -->
+                    <p class="mt-0 mb-0 text-secondary d-sm-none mobile-font-size">
+                        <img src="/src/img/search.svg" id="lupa" class="img-fluid d-inline" alt="Search icon">
+                        <i class="d-inline">Explore the data in two ways: by viewing the summits <b>by year</b>, or
+                            <b>by host country</b>.</i>
+                    </p>
 
-                        <!-- Summit info container -->
-                        <div class="col-lg-2 pb-lg-3 col-summits-info mt-sm-1 pt-lg-3 ps-lg-3">
-                            <div class="mx-auto">
-                                <div id="summitListContainer" class="fix-col">
-                                    <h4 id="summitCountry" class="mb-2 mt-3">
-                                        <img src="" id="country-icon" class="img-fluid">
-                                    </h4>
-                                    <h5 id="total-summit" class="mb-0"></h5>
-                                    <h5 id="intro-list-summit" class="mb-0"></h5>
-                                    <p id="list-order" class="mt-0"></p>
-                                    <ul id="summitList" class="list-unstyled"></ul>
-                                </div>
+                    <!-- Summit info container -->
+                    <div class="col-lg-2 pb-lg-3 col-summits-info mt-sm-1 pt-lg-3 ps-lg-3">
+                        <div class="mx-auto">
+                            <div id="summitListContainer" class="fix-col">
+                                <h4 id="summitCountry" class="mb-2 mt-3">
+                                    <img src="" id="country-icon" class="img-fluid">
+                                </h4>
+                                <h5 id="total-summit" class="mb-0"></h5>
+                                <h5 id="intro-list-summit" class="mb-0"></h5>
+                                <p id="list-order" class="mt-0"></p>
+                                <ul id="summitList" class="list-unstyled"></ul>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 
     <script type="module" src="main.js"></script>

@@ -56,6 +56,7 @@ const timelineStyle = {
     "activeNode": "#fec03c",
     "marginYearLeft": 20,
 }
+const timelineHorizontalAlign = 7.5;
 
 // Summit container 
 const summitStyle = {
@@ -147,4 +148,4 @@ let svg = d3.select("#map")
     //.style("pointer-events", "none"); // Disable pointer events to prevent dragging - Solution for now - change later
 
 
-export { jsonPath, geojsonUrl, width, height, svg, scale, center, translation, maxYearsToShow, hostCountry, flagSrc, mapStyle, timelineStyle, countryOffsets, mapMobileWidth, summitStyle }
+export { jsonPath, geojsonUrl, width, height, svg, scale, center, translation, maxYearsToShow, hostCountry, flagSrc, mapStyle, timelineStyle, countryOffsets, mapMobileWidth, summitStyle, timelineHorizontalAlign }

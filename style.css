@@ -81,7 +81,7 @@ h1.timeline-title {
     width: 18px;
 }
 .btn.btn-sm.btn-play {
-    width: 100px;      /* Adjust width if needed */
+   /* width: 100px; */      /* Adjust width if needed */
     height: 40px;  
 }
 

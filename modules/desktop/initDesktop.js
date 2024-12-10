@@ -28,6 +28,7 @@ function initializePage(svg, geojsonData, summitData, displayedYears, countriesW
 
 function handleFirstArrowDisplay() {
     const firstArrow = document.querySelector(".up-arrow");
+    console.log('First arrow', firstArrow);
     if (firstArrow) {
         if (currentYearIndex === 0) {
             firstArrow.style.display = "none";
@@ -163,6 +164,7 @@ function playTimeline(svg, geojsonData, summitData, displayedYears, summitMap, c
         const currentYear = currentYearData.year;
         displayedYears = summitData.slice(currentYearIndex, currentYearIndex + maxYearsToShow);
         drawTimeline(svg, geojsonData, summitData, currentYearIndex, displayedYears, countriesWithSummits, cumulativeSummits, summitsByCountryMap);
+
         highlightItem(svg, summitData, highlightIndex, currentYearIndex); // Highlight the current year
         updateMap(geojsonData, summitMap, currentYear, summitsByCountryMap, hostCountry, summitCounter, countriesWithSummits);
         highlightIndex += 1;
