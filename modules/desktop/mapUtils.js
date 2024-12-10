@@ -31,14 +31,21 @@ let g;
 //svg.call(zoom);
 
 function zoomed(event) {
-  //g = svg.append("g");
-  //console.log('SVG container', svg)
-  //currentZoomScale = event.transform.k; // Update the global zoom scale
-  //console.log('Current zoom scale in zoomed', currentZoomScale);
-  //console.log('Zoomed event', event)
-  //g.selectAll("path").attr("transform", event.transform);
   const { transform } = event;
+  currentZoomScale = event.transform.k; // Update the global zoom scale
 
+  // Get the dimensions of the SVG container
+  const svgWidth = svg.node().getBoundingClientRect().width;
+  const svgHeight = svg.node().getBoundingClientRect().height;
+
+  // Calculate the bounds for the translation
+  const maxX = (svgWidth / 2) * (currentZoomScale);
+  const maxY = (svgHeight / 2) * (currentZoomScale);
+  console.log('Max X and Y', maxX, maxY)
+  // Constrain the translation values
+  const translateX = Math.max(-maxX, Math.min(event.transform.x, maxX));
+  const translateY = Math.max(-maxY, Math.min(event.transform.y, maxY));
+  console.log('Translate X and Y', translateX, translateY)
   g.attr("transform", transform);
   g.selectAll(".country-label, .country-counter")
     .attr("x", function (d) {
@@ -364,9 +371,9 @@ export function updateMapByYear(geojsonData, year, cumulativeSummits, summitsByC
     .attr("transform", d => {  // SOMEWHERE HERE IS THE PROBLEM
       const offset = countryOffsets[d.properties.name] || { x: 0, y: 0 };
       const centroid = path.centroid(d);
-      console.log('Centroid for', d.properties.name, ':', centroid);
+      //console.log('Centroid for', d.properties.name, ':', centroid);
       let transform = `translate(${path.centroid(d)[0] + offset.x}, ${path.centroid(d)[1] + offset.y})`;
-      console.log(`Country: ${d.properties.name}, Transform: ${transform}, Country centroid: ${path.centroid(d)}`);
+      //console.log(`Country: ${d.properties.name}, Transform: ${transform}, Country centroid: ${path.centroid(d)}`);
       return transform;
     })
     .attr("dy", ".25em")
