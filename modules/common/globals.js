@@ -143,6 +143,8 @@ const flagSrc = [
 let svg = d3.select("#map")
     .append("svg")
     .attr("viewBox", `0 0 ${width} ${height}`)
-    .attr("preserveAspectRatio", "xMidYMid meet");
+    .attr("preserveAspectRatio", "xMidYMid meet")
+    //.style("pointer-events", "none"); // Disable pointer events to prevent dragging - Solution for now - change later
+
 
 export { jsonPath, geojsonUrl, width, height, svg, scale, center, translation, maxYearsToShow, hostCountry, flagSrc, mapStyle, timelineStyle, countryOffsets, mapMobileWidth, summitStyle }
