@@ -21,72 +21,63 @@ let currentZoomScale = 1;
 // Define a global variable to store the clicked country
 let clickedCountry = null;
 // Define zoom behavior
-const zoom = d3.zoom()
-  .scaleExtent([1, 8]) // Set the scale extent for zooming
+let zoom = d3.zoom()
+  .scaleExtent([1, 10]) // Set the scale extent for zooming
   .on("zoom", zoomed);
 // Create a group element to contain the map paths and labels
-const g = svg.append("g");
+let g;
+//g = svg.append("g");
 // Apply zoom behavior to the SVG
-svg.call(zoom);
+//svg.call(zoom);
 
 function zoomed(event) {
+  const { transform } = event;
   currentZoomScale = event.transform.k; // Update the global zoom scale
-  console.log('Current zoom scale in zoomed', currentZoomScale);
-  console.log('Zoomed event', event)
-  //g.selectAll("path").attr("transform", event.transform);
-  g.attr("transform", event.transform);
-  /*g.selectAll(".country-label, .country-counter")
-  .attr("transform", function (d) {
-    const offset = countryOffsets[d.properties.name] || { x: 0, y: 0 };
-    const x = path.centroid(d)[0] + offset.x;
-    const y = path.centroid(d)[1] + offset.y;
-    return `translate(${x}, ${y}) scale(${1 / currentZoomScale})`;
-  });*/
 
+  // Get the dimensions of the SVG container
+  const svgWidth = svg.node().getBoundingClientRect().width;
+  const svgHeight = svg.node().getBoundingClientRect().height;
+
+  // Calculate the bounds for the translation
+  const maxX = (svgWidth / 2) * (currentZoomScale);
+  const maxY = (svgHeight / 2) * (currentZoomScale);
+  console.log('Max X and Y', maxX, maxY)
+  // Constrain the translation values
+  const translateX = Math.max(-maxX, Math.min(event.transform.x, maxX));
+  const translateY = Math.max(-maxY, Math.min(event.transform.y, maxY));
+  console.log('Translate X and Y', translateX, translateY)
+  g.attr("transform", transform);
   g.selectAll(".country-label, .country-counter")
-  .attr("x", function(d) {
-    const offset = countryOffsets[d.properties.name] || { x: 0, y: 0 };
-    return path.centroid(d)[0] + offset.x;
-  })
-  .attr("y", function(d) {
-    const offset = countryOffsets[d.properties.name] || { x: 0, y: 0 };
-    return path.centroid(d)[1] + offset.y;
-  })
-  .style("font-size", `${mapStyle.fontSizeNumber / currentZoomScale}px`); 
-    //.attr("transform", event.transform)
-    // .attr("transform", function(d) {
-    //   const offset = countryOffsets[d.properties.name] || { x: 0, y: 0 };
-    //   const x = path.centroid(d)[0] + offset.x;
-    //   const y = path.centroid(d)[1] + offset.y;
-    //   console.log(`Country: ${d.properties.name}, Centroid: ${path.centroid(d)}, Label Coordinates: (${x}, ${y})`);
-    //   return `translate(${x}, ${y}) scale(${1 / currentZoomScale})`;
-    // });
-    // .style("font-size", function () {
-    //   //let scale = event.transform.k;
-    //   console.log('Scale in zoomed', currentZoomScale)
-    //   return `${mapStyle.fontSizeNumber / currentZoomScale}pt`; // Adjust font size based on zoom scale
-    //   //return `${mapStyle.fontSize}`; // Adjust font size based on zoom scale
-    // });
-  
+    .attr("x", function (d) {
+      const offset = countryOffsets[d.properties.name] || { x: 0, y: 0 };
+      return `translate(${path.centroid(d)[0] + offset.x})`;
+    })
+    .attr("y", function (d) {
+      const offset = countryOffsets[d.properties.name] || { x: 0, y: 0 };
+      return `translate(${path.centroid(d)[1] + offset.y})`;
+    })
+    .style("font-size", `${mapStyle.fontSizeNumber / currentZoomScale}px`);
   // Enable drag functionality only when zoomed in
-  if (currentZoomScale > 1) {
-    svg.call(d3.drag().on("drag", dragged));
-  } else {
-    svg.on(".drag", null); // Disable drag functionality
-  }
+  // if (currentZoomScale > 1) {
+  //   svg.call(d3.drag().on("drag", dragged));
+  // } else {
+  //   svg.on(".drag", null); // Disable drag functionality
+  // }
 }
 
-function dragged(event) {
-  console.log('Event in dragged', event)
-  const { dx, dy } = event;
-  const { x, y, k } = d3.zoomTransform(svg.node());
-  //console.log('Coordinates of event', dx, dy, 'Coordinates transformation', x, y, k)
-  g.attr("transform", `translate(${x + dx}, ${y + dy}) scale(${k})`);
-}
+// function dragged(event) {
+//   console.log('Event in dragged', event)
+//   const { dx, dy } = event;
+//   const { x, y, k } = d3.zoomTransform(svg.node());
+//   //console.log('Coordinates of event', dx, dy, 'Coordinates transformation', x, y, k)
+//   g.attr("transform", `translate(${x + dx}, ${y + dy}) scale(${k})`);
+// }
 
 
 export function drawMap(geojson, countriesWithSummits, summitsByCountryMap) {
   //console.log('geojson', geojson)
+  g = svg.append("g");
+
   g.selectAll("path")
     .data(geojson.features)
     .enter()
@@ -111,8 +102,61 @@ export function drawMap(geojson, countriesWithSummits, summitsByCountryMap) {
         event.stopPropagation(); // Prevent default behavior for non-clickable countries
       }
     })
+
+  g.selectAll(".country-label")
+    .data(geojson.features)
+    .enter()
+    .append("text")
+    .attr("class", "country-label")
+    .attr("transform", d => {
+      const offset = countryOffsets[d.properties.name] || { x: 0, y: 0 };
+      return `translate(${path.centroid(d)[0] + offset.x}, ${path.centroid(d)[1] + offset.y})`;
+    })
+    .attr("text-anchor", "middle")
+    .attr("alignment-baseline", "middle")
+    .style("font-size", `${mapStyle.fontSize}px`)
+    .style("font-weight", mapStyle.fontWeight)
+    .style("cursor", d => countriesWithSummits.has(d.properties.name) ? "pointer" : "default") // Set cursor style for labels
+    .on("click", function (event, d) {
+      const country = d.properties.name;
+      if (countriesWithSummits.has(country)) {
+        clickedCountry = country; // Update the clicked country
+        const summits = getSummitsforCountry(summitsByCountryMap, country);
+        displaySummitsCountry(country, summits); // Call function to display the summits
+        updateCountryColors(countriesWithSummits);
+      } else {
+        event.stopPropagation(); // Prevent default behavior for non-clickable countries
+      }
+    })
+    .text(d => d.properties.iso_a3); // Country ISO name
+  g.selectAll(".country-counter")
+    .data(geojson.features)
+    .enter()
+    .append("text")
+    .attr("class", "country-counter")
+    .attr("transform", d => {
+      const offset = countryOffsets[d.properties.name] || { x: 0, y: 0 };
+      return `translate(${path.centroid(d)[0] + offset.x}, ${path.centroid(d)[1] + offset.y + 15})`; // Adjust the y offset to position below the country name
+    })
+    .attr("text-anchor", "middle")
+    .attr("alignment-baseline", "middle")
+    .style("font-size", `${mapStyle.fontSize}px`)
+    .style("font-weight", mapStyle.fontWeight)
+    .style("cursor", d => countriesWithSummits.has(d.properties.name) ? "pointer" : "default") // Set cursor style for counters
+    .on("click", function (event, d) {
+      const country = d.properties.name;
+      if (countriesWithSummits.has(country)) {
+        clickedCountry = country; // Update the clicked country
+        const summits = getSummitsforCountry(summitsByCountryMap, country);
+        displaySummitsCountry(country, summits); // Call function to display the summits
+        updateCountryColors(countriesWithSummits);
+      } else {
+        event.stopPropagation(); // Prevent default behavior for non-clickable countries
+      }
+    })
+    .text(d => d.properties.summitCount); // Counter
   // Apply zoom behavior to the SVG
-  //svg.call(zoom);
+  svg.call(zoom);
   document.getElementById("zoomIn").addEventListener("click", () => handleButtonClick(svg, "zoomInButton"));
   document.getElementById("zoomOut").addEventListener("click", () => handleButtonClick(svg, "zoomOutButton"));
 }
@@ -156,7 +200,7 @@ function updateSummitCounter(summitMap, currentYear, summitCounter) {
   });
 }
 
-function drawCountryISO(svg, geojsonData, summitCounter, countriesWithSummits, summitsByCountryMap) {  
+function drawCountryISO(geojsonData, summitCounter, countriesWithSummits, summitsByCountryMap) {
   g.selectAll(".country-label").remove(); // Remove existing labels
   g.selectAll(".country-label")
     .data(geojsonData.features)
@@ -213,7 +257,7 @@ export function updateMap(
     hostCountry.push(country);
     colorHostCountry(svg, hostCountry);
   });
-  console.log('Summits by country map', summitsByCountryMap)
+  //console.log('Summits by country map', summitsByCountryMap)
   svg
     .selectAll("path")
     .data(geojsonData.features)
@@ -237,12 +281,13 @@ export function updateMap(
         event.stopPropagation(); // Prevent default behavior for non-clickable countries
       }
     })
-  drawCountryISO(svg, geojsonData, summitCounter, countriesWithSummits, summitsByCountryMap);
+  drawCountryISO(geojsonData, summitCounter, countriesWithSummits, summitsByCountryMap);
 }
+
 
 // select host country
 function colorHostCountry(svg, hostCountry) {
-  console.log("Coloring host country", hostCountry);
+  //console.log("Coloring host country", hostCountry);
   svg
     .selectAll("path")
     .attr("fill", (d) =>
@@ -293,7 +338,7 @@ export function updateMapByYear(geojsonData, year, cumulativeSummits, summitsByC
   const newCountries = yearData.new;
 
   // Color the countries
-  svg.selectAll("path")
+  g.selectAll("path")
     .data(geojsonData.features)
     .join("path")
     .attr("d", path)
@@ -316,16 +361,18 @@ export function updateMapByYear(geojsonData, year, cumulativeSummits, summitsByC
       } else {
         event.stopPropagation(); // Prevent default behavior for non-clickable countries
       }
-      
+
     });
   // Add or update summit count text inside countries
-  svg.selectAll(".country-label")
+  g.selectAll(".country-label")
     .data(geojsonData.features)
     .join("text")
     .attr("class", "country-label")
     .attr("transform", d => {  // SOMEWHERE HERE IS THE PROBLEM
       const offset = countryOffsets[d.properties.name] || { x: 0, y: 0 };
-      const transform = `translate(${path.centroid(d)[0] + offset.x}, ${path.centroid(d)[1] + offset.y})`;
+      const centroid = path.centroid(d);
+      //console.log('Centroid for', d.properties.name, ':', centroid);
+      let transform = `translate(${path.centroid(d)[0] + offset.x}, ${path.centroid(d)[1] + offset.y})`;
       //console.log(`Country: ${d.properties.name}, Transform: ${transform}, Country centroid: ${path.centroid(d)}`);
       return transform;
     })
@@ -359,14 +406,18 @@ export function updateMapByYear(geojsonData, year, cumulativeSummits, summitsByC
   // Apply zoom transformation to newly added labels
   //const currentTransform = d3.zoomTransform(svg.node());
   console.log('Current zoom scale in updateMapByYear', currentZoomScale)
-  g.selectAll(".country-label")
+  /*g.selectAll(".country-label")
     .attr("transform", d3.zoomTransform(svg.node()))
     .style("font-size", function () {
       return `${mapStyle.fontSizeNumber / currentZoomScale}px`; // Adjust font size based on zoom scale
-    });
+    });*/
   // Ensure button text is not removed
   //g.selectAll(".button-text").raise();
 
   //svg.call(zoom);
 
 }
+
+
+// ISSUE ON MAP WITH DRAG:
+// - INSERT COUNTER IN THE FUNCTION THAT DRAWS THE MAP 

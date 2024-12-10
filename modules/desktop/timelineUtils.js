@@ -176,7 +176,7 @@ export function drawTimeline(
                 textElement.selectAll("tspan").remove(); // Clear old tspans
                 d.summits.forEach((summit, index) => {
                     let countryName = summit.country;
-                    console.log('country name in draw timeline', countryName)
+                    //console.log('country name in draw timeline', countryName)
                     if (countryName === "England") {
                         countryName = "United Kingdom";
                     }
@@ -210,23 +210,15 @@ export function drawTimeline(
     lineGroup.exit().remove(); // Remove any excess lines
 }
 
-export function highlightItem(
-    svg,
-    summitData,
-    highlightIndex,
-    currentYearIndex
-) {
-    const displayedYears = summitData.slice(
-        currentYearIndex,
-        currentYearIndex + maxYearsToShow
-    ); // Get the current set of years
-    // console.log('Input years for HighlightItem function', displayedYears)
+export function highlightItem(svg, summitData, highlightIndex, currentYearIndex) {
+    const displayedYears = summitData.slice(currentYearIndex,currentYearIndex + maxYearsToShow); // Get the current set of years
     // Reset the style of all circles and texts to default (gray)
     svg.selectAll("circle").attr("fill", `${timelineStyle.defaultItem}`);
     svg.selectAll("text.year").style("fill", `${timelineStyle.defaultItem}`);
     svg.selectAll("text.country").style("fill", `${timelineStyle.defaultItem}`);
 
     const currentYearData = displayedYears[highlightIndex]; // Get the current year data using the index
+    console.log('Displayed years in highlightItem function', displayedYears);
     //console.log('Highlighting the Year:', currentYearData.year)
     if (
         currentYearData ||
@@ -234,6 +226,9 @@ export function highlightItem(
     ) {
         // If the data of the current year is less or equal than last obs of displayed years array
         // If currentYearData exists, filter the circles based on the current year
+        console.log('Highlighting the Year:', currentYearData.year)
+
+       
         const circles = svg
             .selectAll("circle")
             .filter((d) => d.year === currentYearData.year);
@@ -243,11 +238,13 @@ export function highlightItem(
         const countries = svg
             .selectAll("text.country")
             .filter((d) => d.year === currentYearData.year);
-        //console.log('Circles:', circles, 'TextYear:', textYear, 'Countries:', countries);
+        console.log('Circles:', circles, 'TextYear:', textYear, 'Countries:', countries);
 
         circles.attr("r", 10).attr("fill", timelineStyle.highlightItem); // Highlighted circle
         textYear.style("fill", timelineStyle.highlightItem);
         countries.style("fill", timelineStyle.highlightItem);
+
+        circles.raise();
     }
 }
 
@@ -285,6 +282,7 @@ export function highlightClickedItem(svg, geojsonData, clickedData, cumulativeSu
         //.style("font-weight", "bold")
         .style("fill", `${timelineStyle.activeNode}`); // Highlight country text
 
+    circles.raise(); // Bring the clicked circle to the front
     updateMapByYear(geojsonData, clickedData, cumulativeSummits, summitsByCountryMap);
     displaySummitsYear(clickedData);
 }

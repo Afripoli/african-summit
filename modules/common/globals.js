@@ -4,7 +4,7 @@ const geojsonUrl = "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/ma
 
 // Map
 const width = 500;
-const height = 450;
+const height = 350;
 const scale = width / 2 / Math.PI;
 const center = [0, 0];
 const translation = [width / 2, height / 2];
@@ -144,6 +144,8 @@ const flagSrc = [
 let svg = d3.select("#map")
     .append("svg")
     .attr("viewBox", `0 0 ${width} ${height}`)
-    .attr("preserveAspectRatio", "xMidYMid meet");
+    .attr("preserveAspectRatio", "xMidYMid meet")
+    //.style("pointer-events", "none"); // Disable pointer events to prevent dragging - Solution for now - change later
+
 
 export { jsonPath, geojsonUrl, width, height, svg, scale, center, translation, maxYearsToShow, hostCountry, flagSrc, mapStyle, timelineStyle, countryOffsets, mapMobileWidth, summitStyle, timelineHorizontalAlign }
