@@ -15,6 +15,7 @@ let timelineEnded = false;
 let summitCounter = new Map();
 let generalCounter = 0; // saves a counter for each loop. We'll use it for the map
 let delay = 500;
+let currentIndex = 0; // Variable to keep track of the current index of the timeline
 
 // Function to initialize default page 
 function initializePage(svg, geojsonData, summitData, displayedYears, countriesWithSummits, cumulativeSummits, summitsByCountryMap) {
@@ -88,12 +89,14 @@ function startOrResumeTimeline(svg, geojsonData, summitData, displayedYears, sum
     console.log(isStarting ? 'Starting timeline' : 'Resuming timeline');
     if (isStarting) {
         generalCounter = 0;
+        //currentIndex = 0; // Reset currentIndex when starting
     }
     clearInterval(intervalId);
     intervalId = setInterval(() => {
         console.log('Interval running with delay:', delay);
         if (currentYearIndex < summitData.length) {
-            const currentYearData = summitData[generalCounter];
+            const currentYearData = summitData[currentIndex];
+            console.log('Current year data', currentYearData);
             const hostCountry = currentYearData.summits.map((summit) => summit.country);
             const currentYear = currentYearData.year;
             console.log('Displaying year', displayedYears);
@@ -102,7 +105,7 @@ function startOrResumeTimeline(svg, geojsonData, summitData, displayedYears, sum
             highlightItem(svg, summitData, highlightIndex, currentYearIndex); // Highlight the current year
             updateMap(geojsonData, summitMap, currentYear, summitsByCountryMap, hostCountry, summitCounter, countriesWithSummits);
             highlightIndex += 1;
-            generalCounter += 1;
+            currentIndex += 1;
             console.log("General counter is", generalCounter);
             if (highlightIndex >= maxYearsToShow) {
                 currentYearIndex += maxYearsToShow; // Advance by 5 years to the next subset
@@ -140,6 +143,7 @@ function restartTimeline(svg, geojsonData, summitData, displayedYears, /*summitM
     currentYearIndex = 0;
     highlightIndex = 0;
     generalCounter = 0;
+    currentIndex = 0; // Reset currentIndex when restarting
     resetSummitCounter();
     delay = 500;
     if (isPlaying) {
