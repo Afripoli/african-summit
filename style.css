@@ -52,8 +52,6 @@ h1.timeline-title {
     padding: 3rem 10rem 3rem 4rem;
     border-radius: 5px;
     padding-left: 180px; 
-
-    /* font-family: "RalewayN", sans-serif; */
 }
 .user-text {
     font-size: 13pt;
@@ -190,9 +188,9 @@ h1.timeline-title {
 /* .same-font-color {
     color: #000;
 } */
-.last-country {
-    margin-bottom: 40px; /* Adjust this value as needed */
-}
+/* .last-country {
+    margin-bottom: 40px; 
+} */
 /* .column-with-border {
     border-right: #808080c2 1px solid;
     height: 515px; 
@@ -295,6 +293,31 @@ h1.timeline-title {
 
 /* Position zoom buttons on the bottom right corner for mobile devices */
 @media (max-width: 575.98px) {
+    .container-xl {
+        padding-right: 0; /* Remove padding for mobile devices */
+        padding-left: 0;
+        padding-inline-start: 0; /* Equivalent to ps-0 */
+        padding-inline-end: 0; /* Equivalent to pe-0 */
+    }
+    .header-vis p {
+        line-height: 1.64;
+    }
+    .mobile-font-size {
+        font-size: 14px; /* Change to your desired font size */
+    }
+    .form-control.mobile-font-size {
+        font-size: 14px; /* Change to your desired font size */
+    }
+    .user-text {
+        i {
+            font-size: 12pt;
+        }
+    }
+    .badge-mobile {
+        width: 38px; /* Change to your desired font size */
+        text-align: center;
+        padding-left: 0rem;
+    }
     .zoom-button {
         bottom: 20px;
         right: 20px;
@@ -302,35 +325,10 @@ h1.timeline-title {
     .zoom-button.zoom-in {
         margin-bottom: 60px; /* Adjust the margin as needed */
     }
-}
-
-.mbsc-list-item {
-    font-family: 'Raleway', sans-serif; /* Change to your desired font family */
-    /*
-    font-size: 16px;
-    font-weight: bold; 
-    color: #333; 
-    */
-}
-@media (max-width: 575.98px) {
-    .mobile-font-size {
-        font-size: 14px; /* Change to your desired font size */
+    #read-more-link,
+    #show-less-link {
+        color: #4380ae;
     }
-    .form-control.mobile-font-size {
-        font-size: 14px; /* Change to your desired font size */
-    }
-}
-
-@media (max-width: 575.98px) {
-    .badge-mobile {
-        width: 38px; /* Change to your desired font size */
-        text-align: center;
-        padding-left: 0rem;
-    }
-}
-
-
-@media (max-width: 575.98px) {
     .img-fluid.country-flag {
         width: 38px; /* Adjust the width as needed */
         height: 26px; /* Adjust the height as needed */
@@ -343,25 +341,75 @@ h1.timeline-title {
         width: 30px; /* Adjust the width as needed */
         height: 18.33px; /* Adjust the height as needed */
     }
+    .header-vis {
+        padding: 0;
+        padding-left: 0;
+        width: 100%; /* Ensure it takes the full width of the parent container */
+        margin: 0; /* Remove any margins */
+    }
+    .triangle-icon-year{
+        width: 16px;
+        height: 16px;
+    }
 }
+
+.mbsc-list-item {
+    font-family: 'Raleway', sans-serif; /* Change to your desired font family */
+    /*
+    font-size: 16px;
+    font-weight: bold; 
+    color: #333; 
+    */
+}
+
 
 @media (min-width: 992px) {
     .img-fluid.country-flag {
         width: 34.13px; /* Adjust the width as needed */
         height: 20.69px; /* Adjust the height as needed */
     }
+
 }
 
 #select-year,
 #select-country {
-    border-radius: 0 !important;
+    border-radius: 7px !important;
+    background-color: #fec03c;
+    border-color: #fec03c;
+    box-shadow: none; /* Remove box shadow */
+    border-radius: 7px;
+    transition: background-color 0.3s, border-color 0.3s; /* Smooth transition for color changes */
 }
+
+#select-year:focus,
+#select-country:focus {
+    background-color: #fec03c; /* Active color */
+    border-color: #fec03c;
+}
+
+#select-year:not(:focus),
+#select-country:not(:focus) {
+    background-color: #ffdc94; /* Inactive color */
+    border-color: #ffdc94;
+}
+
 .no-border-radius {
     border-radius: 0 !important;
 }
 .rounded-container {
-    border-radius: 0.5rem; /* Adjust the value as needed */
+    border-radius: 7px; /* Adjust the value as needed */
     overflow: hidden; /* Ensure child elements do not overflow the rounded corners */
+    display: flex;
+    justify-content: space-between; /* Distribute space between buttons */
+    align-items: center; /* Center align items vertically */
+    gap: 1rem; 
+}
+.rounded-container button {
+    flex: 1; /* Make buttons take equal space */
+    margin: 0 0.5rem; /* Add margin to buttons */
+    width: 175px;
+    border-radius: 7px;
+
 }
 .custom-input-height {
     height: 2rem; /* Adjust the value as needed */

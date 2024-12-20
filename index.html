@@ -69,164 +69,175 @@
                     </div>
                 </div>
             </div>
-                <div class="timeline-summit">
-                    <div
-                        class="header-vis fw-light row row-cols-lg-1 row-cols-sm-1 row-cols-1 g-2 g-sm-3 ps-lg-2 ps-xl-2 pt-lg-4 pt-xl-4 pb-lg-4 pb-xl-4">
-                        <h1 class="timeline-title h3">A timeline of diplomatic summits
-                            with African states</h1>
-                        <!-- <div class="col-12 mt-0 mb-4 col-lg-11 apri-separator-vis d-sm-none d-lg-block short-width-lg"> -->
-                        <!-- </div> -->
-                        <p class="mb-0 mt-2 d-inline mobile-font-size">
-                            This interactive map provides insight into the deepening diplomatic ties between African
-                            countries
-                            and their global partners. It depicts the growing number of countries that have hosted
-                            Africa+1
-                            summits over time, from 1973 to today. The term “Africa+1” refers to partnerships between
-                            African
-                            nations and individual non-African countries that convene at high-level summits to discuss
-                            areas
-                            of
-                            cooperation, including trade, security, and development.
-                            <span class="d-inline d-sm-none" id="read-more-link">
-                                <a href="#" onclick="showParagraph()">Read more</a>
-                            </span>
-                        </p>
-                        <p class="mb-0 d-none d-sm-block mobile-font-size" id="diplomatic-ties-paragraph">
-                            A key
-                            finding is the shift in diplomatic focus toward
-                            Africa by various global powers over time. Initially, France was the primary host of
-                            Africa+1
-                            summits, reflecting its close post-independence relationships with African countries from
-                            the
-                            1970s
-                            through the 1990s. Around the early 2000s, countries in Asia, particularly China and Japan,
-                            began to
-                            invest more heavily in diplomatic and economic partnerships with African nations. By the
-                            2010s,
-                            the
-                            landscape had diversified further, with the United States, Russia, and Saudi Arabia becoming
-                            prominent partners in Africa’s expanding international relations.
-                        </p>
-                        <p class="mb-0 mt-2 d-none mobile-font-size" id="show-less-link">
-                            <a href="#" onclick="showLess()">Show less</a>
-                        </p>
-                    </div>
-                    <div class="user-text mt-3 mb-5 text-secondary fw-light pg-line-height">
-                        <p class="mb-0 ">
-                            <img src="/src/img/search.svg" id="lupa" class="img-fluid d-inline" alt="Search icon">
-                            <i class="d-inline">Explore the data in two ways: by
-                                viewing the summits <b>by time</b>, or <b>by host country</b>.</i>
-                        </p>
-                        <p class="mb-0">
-                            <i>
-                                <b>Over time:</b> Click on the "Play" button below. You can further explore the timeline
-                                using the arrows and clicking on a year to see which summits occurred at that specific time.
-                            </i>
-                            
-                        </p>
-                        <p>
-                            <i><b>By host country:</b> Click on any highlighted country on the map to display more information
-                                about the specific summits hosted by the country.</i>
-                        </p>
-                    </div>
-                    <div class="row row-cols-lg-2 row row-cols-sm-1 row-cols-1 g-2 g-sm-3 container-vis-platform">
-                        <div class="col-lg-2 pb-3 col-timeline column-with-border d-none d-sm-block">
-                            <div class="mx-auto">
-                                <!-- <h4 class="mt-3">Summits over time:</h4> -->
-                                <div class="d-flex">
-                                    <button type="button" id="playButtonDesktop"
-                                        class="btn btn-sm btn-play d-inline d-none d-sm-inline-block me-2">
-                                        <img src="/src/img/play-white.svg" class="play-med" alt="Play button">
-                                    </button>
-                                    <button type="button" id="pauseButtonDesktop"
-                                        class="btn btn-sm btn-play d-inline d-none d-sm-inline-block me-2">
-                                        <img src="/src/img/pause-white.svg" class="play-med" alt="Play button">
-                                    </button>
-                                    <button type="button" id="restartButtonDesktop"
-                                        class="btn btn-sm btn-play d-inline d-none d-sm-inline-block">
-                                        <img src="/src/img/refresh-cw-white.svg" class="play-med" alt="Restart button">
-                                    </button>
-                                </div>
-                                <div id="desktop-timeline" class="mt-0 pt-0"></div>
-                            </div>
-                        </div>
-                        <!-- MOBILE: TIMELINE MOBISCROLL -->
-                        <div class="row d-sm-none mb-3">
-                            <div class="col-5 col-sm-5 year-picker-container d-flex d-sm-none d-block mb-3">
-                                <div class="input-group rounded-container">
-                                    <button type="button" id="select-year"
-                                        class="btn btn-warning btn-sm w-100 mobile-font-size">
-                                        Select year
-                                    </button>
-                                    <input id="input-year-picker"
-                                        class="form-control col-6 text-center no-border-radius custom-input-height mobile-font-size"
-                                        placeholder="Year" readonly />
-                                </div>
-                            </div>
-                            <div class="col-2 col-sm-2 mx-auto d-flex align-items-center justify-content-center">
-                                <p class="or-text mobile-font-size text-center">or</p>
-                            </div>
-                            <div class="col-5 col-sm-5 country-picker-container d-flex d-sm-none d-block mb-3">
-                                <div class="input-group rounded-container">
-                                    <button type="button" id="select-country"
-                                        class="btn btn-warning btn-sm w-100 rounded-start mobile-font-size">
-                                        Select country
-                                    </button>
-                                    <input id="input-country-picker"
-                                        class="form-control text-center no-border-radius custom-input-height mobile-font-size"
-                                        placeholder="Country" readonly />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-8 pb-3 col-map column-with-border d-none d-sm-block">
-                            <div class="mx-auto">
-                                <!-- <h4 class="mt-3 ms-3">Summits per country:</h4> -->
-                                <div id="map" class="map mt-5 pt-3">
-                                    <!-- Add zoom in and zoom buttons -->
-                                    <div class="btnZoom d-flex flex-column align-items-end position-absolute m-2">
-                                        <button id="zoomIn" class="btnplus">
-                                            <img src="src/img/zoom-off.svg" alt="Zoom In" />
-                                        </button>
-                                        <button id="zoomOut" class="btnminus">
-                                            <img src="/src/img/zoom-out-off.svg" alt="Zoom Out" />
-                                        </button>
-                                    </div>
+            <div class="timeline-summit">
+                <div
+                    class="header-vis fw-light row row-cols-lg-1 row-cols-sm-1 row-cols-1 g-2 g-sm-3 ps-lg-2 ps-xl-2 pt-lg-4 pt-xl-4 pb-lg-4 pb-xl-4">
+                    <h1 class="timeline-title h3">A timeline of diplomatic summits
+                        with African states</h1>
+                    <!-- <div class="col-12 mt-0 mb-4 col-lg-11 apri-separator-vis d-sm-none d-lg-block short-width-lg"> -->
+                    <!-- </div> -->
+                    <p class="mb-0 mt-2 d-inline mobile-font-size">
+                        This interactive map provides insight into the deepening diplomatic ties between African
+                        countries
+                        and their global partners. It depicts the growing number of countries that have hosted
+                        Africa+1
+                        summits over time, from 1973 to today. The term “Africa+1” refers to partnerships between
+                        African
+                        nations and individual non-African countries that convene at high-level summits to discuss
+                        areas
+                        of
+                        cooperation, including trade, security, and development.
+                        <span class="d-inline d-sm-none" id="read-more-link">
+                            <a href="#" onclick="showParagraph()">Read more</a>
+                        </span>
+                    </p>
+                    <p class="mb-0 d-none d-sm-block mobile-font-size" id="diplomatic-ties-paragraph">
+                        A key
+                        finding is the shift in diplomatic focus toward
+                        Africa by various global powers over time. Initially, France was the primary host of
+                        Africa+1
+                        summits, reflecting its close post-independence relationships with African countries from
+                        the
+                        1970s
+                        through the 1990s. Around the early 2000s, countries in Asia, particularly China and Japan,
+                        began to
+                        invest more heavily in diplomatic and economic partnerships with African nations. By the
+                        2010s,
+                        the
+                        landscape had diversified further, with the United States, Russia, and Saudi Arabia becoming
+                        prominent partners in Africa’s expanding international relations.
+                    </p>
+                    <p class="mb-0 mt-2 d-none mobile-font-size" id="show-less-link">
+                        <a href="#" onclick="showLess()">Show less</a>
+                    </p>
+                </div>
+                <div class="user-text mt-3 mb-5 text-secondary fw-light pg-line-height">
+                    <!-- Text adjusted for MOBILE -->
+                    <p class="mb-0 d-block d-lg-none">
+                        <img src="/src/img/search.svg" id="lupa" class="img-fluid d-inline" alt="Search icon">
+                        <i class="d-inline">Explore the data in two ways: view summits by year or by host country</i>
+                    </p>
+                    <p class="mb-0 d-none d-lg-block">
+                        <img src="/src/img/search.svg" id="lupa" class="img-fluid d-inline" alt="Search icon">
+                        <i class="d-inline">Explore the data in two ways: by
+                            viewing the summits <b>by time</b>, or <b>by host country</b>.</i>
+                    </p>
+                    <p class="mb-0 d-none d-lg-block">
+                        <i>
+                            <b>Over time:</b> Click on the "Play" button below. You can further explore the timeline
+                            using the arrows and clicking on a year to see which summits occurred at that specific time.
+                        </i>
 
+                    </p>
+                    <p class="d-none d-lg-block">
+                        <i><b>By host country:</b> Click on any highlighted country on the map to display more
+                            information
+                            about the specific summits hosted by the country.</i>
+                    </p>
+                </div>
+                <!-- MOBILE: TIMELINE MOBISCROLL -->
+                <div class="row d-sm-none">
+                    <div class="col-6 col-sm-6 year-picker-container d-flex d-sm-none d-block mb-3">
+                        <div class="rounded-container">
+                            <button id="select-year" class="main-select active text-align-left" type="button">Select by year
+                                <img class="triangle-icon-year" src="src/img/arrowD.svg"
+                                    alt="Toggle arrow">
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-6 col-sm-6 country-picker-container d-flex d-sm-none d-block mb-3">
+                        <div class="rounded-container">
+                            <button id="select-country" class="main-select active text-align-left" type="button">Select by country
+                                <img class="triangle-icon-year" src="src/img/arrowD.svg"
+                                    alt="Toggle arrow">
+                            </button>
+                            <!-- <button type="button" id="select-country"
+                                class="btn btn-warning btn-sm w-100 rounded-start mobile-font-size">
+                                Select country
+                            </button>
+                            <input id="input-country-picker"
+                                class="form-control text-center no-border-radius custom-input-height mobile-font-size"
+                                placeholder="Country" readonly /> -->
+                        </div>
+                    </div>
+                </div>
+                <!-- Mobiscroller input field  -->
+                <div class="row d-sm-none mb-5 ms-2 me-2">
+                    <input id="input-picker"
+                                class="form-control text-center no-border-radius custom-input-height mobile-font-size"
+                                placeholder="Year or Country"/>
+                </div>
+                <div class="row row-cols-lg-2 row row-cols-sm-1 row-cols-1 g-2 g-sm-3 container-vis-platform">
+                    <div class="col-lg-2 pb-3 col-timeline column-with-border d-none d-sm-block">
+                        <div class="mx-auto">
+                            <!-- <h4 class="mt-3">Summits over time:</h4> -->
+                            <div class="d-flex">
+                                <button type="button" id="playButtonDesktop"
+                                    class="btn btn-sm btn-play d-inline d-none d-sm-inline-block me-2">
+                                    <img src="/src/img/play-white.svg" class="play-med" alt="Play button">
+                                </button>
+                                <button type="button" id="pauseButtonDesktop"
+                                    class="btn btn-sm btn-play d-inline d-none d-sm-inline-block me-2">
+                                    <img src="/src/img/pause-white.svg" class="play-med" alt="Play button">
+                                </button>
+                                <button type="button" id="restartButtonDesktop"
+                                    class="btn btn-sm btn-play d-inline d-none d-sm-inline-block">
+                                    <img src="/src/img/refresh-cw-white.svg" class="play-med" alt="Restart button">
+                                </button>
+                            </div>
+                            <div id="desktop-timeline" class="mt-0 pt-0"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-8 pb-3 col-map column-with-border d-none d-sm-block">
+                        <div class="mx-auto">
+                            <!-- <h4 class="mt-3 ms-3">Summits per country:</h4> -->
+                            <div id="map" class="map mt-5 pt-3">
+                                <!-- Add zoom in and zoom buttons -->
+                                <div class="btnZoom d-flex flex-column align-items-end position-absolute m-2">
+                                    <button id="zoomIn" class="btnplus">
+                                        <img src="src/img/zoom-off.svg" alt="Zoom In" />
+                                    </button>
+                                    <button id="zoomOut" class="btnminus">
+                                        <img src="/src/img/zoom-out-off.svg" alt="Zoom Out" />
+                                    </button>
                                 </div>
-                            </div>
-                        </div>
-                        <!-- MOBILE: MAP -->
-                        <div class="col-12 pb-0 col-map-mobile d-sm-none d-block h-75">
-                            <div class="mx-auto d-sm-none d-block">
-                                <div id="map-mobile" style="position: relative;" class="map"></div>
-                            </div>
-                        </div>
-                        <!-- Shown only for mobile -->
-                        <!-- Paragraph for Mobile Devices -->
-                        <p class="mt-0 mb-0 text-secondary d-sm-none mobile-font-size">
-                            <img src="/src/img/search.svg" id="lupa" class="img-fluid d-inline" alt="Search icon">
-                            <i class="d-inline">Explore the data in two ways: by viewing the summits <b>by year</b>, or
-                                <b>by host country</b>.</i>
-                        </p>
 
-                        <!-- Summit info container -->
-                        <div class="col-lg-2 pb-lg-3 col-summits-info mt-sm-1 pt-lg-3 ps-lg-3">
-                            <div class="mx-auto">
-                                <div id="summitListContainer" class="fix-col">
-                                    <h4 id="summitCountry" class="mb-2 mt-3">
-                                        <img src="" id="country-icon" class="img-fluid">
-                                    </h4>
-                                    <h5 id="total-summit" class="mb-0"></h5>
-                                    <h5 id="intro-list-summit" class="mb-0"></h5>
-                                    <p id="list-order" class="mt-0"></p>
-                                    <ul id="summitList" class="list-unstyled"></ul>
-                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- MOBILE: MAP -->
+                    <div class="col-12 pb-0 col-map-mobile d-sm-none d-block h-75">
+                        <div class="mx-auto d-sm-none d-block">
+                            <div id="map-mobile" style="position: relative;" class="map"></div>
+                        </div>
+                    </div>
+                    <!-- Shown only for mobile -->
+                    <!-- Paragraph for Mobile Devices -->
+                    <p class="mt-0 mb-0 text-secondary d-sm-none mobile-font-size">
+                        <img src="/src/img/search.svg" id="lupa" class="img-fluid d-inline" alt="Search icon">
+                        <i class="d-inline">Explore the data in two ways: by viewing the summits <b>by year</b>, or
+                            <b>by host country</b>.</i>
+                    </p>
+
+                    <!-- Summit info container -->
+                    <div class="col-lg-2 pb-lg-3 col-summits-info mt-sm-1 pt-lg-3 ps-lg-3">
+                        <div class="mx-auto">
+                            <div id="summitListContainer" class="fix-col">
+                                <h4 id="summitCountry" class="mb-2 mt-3">
+                                    <img src="" id="country-icon" class="img-fluid">
+                                </h4>
+                                <h5 id="total-summit" class="mb-0"></h5>
+                                <h5 id="intro-list-summit" class="mb-0"></h5>
+                                <p id="list-order" class="mt-0"></p>
+                                <ul id="summitList" class="list-unstyled"></ul>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 
     <script type="module" src="main.js"></script>

@@ -75,7 +75,6 @@ function zoomed(event) {
 
 
 export function drawMap(geojson, countriesWithSummits, summitsByCountryMap) {
-  //console.log('geojson', geojson)
   g = svg.append("g");
 
   g.selectAll("path")
@@ -84,7 +83,6 @@ export function drawMap(geojson, countriesWithSummits, summitsByCountryMap) {
     .append("path")
     .attr("d", path)
     .attr("fill", d => {
-      //console.log('D in drawMap', d)
       const country = d.properties.name;
       return countriesWithSummits.has(country) ? mapStyle.onloadFill : mapStyle.defaultFill;
     })
@@ -251,6 +249,7 @@ export function updateMap(
   summitCounter,
   countriesWithSummits
 ) {
+  console.log("Updating map for year", currentYear);
   clearCountryLabels();
   updateSummitCounter(summitMap, currentYear, summitCounter);
   summitMap[currentYear].forEach((country) => {

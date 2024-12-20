@@ -16,38 +16,11 @@ export function initDesktopTimelineSVG() {
     return svg;
 }
 
-export function generateTimeline(
-    svg,
-    geojsonData,
-    summitData,
-    currentYearIndex,
-    displayedYears,
-    countriesWithSummits,
-    cumulativeSummits,
-    summitsByCountryMap
-) {
+export function generateTimeline(svg, geojsonData, summitData, currentYearIndex, displayedYears, countriesWithSummits, cumulativeSummits, summitsByCountryMap) {
     console.log("Passing summit data in generateTimeline function", summitData);
-    drawTimeline(
-        svg,
-        geojsonData,
-        summitData,
-        currentYearIndex,
-        displayedYears,
-        countriesWithSummits,
-        cumulativeSummits,
-        summitsByCountryMap
-    );
+    drawTimeline(svg, geojsonData, summitData, currentYearIndex, displayedYears, countriesWithSummits, cumulativeSummits, summitsByCountryMap);
 }
-export function drawTimeline(
-    svg,
-    geojsonData,
-    summitData,
-    currentYearIndex,
-    displayedYears,
-    countriesWithSummits,
-    cumulativeSummits,
-    summitsByCountryMap
-) {
+export function drawTimeline(svg, geojsonData, summitData, currentYearIndex,displayedYears, countriesWithSummits, cumulativeSummits, summitsByCountryMap) {
     const containerHeight = svg.node().getBoundingClientRect().height;
     const containerWidth = svg.node().getBoundingClientRect().width;
     const circleSpacing = containerHeight / (maxYearsToShow + 1);
@@ -208,6 +181,9 @@ export function drawTimeline(
         .attr("stroke", `${timelineStyle.arrowLineColor}`)
         .attr("stroke-width", 2);
     lineGroup.exit().remove(); // Remove any excess lines
+
+    // Set circles on top of lines
+    circleGroup.raise();
 }
 
 export function highlightItem(svg, summitData, highlightIndex, currentYearIndex) {
@@ -227,7 +203,6 @@ export function highlightItem(svg, summitData, highlightIndex, currentYearIndex)
         // If the data of the current year is less or equal than last obs of displayed years array
         // If currentYearData exists, filter the circles based on the current year
         console.log('Highlighting the Year:', currentYearData.year)
-
        
         const circles = svg
             .selectAll("circle")
@@ -238,13 +213,29 @@ export function highlightItem(svg, summitData, highlightIndex, currentYearIndex)
         const countries = svg
             .selectAll("text.country")
             .filter((d) => d.year === currentYearData.year);
-        console.log('Circles:', circles, 'TextYear:', textYear, 'Countries:', countries);
 
         circles.attr("r", 10).attr("fill", timelineStyle.highlightItem); // Highlighted circle
         textYear.style("fill", timelineStyle.highlightItem);
         countries.style("fill", timelineStyle.highlightItem);
 
+         // Apply styles to tspan elements within textYear and countries
+         textYear.selectAll("tspan").style("fill", timelineStyle.highlightItem).style("font-weight", "bold");
+         countries.selectAll("tspan").style("fill", timelineStyle.highlightItem).style("font-weight", "bold");
+
+         // Log the current fill values
+         circles.each(function() {
+            console.log('Circle fill:', d3.select(this).attr("fill"));
+        });
+        textYear.each(function() {
+            console.log('Text year fill:', d3.select(this).style("fill"));
+        });
+        countries.each(function() {
+            console.log('Country fill:', d3.select(this).style("fill"));
+        });
+
         circles.raise();
+        textYear.raise();
+        countries.raise();
     }
 }
 
